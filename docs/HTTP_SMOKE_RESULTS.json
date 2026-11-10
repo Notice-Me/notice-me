@@ -1,0 +1,81 @@
+{
+  "checked_at": "2026-11-10T17:24:00.098628+00:00",
+  "transport": "real HTTP to running Uvicorn",
+  "route_context": "manually supplied test link, not read from a vehicle",
+  "checks": [
+    {
+      "scenario": "live",
+      "feed_http_status": 200,
+      "data_mode": "LIVE",
+      "top3_count": 1,
+      "queue_count": 1,
+      "alert_count": 1,
+      "detail_http_status": 200,
+      "explain_http_status": 200,
+      "ai_mode": "MOCK",
+      "item_modes": [
+        "LIVE"
+      ],
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 5,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "TRAFFIC_ROUTE_UNVERIFIED",
+          "count": 3,
+          "message": "TRAFFIC_ROUTE_UNVERIFIED"
+        },
+        {
+          "code": "SOURCE_UNAVAILABLE",
+          "count": 1,
+          "message": "tourapi:MISSING_KEY"
+        }
+      ]
+    },
+    {
+      "scenario": "mixed",
+      "feed_http_status": 200,
+      "data_mode": "MIXED",
+      "top3_count": 3,
+      "queue_count": 6,
+      "alert_count": 1,
+      "detail_http_status": 200,
+      "explain_http_status": 200,
+      "ai_mode": "MOCK",
+      "item_modes": [
+        "LIVE",
+        "MOCK"
+      ],
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 5,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 6,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TRAFFIC_ROUTE_UNVERIFIED",
+          "count": 4,
+          "message": "TRAFFIC_ROUTE_UNVERIFIED"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        },
+        {
+          "code": "SOURCE_UNAVAILABLE",
+          "count": 1,
+          "message": "tourapi:MISSING_KEY"
+        }
+      ]
+    }
+  ],
+  "health_http_status": 200
+}

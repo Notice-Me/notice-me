@@ -1,0 +1,31 @@
+[
+  {
+    "confirmed": false,
+    "organizer_official_url": "https://organizer.example/event/replace-this",
+    "confirmation_evidence": "입력 예시. 실제 공식 공지 확인 전 confirmed=true로 변경하지 마세요.",
+    "content": {
+      "id": "manual:replace-with-stable-event-id",
+      "content_type": "EVENT",
+      "title": "[입력 템플릿 — 실제 행사가 아님]",
+      "brief": "권리 확인 후 직접 작성한 일정·장소 사실만 입력",
+      "source_name": "주최자 공식 명칭 입력",
+      "source_url": "https://organizer.example/event/replace-this",
+      "published_at": null,
+      "updated_at": null,
+      "fetched_at": "2026-11-11T00:00:00Z",
+      "starts_at": "2026-11-12T01:00:00Z",
+      "expires_at": "2026-11-15T09:00:00Z",
+      "latitude": null,
+      "longitude": null,
+      "venue": "공식 장소 입력",
+      "interest_tags": ["애니메이션"],
+      "rights_status": "LICENSE_UNVERIFIED",
+      "rights_evidence_url": null,
+      "verification_status": "UNVERIFIED",
+      "priority": 0,
+      "data_mode": "LIVE",
+      "provenance": "MANUAL_TEMPLATE_DISABLED",
+      "organizer_confirmed_at": null
+    }
+  }
+]
