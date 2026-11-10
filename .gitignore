@@ -1,0 +1,36 @@
+# Credentials and local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets/
+
+# Python / local state
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+.coverage
+htmlcov/
+*.db
+*.sqlite*
+server/data/
+server/reports/
+
+# Editors / platform
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+node_modules/
+.gradle/
+local.properties
+*.apk
+*.aab
