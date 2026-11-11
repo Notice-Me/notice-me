@@ -63,3 +63,11 @@ AccInfo의 GRS80TM 좌표는 EPSG 정의를 확인하기 전 WGS84로 추측 변
 - `LICENSE_UNVERIFIED`: AI 가공/TTS 재배포 근거 미확인. 실제 뉴스 기본값. 화면 metadata에서 상태를 표시하고 음성·LLM 요약/설명에 보내지 않음.
 
 위 분류는 확인한 공개 문서에 따른 프로젝트의 보수적 운영 판단입니다. 별도 뉴스 라이선스를 확보했다고 주장하지 않습니다. 공식 조건은 변경될 수 있으므로 공개 배포 전 다시 확인합니다.
+
+## 2026-11-11 차량 앱 SDK 확인
+
+새 콘텐츠 제공자/유료 서비스 호출은 추가하지 않았습니다. 로컬 MOCK Uvicorn의 health/feed/detail을 클라이언트로 검사했습니다. Pleos 공식 Maven의 TextToSpeech 3.3.1 POM/AAR을 내려받아 메서드 정의와 컴파일을 확인했습니다. 기기 서비스/음성 실행은 미검증입니다.
+
+공식 근거: [Pleos 개발 시작](https://document.pleos.ai/en/docs/pleos-only/getting-started), [TTS SDK 설치](https://document.pleos.ai/en/docs/pleos-only/connect-sdk-pleos/TextToSpeech/importing-sdk), [모드/개요](https://document.pleos.ai/en/docs/pleos-only/connect-sdk-pleos/TextToSpeech/intro), [권한](https://document.pleos.ai/en/docs/pleos-only/connect-sdk-pleos/TextToSpeech/declaring-permissions), [초기화](https://document.pleos.ai/en/docs/pleos-only/connect-sdk-pleos/TextToSpeech/initialization-and-release), [이벤트](https://document.pleos.ai/en/docs/pleos-only/connect-sdk-pleos/TextToSpeech/event-listeners), [locale](https://document.pleos.ai/en/docs/pleos-only/connect-sdk-pleos/TextToSpeech/set-locale), [합성/중단](https://document.pleos.ai/en/docs/pleos-only/connect-sdk-pleos/TextToSpeech/start-and-stop).
+
+Android 근거: [AGP 9.5 호환표](https://developer.android.com/build/releases/agp-9-5-0-release-notes), [네트워크 보안 설정](https://developer.android.com/privacy-and-security/security-config), [오디오 포커스](https://developer.android.com/media/optimize/audio-focus), [Android TTS](https://developer.android.com/reference/android/speech/tts/TextToSpeech).

@@ -100,3 +100,12 @@
 최우선은 팀원 기기의 health→feed→TTS 실제 연결 증거. FreeNews 인증/일부 metadata 수집은 확인했지만 애니메이션500·전체 pagination·뉴스 가공/재배포 권리는 남아 있음. 자동 수집 스케줄러, 자동차 이동시간·지도 링크 매핑, 학교 AI, ITS, 운영 인증/TLS 및 부하 검증도 남아 있음. 최신 우선순위와 담당/완료 기준은 [PROJECT_STATUS](PROJECT_STATUS.md#1115-mvp-우선순위와-완료-기준)를 유지함.
 
 다음 작업은 날짜, 목적, 관측한 문제/원인, 수행한 시도, 결과/테스트 명령·파일·커밋, 미해결 문제만 짧게 추가한다. 아직 하지 않은 조치는 계획이라고 표시한다. 비밀값·개인 위치/경로·신청서 개인정보는 기록하지 않는다.
+
+## 2026-11-11 — 차량 앱 최초 구현
+
+- 빈 `vehicle-app` 확인 후 `codex/vehicle-feed-tts`에서 Android 프로젝트 생성. 서버 소스/계약 변경 없이 health/feed/TOP3, 출처·모드·diagnostics, 음성 큐/재생 제어 구현.
+- Pleos 공식 SDK 3.3.1 다운로드/메서드 검사 후 ON_DEVICE 어댑터 구현. 일반 Android 어댑터는 별도 flavor로 구분.
+- 최초 빌드에서 임시 debug keystore 경로 지정 때문에 서명 파일 부재로 실패. 사용자 홈 변경 대신 검증 환경의 ANDROID_USER_HOME을 작업 폴더로 지정하고 프로젝트는 표준 debug 서명 생성 방식으로 복원. 두 APK 빌드 성공.
+- 앱 테스트 18개 + 실제 로컬 MOCK 서버 HTTP 통합 1개 통과. 서버 회귀 테스트 110개 통과. 두 flavor Lint 오류 0(경고 있음).
+- 일반 AVD 실행은 프로세스 SIGILL/132로 실패. 앱 설치/화면/TTS 실행 증거를 만들지 못했으므로 NOT_RUN으로 기록. 기존 사용자 AVD는 수정하지 않음.
+- 결과/한계/재현 명령: [검증](verification/2026-11-11-vehicle-app.md), [앱 README](../vehicle-app/README.md). 서버 주소와 Pleos 런타임에서의 인수 검증이 남음.

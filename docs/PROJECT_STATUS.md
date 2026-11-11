@@ -2,6 +2,10 @@
 
 **2026-11-11 KST / feature 0.1.0.** 서버 프로토타입과 실제 서울시 수집→SQLite→HTTP 응답 경로가 작동합니다. 실제 뉴스와 학교 AI/차량 연동까지 완성된 상태는 아닙니다.
 
+## 차량 앱 구현 추가 (2026-11-11, 23시대 KST)
+
+`vehicle-app` 신규 Android 프로젝트에 health/feed 연결, TOP3 카드, Pleos ON_DEVICE/일반 Android TTS, 재생·패스·다시·중단을 구현했습니다. 두 debug APK 빌드, 앱 테스트 19개(실제 로컬 MOCK HTTP 포함), 서버 테스트 110개 통과. **기기 화면/음성 출력은 미검증**입니다. 설치된 일반 에뮬레이터가 APK 설치 전 SIGILL로 종료되었고 Pleos 이미지는 없습니다. 수동 위치·관심사 시연용이며 GPS/내비/주행 UX 연동은 남았습니다. [앱 실행](../vehicle-app/README.md), [검증과 잔여 경고](verification/2026-11-11-vehicle-app.md).
+
 ## 최신 차량 연동 준비 검증 (2026-11-11, 20시대 KST)
 
 첫 대상은 사용자 확인에 따라 **Pleos SDK 에뮬레이터·실차**입니다. 서버 HTTP 준비와 실제 기기 연결을 분리합니다. 실행/주소/필드는 [차량 연동 안내](VEHICLE_INTEGRATION.md), 팀원이 채울 완료 판정은 [연동 확인표](VEHICLE_ACCEPTANCE.md), 실제 측정은 [증거 JSON](verification/2026-11-11-vehicle-handoff.json)입니다.
