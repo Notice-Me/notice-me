@@ -2,6 +2,8 @@
 
 버전 0.1.0 / 2026-11-11. Base URL `/api/v1`. UTF-8 JSON, timezone-aware ISO 8601 timestamps. 서버 정규화 자료는 UTC, 원천 날짜 해석은 KST입니다. [OpenAPI JSON](openapi.json)은 실행 중인 FastAPI에서 추출한 명세입니다. [LIVE](examples/live-feed.json) / [MIXED](examples/mixed-feed.json) 예시는 실제 HTTP 응답의 고정 스냅샷으로 현재 정보가 아닙니다.
 
+[차량 앱 실행/연결 안내](VEHICLE_INTEGRATION.md)와 [요청 예제](examples/vehicle-api.http)를 함께 사용하세요. OpenAPI는 `.venv\Scripts\python.exe scripts/export_openapi.py`로 외부 통신 없이 재생성하며, 테스트에서 기록된 명세와 런타임 명세의 일치를 검사합니다.
+
 ## Endpoints
 
 - `GET /health`: service/database health and provider configuration status (no credentials).
@@ -95,3 +97,4 @@ explain: 선택 body `{"question":"자세히 알려줘"}`, 질문 최대 500자.
 - 2026-11-11: initial contract and directory/bootstrap documentation. No functional backend in bootstrap commit.
 - 2026-11-11 feature 0.1.0: 기본 계약 유지. route_points/route_link_ids/**route_link_namespace**, fetched_at/권리 근거/항목 모드, 점수 근거, driving_time, traffic, diagnostics, playback_order, 상세 만료 표시, Mock 설명 응답 추가. 실제 수집은 CLI이며 공개 수집 endpoint는 없습니다.
 - 2026-11-11 재검증: feed/detail/explain의 콘텐츠 유효성 검사 일치. 기존 URL·필드·권리 오류 유지. 기존 49개와 신규 유효성 회귀 테스트 10개 통과.
+- 2026-11-11 연동 보강: health=HealthResponse, detail=ContentDetail 응답 모델을 명시하고 top3의 maxItems=3을 OpenAPI에 표현. 네 endpoint의 기존 JSON 필드와 요청 형식 유지. 앱에서 null 허용 필드와 403/404/409/422를 처리하도록 연동 안내 추가.

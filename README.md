@@ -59,6 +59,8 @@ API 키는 각 데이터 제공자가 발급하는 접속 비밀값으로 GitHub
 
 ## 차량 앱 연동
 
+팀원은 [차량 앱 연동 시작 안내](docs/VEHICLE_INTEGRATION.md)를 먼저 읽으세요. 서버 주소 설정과 실제 HTTP 계약 검사를 순서대로 실행할 수 있습니다.
+
 [API 계약](docs/API_CONTRACT.md), [OpenAPI JSON](docs/openapi.json), [LIVE 예시](docs/examples/live-feed.json), [MIXED 예시](docs/examples/mixed-feed.json)를 공유하세요. 차량/에뮬레이터 연결 시 서버를 `--host 0.0.0.0`으로 실행하고 개발 PC의 접근 가능한 주소를 사용합니다. 공개 배포·인증·TLS 설정은 이 프로토타입에 포함되지 않습니다. 차량 앱/SDK 구현과 실제 TTS 재생은 아직 팀원 연동 검증이 필요합니다.
 
 `top3`는 화면 카드, `queue`는 TTS 허용 전체 큐, `alerts`는 별도 우선 큐입니다. `playback_order`대로 재생하되 항목의 `tts_eligible`, `data_mode`, `verification_status`를 지키세요. 실제 AI가 없는 현재 설명 응답은 항상 `ai_mode=MOCK`입니다. 서버는 사용자의 위치·경로·질문 이력을 저장하지 않습니다.

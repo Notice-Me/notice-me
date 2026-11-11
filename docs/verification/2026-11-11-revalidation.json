@@ -1,0 +1,324 @@
+{
+  "checked_at": "2026-11-11T09:30:36.257471+00:00",
+  "timezone": "Asia/Seoul",
+  "baseline_commit": "d8f5c9690548fe2c7bc0d453b479d1eac2a5c7c8",
+  "baseline_pytest": {
+    "passed": 49,
+    "warnings": 1
+  },
+  "availability_fix_commit": "fdd7e2f",
+  "tested_state": "feature branch working tree before contract/handoff commit",
+  "external_api_results": {
+    "checked_at": "2026-11-11T09:27:04.336023+00:00",
+    "results": [
+      {
+        "provider": "seoul_events",
+        "status": "SUCCESS",
+        "http_status": 200,
+        "normalized_count": 5,
+        "metadata": {
+          "raw_count": 5,
+          "reported_total": 19765,
+          "sample": true,
+          "source_updated_at_available": false
+        },
+        "valid_count_at_collection": 5,
+        "items": [
+          {
+            "id": "seoul-event:8604019b12457fe1abf63198",
+            "content_type": "EVENT",
+            "expires_at": "2026-12-24T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          },
+          {
+            "id": "seoul-event:699d4bccbe1cf895514a2691",
+            "content_type": "EVENT",
+            "expires_at": "2026-12-22T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          },
+          {
+            "id": "seoul-event:b360692fb157c43586da1150",
+            "content_type": "EVENT",
+            "expires_at": "2026-12-22T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          },
+          {
+            "id": "seoul-event:65f3c9bda0c05406dc8d6d4a",
+            "content_type": "EVENT",
+            "expires_at": "2027-02-09T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          },
+          {
+            "id": "seoul-event:08407da2221c6a9ea3bd16f2",
+            "content_type": "EVENT",
+            "expires_at": "2026-12-27T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          }
+        ]
+      },
+      {
+        "provider": "seoul_city",
+        "status": "SUCCESS",
+        "http_status": 200,
+        "normalized_count": 1,
+        "metadata": {
+          "raw_count": 1,
+          "weather_available": true,
+          "city_incident_count": 0,
+          "sample_area": "POI009",
+          "city_incident_adapter": "DEFERRED_ROUTE_LINKS_MISSING"
+        },
+        "valid_count_at_collection": 1,
+        "items": [
+          {
+            "id": "seoul-city:POI009:weather",
+            "content_type": "LIFE",
+            "expires_at": "2026-11-11T10:20:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": "2026-11-11T09:20:00+00:00"
+          }
+        ]
+      },
+      {
+        "provider": "seoul_incidents",
+        "status": "SUCCESS",
+        "http_status": 200,
+        "normalized_count": 5,
+        "metadata": {
+          "raw_count": 5,
+          "reported_total": "5",
+          "coordinates": "NATIVE_GRS80TM_ONLY; EPSG_UNVERIFIED",
+          "status": "DERIVED_FROM_LISTING_AND_EXPIRY; requery within 10 minutes"
+        },
+        "valid_count_at_collection": 5,
+        "items": [
+          {
+            "id": "seoul-incident:88688e76c98154a15cf13567",
+            "content_type": "TRAFFIC",
+            "expires_at": "2027-02-28T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          },
+          {
+            "id": "seoul-incident:0064644d3e95caf2ba4fa9f0",
+            "content_type": "TRAFFIC",
+            "expires_at": "2030-05-03T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          },
+          {
+            "id": "seoul-incident:477e5c6afc23692cac412a16",
+            "content_type": "TRAFFIC",
+            "expires_at": "2026-11-11T11:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          },
+          {
+            "id": "seoul-incident:58f46e61d70fc1769173f5ae",
+            "content_type": "TRAFFIC",
+            "expires_at": "2026-11-11T10:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          },
+          {
+            "id": "seoul-incident:5e3d91283922535d549879a0",
+            "content_type": "TRAFFIC",
+            "expires_at": "2026-11-11T10:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": null
+          }
+        ]
+      },
+      {
+        "provider": "tourapi",
+        "status": "FAILED",
+        "code": "MISSING_KEY",
+        "http_status": null,
+        "normalized_count": 0
+      }
+    ]
+  },
+  "http_checks": [
+    {
+      "checked_at": "2026-11-11T09:27:17.616037+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "NO_NAVIGATION",
+      "data_mode": "LIVE",
+      "top3_count": 1,
+      "queue_count": 1,
+      "alert_count": 0,
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 5,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "EXPIRED_OR_FUTURE",
+          "count": 1,
+          "message": "EXPIRED_OR_FUTURE"
+        },
+        {
+          "code": "TRAFFIC_ROUTE_UNVERIFIED",
+          "count": 5,
+          "message": "TRAFFIC_ROUTE_UNVERIFIED"
+        },
+        {
+          "code": "TRAFFIC_STALE",
+          "count": 1,
+          "message": "TRAFFIC_STALE"
+        },
+        {
+          "code": "SOURCE_UNAVAILABLE",
+          "count": 1,
+          "message": "tourapi:MISSING_KEY"
+        }
+      ],
+      "ai_mode": "MOCK"
+    },
+    {
+      "checked_at": "2026-11-11T09:27:18.789131+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "MANUAL_DEMO_LINK",
+      "data_mode": "MOCK",
+      "top3_count": 3,
+      "queue_count": 5,
+      "alert_count": 1,
+      "diagnostics": [
+        {
+          "code": "MOCK_MODE",
+          "count": 1,
+          "message": "MOCK_MODE"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 6,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK"
+    },
+    {
+      "checked_at": "2026-11-11T09:27:18.208282+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "MANUAL_DEMO_LINK",
+      "data_mode": "MIXED",
+      "top3_count": 3,
+      "queue_count": 6,
+      "alert_count": 1,
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 5,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "EXPIRED_OR_FUTURE",
+          "count": 1,
+          "message": "EXPIRED_OR_FUTURE"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 6,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TRAFFIC_ROUTE_UNVERIFIED",
+          "count": 5,
+          "message": "TRAFFIC_ROUTE_UNVERIFIED"
+        },
+        {
+          "code": "TRAFFIC_STALE",
+          "count": 1,
+          "message": "TRAFFIC_STALE"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        },
+        {
+          "code": "SOURCE_UNAVAILABLE",
+          "count": 1,
+          "message": "tourapi:MISSING_KEY"
+        }
+      ],
+      "ai_mode": "MOCK"
+    }
+  ],
+  "live_traffic_check": {
+    "checked_at": "2026-11-11T09:28:49.171613+00:00",
+    "http_status": 200,
+    "data_mode": "LIVE",
+    "alerts": 1,
+    "route_context": "MANUALLY_SUPPLIED_TEST_LINK_NOT_VEHICLE_NAVIGATION",
+    "match_status": "LINK_MATCH"
+  },
+  "actual_vehicle_connection_verified": false,
+  "actual_tts_playback_verified": false,
+  "authenticated_news_test_performed": false,
+  "school_ai_connected": false,
+  "live_driving_time_verified": false,
+  "source_terms_scope": "No rights expansion. Existing news blocks preserved. Not a fresh review of every provider terms page.",
+  "final_pytest": {
+    "tests": 64,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "checks": {
+    "ruff_check": "PASS",
+    "ruff_format": "PASS",
+    "pip_check": "PASS",
+    "compileall": "PASS"
+  },
+  "openapi_sha256": "618829ac4e625973e856e9f7661a8b41985432c357218a5142b006cbdb31c851"
+}

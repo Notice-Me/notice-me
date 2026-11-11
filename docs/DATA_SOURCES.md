@@ -2,6 +2,8 @@
 
 확인일 **2026-11-11 KST**. 공식 문서 읽기, HTTP 응답 수신, 정상 데이터 수신, 추천 노출, TTS 허가를 구분합니다. 재현 가능한 원본 측정값은 [API_VALIDATION_RESULTS.json](API_VALIDATION_RESULTS.json), 서버 HTTP 측정은 [HTTP_SMOKE_RESULTS.json](HTTP_SMOKE_RESULTS.json)입니다. 인증정보와 원본 기사 본문은 포함하지 않습니다.
 
+**같은 날 18시대 KST 재검증:** [새 보고서](verification/2026-11-11-revalidation.json)에 별도 보존했습니다. 서울시 sample에서 현재 행사5·날씨1·교통5건을 다시 수신/정규화했습니다. 아래의 교통4건 등은 초기 호출의 역사적 수치입니다. 뉴스/TourAPI 키는 여전히 미설정이고 이번에는 뉴스 무인증 요청을 반복하지 않았습니다. 실제 뉴스 검색·건수·중복률·TTS 라이선스를 확인했다고 주장하지 않습니다. 이 회차에는 권리 정책을 확대하지 않았으며, 기존 차단 정책을 유지했습니다. 공식 도시데이터 안내는 다시 조회했지만 모든 제공자 약관을 새로 재검토한 기록은 아닙니다.
+
 ## 뉴스 비교
 
 | 항목 | FreeNewsAPI (.io, 1순위) | The News API (.com) | GNews |

@@ -2,15 +2,34 @@
 
 **2026-11-11 KST / feature 0.1.0.** 서버 프로토타입과 실제 서울시 수집→SQLite→HTTP 응답 경로가 작동합니다. 실제 뉴스와 학교 AI/차량 연동까지 완성된 상태는 아닙니다.
 
+## 최신 재검증 결과 (2026-11-11, 18시대 KST)
+
+시작 커밋 d8f5c96에서 기존 **49 passed**를 재현했습니다. 검토 중 상세/설명이 오래된 교통정보를 허용하는 문제를 재현하여 fdd7e2f에서 수정했고, 응답 계약/차량 연결 도구를 보강한 최종 작업 트리에서 **64 passed**를 확인했습니다. Ruff check/format, pip check, compileall 통과. 상위 Starlette TestClient deprecation warning 1건은 남아 있습니다.
+
+[현재 측정 보고서](verification/2026-11-11-revalidation.json)와 [차량 앱 연동 안내](VEHICLE_INTEGRATION.md)를 우선 참고하세요. 기존 API_VALIDATION_RESULTS/HTTP_SMOKE_RESULTS/examples는 초기 시각의 증거로 보존했습니다.
+
+| 분류 | 항목 | 근거/범위 |
+|---|---|---|
+| 구현 완료 | 4개 endpoint와 응답 타입, SQLite, 규칙 추천/TOP3/별도 큐, 권리 차단 | 기존49 + 추가15 테스트. OpenAPI의 네 성공 응답 타입과 저장 명세 일치 검사. 큐/상세/설명에서 유효성 일치 |
+| 구현 완료 | 앱용 HTTP 계약 검사와 실행 안내 | 서버 DB/API 키 없는 check_vehicle_api.py. 실제 Uvicorn HTTP에서 MOCK/LIVE/MIXED 모두 성공. 오류403/404/422, 모드·권리·만료 검사 |
+| 부분 구현 | 공공 데이터 수집 | 현재 HTTP200 행사5·날씨1·교통5 정규화. sample/첫 페이지이며 전체 수집·자동 갱신은 없음. 날씨는 POI009 한 장소 |
+| 부분 구현 | 긴급 경로 처리 | 직접 제공한 동일 SEOUL_TOPIS 링크에서 LIVE alert1. DEMO 경로에서 SIMULATED alert1. 실차 경로 취득/지도 링크 매핑 미검증 |
+| 부분 구현 | 뉴스/TourAPI, 팝업, AI | 공식 스키마 어댑터/수동 입력/LLMProvider는 있으나 인증 실수신·실제 등록·실제 학교 AI는 미확인. 현재 뉴스/TourAPI 키 없음 |
+| 미구현/미검증 | 실제 자동차 이동시간/실차 경로·TTS/학교 AI/ITS | Routing은 인터페이스와 fixture뿐. 학교 endpoint 미제공. ITS 미구현. 앱/SDK 실행 증거 없음 |
+
+실제 HTTP 재검증: no-navigation LIVE 화면1/일반큐1/alert0, MOCK+수동DEMO 화면3/큐5/alert1, MIXED+수동DEMO 화면3/큐6/alert1. 별도 수동 SEOUL_TOPIS 입력에서 실제 교통 alert1 확인. 모두 설명 ai_mode=MOCK입니다. 이 기록은 실차 연결/재생 완료를 뜻하지 않습니다.
+
+유효성 수정: feed는 오래된/해제/미래 교통정보를 이미 제외했으나 detail의 tts_eligible와 explain이 이를 놓쳤습니다. 같은 규칙을 공유하여 상세 음성 자격 false, 설명409로 일치시켰습니다. 유효한 상세 조회와 권리 미확인 뉴스403은 유지합니다.
+
 ## 저장소
 
 - 기존 Private `Notice-Me/notice-me`를 사용했습니다. 새 Organization/Repository는 만들지 않았습니다.
-- GitHub CLI 인증 및 read/write/admin 권한 확인, 빈 저장소 clone 완료. 연결 플러그인은 404여서 CLI 사용.
+- 초기 GitHub CLI 인증 및 권한 확인/clone 완료. 초기에는 연결 플러그인이 404였지만 이번 재검증에서는 연결 도구로 PR #1을 읽었고 CLI 조회도 성공했습니다.
 - 최초 초기화 커밋 **7346168**만 main에 push했습니다. 이후 모든 서버 변경은 **feat/server-content-feed**에 있습니다.
 - 기능 변경은 PR 검토 대상이며 main 병합/auto-merge는 실행하지 않습니다. 차량 앱 담당자는 이 기능 브랜치의 계약/OpenAPI를 확인하세요.
 - 기존 신청서/동의서와 개인정보는 저장소 밖 원위치에 보존하고 업로드하지 않았습니다.
 
-## 구현 및 실제 검증
+## 초기 구현 및 실제 검증 기록 (최신 분류는 위 표)
 
 | 기능 | 상태 | 실제 확인 |
 |---|---|---|
@@ -34,7 +53,7 @@
 
 실제 호출은 [API_VALIDATION_RESULTS.json](API_VALIDATION_RESULTS.json), HTTP 응답 검증은 [HTTP_SMOKE_RESULTS.json](HTTP_SMOKE_RESULTS.json), 샘플 응답은 [examples](examples) 참조. 스냅샷 시각 이후에는 만료되거나 원천 자료가 바뀝니다. 현재 API 성공 여부는 재수집해 확인하세요.
 
-## 테스트
+## 초기 테스트 기록 (49개, 최신은 64개)
 
 Windows / Python 3.11.9, [고정 의존성](../server/requirements.lock). 최종 기능 검증: **pytest 49 passed**, Ruff check/format 통과, pip check 의존성 충돌 없음. pytest에는 httpx 기반 TestClient에 관한 상위 Starlette의 deprecation warning 1건이 있으며 실패는 아닙니다.
 
@@ -42,12 +61,17 @@ Windows / Python 3.11.9, [고정 의존성](../server/requirements.lock). 최종
 
 HTTP smoke: live/mixed의 feed/detail/explain, rights/mode/queue 검증. 실제 LIVE 스냅샷은 top3=1, queue=1, alert=1; MIXED는 top3=3, queue=6, alert=1. `route_context=manually supplied test link`이며 실제 주행/내비 수집 성공을 의미하지 않습니다. 설명은 실자료에서도 AI가 MOCK입니다.
 
-## 남은 작업과 11/15 우선순위
+## 11/15 MVP 우선순위와 완료 기준
 
-1. FreeNewsAPI 무료 키를 본인이 발급해 .env에 입력 → validate로 한국어/한국 corpus 및 3키워드의 24h/7d 표본·전체 통계 재확인. 뉴스 TTS는 별도 권리 확보 전 계속 차단.
-2. 차량 팀원이 기능 브랜치의 API_CONTRACT/OpenAPI/example로 GPS→feed 카드/큐를 연동. MOCK/LIVE/MIXED와 SIMULATED/ai_mode 표시 유지.
-3. 서울 키로 sample 범위 확대, TourAPI 활용신청 후 정상 수신과 취소/연기 enum·항목권리 검증. 자동 수집기는 현재 한 페이지 수집이며 전체 pagination/스케줄러는 없음.
-4. 무료 범위에서 실제 자동차 이동시간 provider와 링크 체계 매핑 검증. 이전까지 LIVE 행사는 추천하지 않음. 영업시간/ETA 실제 TTS 길이와 재생 세션은 차량 연동 후 보강.
-5. 학교 AI의 공식 endpoint/인증/응답 문서가 제공되면 LLMProvider 구현. 토큰만으로 endpoint를 추측하지 않음.
+| 우선순위/목표일 | 작업 | 완료 기준과 담당 |
+|---|---|---|
+| P0 / 11/11~12 | **다음 최우선: 팀원 기기에서 HTTP 연결** | 서버가 LAN에서 실행, 팀원이 health→feed→detail→explain 호출. 서버/앱 버전·실제 기기/에뮬레이터 정보와 응답 상태 기록. localhost 검사만으로 완료하지 않음 |
+| P0 / 11/12~13 | 앱 화면·TTS 최소 흐름 | top3 카드, queue/alerts 순서, 사용자 재생/다음/다시, 데이터 모드 표시. 앱 담당이 실제 TTS 재생 및 주행 UX/오디오 포커스 확인. 서버는 계약/오류 재현 지원 |
+| P0 / 11/13 | 실제 공공자료 수집→응답 재현 | 시연 직전 수동 ingest, 유효 날씨 등 적어도 한 실제 소스의 JSON 제공. 만료/빈 데이터/소스 오류를 표시. 재수집 명령과 유효기간은 연동 안내에 기록 |
+| P1 / 11/13~14 | 뉴스 인증·콘텐츠 확장 | FreeNewsAPI 무료 키를 본인이 발급해 로컬 .env에 설정, 24h/7d 검색 재검증. 권리 근거 없으면 뉴스 TTS 계속 차단. TourAPI/서울 정식 키의 실제 수신과 조건 확인 |
+| P1 / 11/14 | 실제 경로·이동시간 | 무료 계정 조건/공식 schema/차량 경로 권한과 링크 매핑을 확인한 경우만 연결. 확보 전 LIVE 행사 제외, DEMO는 SIMULATED 유지 |
+| P0 / 11/15 | 재현 가능한 MVP 시연 | 실제 공공정보 흐름과 명시적 모의 시연을 구분, 앱 연결·음성 재생 증거 확보. 미연동 기능을 완료로 발표하지 않음 |
+
+학교 AI, 자동 팝업 발견, ITS 추가 소스, 전체 pagination/자동 스케줄러는 이 최소 시연의 선행조건으로 두지 않습니다. 원래의 전체 기획(실제 관심사 뉴스·60분 행사·실차 경로 등)을 완료했다는 의미는 아닙니다. 뉴스/행사까지 실자료로 포함하려면 인증·권리·라우팅이 여전히 필요합니다. `LLMProvider`는 공식 endpoint/인증/응답 문서를 받은 뒤 연결합니다.
 
 개발 시연 서버는 인증/TLS/외부 배포/운영 모니터링을 아직 제공하지 않습니다. 고정 샘플 범위·단순 키워드 분류·표본 중복률은 실제 서비스 품질 검증을 대체하지 않습니다. 뉴스 전체 페이지 건수 측정, 실제 행사 경로시간, 자동 팝업 발견, 음성 재생 및 차량 안전 UX는 완료 목록에 넣지 않습니다.

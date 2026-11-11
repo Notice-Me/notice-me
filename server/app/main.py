@@ -10,11 +10,13 @@ from .config import Settings
 from .fixtures import demo_contents
 from .llm import DeterministicLLM
 from .models import (
+    ContentDetail,
     DataMode,
     ExplainRequest,
     ExplainResponse,
     FeedContext,
     FeedResponse,
+    HealthResponse,
     Point,
     utcnow,
 )
@@ -45,7 +47,7 @@ def create_app(
     llm = DeterministicLLM()
     routing = routing or (DemoRouting() if settings.data_mode in ("mock", "mixed") else UnverifiedRouting())
 
-    @app.get("/api/v1/health")
+    @app.get("/api/v1/health", response_model=HealthResponse)
     def health():
         return {
             "status": "ok",
@@ -118,7 +120,7 @@ def create_app(
             )
         return result
 
-    @app.get("/api/v1/contents/{content_id}")
+    @app.get("/api/v1/contents/{content_id}", response_model=ContentDetail)
     def detail(content_id: str):
         item = store.get(content_id, settings.data_mode)
         if item is None:

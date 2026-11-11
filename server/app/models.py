@@ -1,5 +1,6 @@
 from datetime import UTC, datetime
 from enum import StrEnum
+from typing import Literal
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, HttpUrl, model_validator
 
@@ -93,6 +94,28 @@ class Content(BaseModel):
         return self
 
 
+class ContentDetail(Content):
+    is_expired: bool
+    tts_eligible: bool
+
+
+class CollectionStatus(BaseModel):
+    collected_at: AwareDatetime
+    provider: str
+    status: str
+    item_count: int = Field(ge=0)
+    code: str
+
+
+class HealthResponse(BaseModel):
+    status: Literal["ok"]
+    database: Literal["ok"]
+    configured_data_mode: DataMode
+    stored_counts: dict[str, int]
+    providers: dict[str, bool | str]
+    collections: list[CollectionStatus]
+
+
 class FeedContext(BaseModel):
     lat: float = Field(ge=-90, le=90)
     lon: float = Field(ge=-180, le=180)
@@ -141,7 +164,7 @@ class Diagnostic(BaseModel):
 
 
 class FeedResponse(BaseModel):
-    top3: list[FeedItem]
+    top3: list[FeedItem] = Field(max_length=3)
     queue: list[FeedItem]
     alerts: list[FeedItem]
     generated_at: AwareDatetime

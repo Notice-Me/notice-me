@@ -14,7 +14,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
               }
             }
           }
@@ -227,7 +229,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ContentDetail"
+                }
               }
             }
           },
@@ -303,6 +307,249 @@
   },
   "components": {
     "schemas": {
+      "CollectionStatus": {
+        "properties": {
+          "collected_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Collected At"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "item_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Item Count"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "collected_at",
+          "provider",
+          "status",
+          "item_count",
+          "code"
+        ],
+        "title": "CollectionStatus"
+      },
+      "ContentDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 180,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "content_type": {
+            "$ref": "#/components/schemas/ContentType"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Title"
+          },
+          "brief": {
+            "type": "string",
+            "maxLength": 4000,
+            "title": "Brief",
+            "default": ""
+          },
+          "source_name": {
+            "type": "string",
+            "title": "Source Name"
+          },
+          "source_url": {
+            "type": "string",
+            "maxLength": 2083,
+            "minLength": 1,
+            "format": "uri",
+            "title": "Source Url"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fetched At"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 90.0,
+                "minimum": -90.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 180.0,
+                "minimum": -180.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "interest_tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Interest Tags"
+          },
+          "rights_status": {
+            "$ref": "#/components/schemas/RightsStatus",
+            "default": "LICENSE_UNVERIFIED"
+          },
+          "rights_evidence_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rights Evidence Url"
+          },
+          "verification_status": {
+            "$ref": "#/components/schemas/Verification",
+            "default": "UNVERIFIED"
+          },
+          "priority": {
+            "type": "integer",
+            "maximum": 1000.0,
+            "minimum": 0.0,
+            "title": "Priority",
+            "default": 0
+          },
+          "data_mode": {
+            "$ref": "#/components/schemas/DataMode"
+          },
+          "provenance": {
+            "type": "string",
+            "title": "Provenance"
+          },
+          "starts_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts At"
+          },
+          "venue": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Venue"
+          },
+          "organizer_confirmed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Organizer Confirmed At"
+          },
+          "traffic": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TrafficImpact"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_expired": {
+            "type": "boolean",
+            "title": "Is Expired"
+          },
+          "tts_eligible": {
+            "type": "boolean",
+            "title": "Tts Eligible"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "content_type",
+          "title",
+          "source_name",
+          "source_url",
+          "expires_at",
+          "fetched_at",
+          "data_mode",
+          "provenance",
+          "is_expired",
+          "tts_eligible"
+        ],
+        "title": "ContentDetail"
+      },
       "ContentType": {
         "type": "string",
         "enum": [
@@ -640,6 +887,7 @@
               "$ref": "#/components/schemas/FeedItem"
             },
             "type": "array",
+            "maxItems": 3,
             "title": "Top3"
           },
           "queue": {
@@ -706,6 +954,61 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status"
+          },
+          "database": {
+            "type": "string",
+            "const": "ok",
+            "title": "Database"
+          },
+          "configured_data_mode": {
+            "$ref": "#/components/schemas/DataMode"
+          },
+          "stored_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Stored Counts"
+          },
+          "providers": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Providers"
+          },
+          "collections": {
+            "items": {
+              "$ref": "#/components/schemas/CollectionStatus"
+            },
+            "type": "array",
+            "title": "Collections"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "database",
+          "configured_data_mode",
+          "stored_counts",
+          "providers",
+          "collections"
+        ],
+        "title": "HealthResponse"
       },
       "RightsStatus": {
         "type": "string",
