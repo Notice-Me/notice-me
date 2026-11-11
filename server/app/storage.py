@@ -1,3 +1,4 @@
+import json
 import sqlite3
 from pathlib import Path
 
@@ -19,6 +20,11 @@ class Store:
                     id INTEGER PRIMARY KEY, collected_at TEXT NOT NULL,
                     provider TEXT NOT NULL, status TEXT NOT NULL, item_count INTEGER NOT NULL,
                     code TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS news_searches (
+                    id INTEGER PRIMARY KEY, observed_at TEXT NOT NULL,
+                    provider TEXT NOT NULL, keyword TEXT NOT NULL,
+                    window_hours INTEGER NOT NULL, status TEXT NOT NULL, payload TEXT NOT NULL
                 );
             """)
 
@@ -70,3 +76,27 @@ class Store:
                 "ORDER BY id DESC LIMIT 10"
             ).fetchall()
         return [dict(zip(("collected_at", "provider", "status", "item_count", "code"), r)) for r in rows]
+
+    def record_news_search(self, provider: str, case: dict, articles: list[dict]):
+        """Append each result immediately; failures never replace earlier successful observations."""
+        payload = {**case, "article_metadata": articles}
+        with self.connect() as conn:
+            conn.execute(
+                "INSERT INTO news_searches(observed_at,provider,keyword,window_hours,status,payload) "
+                "VALUES (?,?,?,?,?,?)",
+                (
+                    utcnow().isoformat(),
+                    provider,
+                    case["keyword"],
+                    case["window_hours"],
+                    case["status"],
+                    json.dumps(payload, ensure_ascii=False),
+                ),
+            )
+
+    def news_searches(self, provider: str):
+        with self.connect() as conn:
+            rows = conn.execute(
+                "SELECT payload FROM news_searches WHERE provider=? ORDER BY id", (provider,)
+            ).fetchall()
+        return [json.loads(row[0]) for row in rows]

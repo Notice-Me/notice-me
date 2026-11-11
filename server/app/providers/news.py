@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 
+import httpx
+
 from ..llm import DeterministicLLM
 from ..models import Content, ContentType, DataMode, RightsStatus, Verification
-from .base import ProviderError, SafeHTTP, parse_datetime, stable_id
+from .base import ProviderError, RequestBudget, SafeHTTP, parse_datetime, stable_id
 
 ENDPOINTS = {
     "freenews": "https://api.freenewsapi.io/v1/news",
@@ -12,11 +14,49 @@ ENDPOINTS = {
 
 
 class NewsProvider:
-    def __init__(self, name: str, key: str, timeout=10, transport=None):
+    def __init__(
+        self,
+        name: str,
+        key: str,
+        timeout=20,
+        transport=None,
+        *,
+        max_retries=1,
+        budget: RequestBudget | None = None,
+    ):
         if name not in ENDPOINTS:
             raise ValueError("Unknown news provider")
         self.name, self.key = name, key
-        self.http = SafeHTTP(name, timeout, transport, min_interval=0.6 if name == "freenews" else 1.1)
+        self.http = SafeHTTP(
+            name,
+            httpx.Timeout(timeout, connect=min(5, timeout), write=5, pool=5),
+            transport,
+            min_interval=0.6 if name == "freenews" else 1.1,
+            max_retries=max_retries,
+            budget=budget,
+            total_timeout=30,
+        )
+
+    @staticmethod
+    def metadata(row: dict) -> dict:
+        # News metadata only: never retain article bodies, incipits, descriptions, or images.
+        metadata = {
+            k: row[k]
+            for k in (
+                "uuid",
+                "title",
+                "publisher",
+                "published_at",
+                "original_url",
+                "url",
+                "publishedAt",
+                "source",
+            )
+            if k in row
+        }
+        if isinstance(metadata.get("source"), dict):
+            metadata["source"] = {k: v for k, v in metadata["source"].items() if k in {"name", "url"}}
+        return metadata
 
     async def search(
         self, keyword: str, since: datetime, until: datetime, *, probe=False, include_details=True
@@ -60,30 +100,63 @@ class NewsProvider:
             }
         data = await self.http.json(ENDPOINTS[self.name], params=params, headers=headers)
         rows = data.get("articles") if self.name == "gnews" else data.get("data")
-        if not isinstance(rows, list):
+        if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
             raise ProviderError(self.name, "SCHEMA_MISMATCH", 200)
         meta = data.get("meta", {})
+        if not isinstance(meta, dict):
+            raise ProviderError(self.name, "SCHEMA_MISMATCH", 200)
         result = {
-            "rows": rows,
+            "rows": [self.metadata(row) for row in rows],
+            "listing_rows": [self.metadata(row) for row in rows],
             "reported_total": data.get("totalArticles", meta.get("found")),
             "has_more": meta.get("has_more"),
             "sample_size": len(rows),
+            "provider_returned": meta.get("returned"),
+            "page_size": meta.get("page_size"),
+            "observed_fields": sorted(set().union(*(set(r) for r in rows))) if rows else [],
+            "attempts": list(self.http.last_attempts),
         }
         if self.name == "freenews" and include_details:
-            detailed = []
-            for row in rows[:3]:  # bounded free quota usage; original_url only exists in /details
-                if not row.get("uuid"):
-                    continue
+            detail = await self.hydrate(rows)
+            result.update(detail)
+        return result
+
+    async def hydrate(self, rows: list[dict], *, limit=3) -> dict:
+        """Resolve a bounded number of URLs; a failed article never discards successful siblings."""
+        detailed, errors = [], []
+        for row in rows[:limit]:
+            if not row.get("uuid"):
+                continue
+            try:
                 detail = await self.http.json(
-                    "https://api.freenewsapi.io/v1/details", params={"uuid": row["uuid"]}, headers=headers
+                    "https://api.freenewsapi.io/v1/details",
+                    params={"uuid": row["uuid"]},
+                    headers={"x-api-key": self.key},
                 )
                 article = detail.get("data")
-                if isinstance(article, dict):
-                    # Do not retain unlicensed article bodies or send them to AI.
-                    detailed.append({k: v for k, v in article.items() if k != "body"})
-            result["rows"] = detailed
-            result["details_sample_size"] = len(detailed)
-        return result
+            except ProviderError as error:
+                errors.append(
+                    {
+                        "uuid": row["uuid"],
+                        "code": error.code,
+                        "http_status": error.http_status,
+                        "timeout_phase": error.timeout_phase,
+                        "attempts": error.attempts,
+                    }
+                )
+                if error.code in {
+                    "RATE_LIMITED",
+                    "REQUEST_BUDGET_EXHAUSTED",
+                    "AUTH_REQUIRED",
+                    "ACCESS_DENIED",
+                }:
+                    break
+                continue
+            if isinstance(article, dict):
+                detailed.append(self.metadata(article))
+            else:
+                errors.append({"uuid": row["uuid"], "code": "SCHEMA_MISMATCH", "http_status": 200})
+        return {"rows": detailed, "details_sample_size": len(detailed), "detail_errors": errors}
 
     def normalize(self, rows: list[dict], now: datetime, keyword: str) -> list[Content]:
         items = []

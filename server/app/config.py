@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     db_path: Path = Path("data/notice_me.db")
     data_mode: Literal["mock", "live", "mixed"] = "mock"
     http_timeout_seconds: float = Field(default=10, gt=0, le=60)
+    news_read_timeout_seconds: float = Field(default=20, gt=0, le=60)
+    news_max_retries: int = Field(default=1, ge=0, le=1)
+    news_request_budget: int = Field(default=20, ge=1, le=100)
     freenews_api_key: SecretStr = SecretStr("")
     thenewsapi_token: SecretStr = SecretStr("")
     gnews_api_key: SecretStr = SecretStr("")
