@@ -19,7 +19,7 @@ from .storage import Store
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
-async def collect_public(settings: Settings, store: Store):
+async def collect_public(settings: Settings, store: Store, selected=None):
     now = utcnow()
     report = []
     providers = [
@@ -29,6 +29,8 @@ async def collect_public(settings: Settings, store: Store):
         TourEvents(settings.tour_api_key.get_secret_value(), settings.http_timeout_seconds),
     ]
     for provider in providers:
+        if selected is not None and provider.name not in selected:
+            continue
         try:
             items, meta = await provider.collect(now)
             store.upsert(items)
@@ -65,7 +67,7 @@ async def collect_public(settings: Settings, store: Store):
                     "normalized_count": 0,
                 }
             )
-    if settings.manual_events_path:
+    if settings.manual_events_path and (selected is None or "manual_events" in selected):
         items = load_confirmed_events(settings.manual_events_path)
         store.upsert(items)
         store.record("manual_events", "SUCCESS", len(items), "MANUAL_REVIEW_REQUIRED")
@@ -105,7 +107,9 @@ async def run(args):
         report["results"] = [{"provider": "fixtures", "status": "SUCCESS", "data_mode": "MOCK", "count": 8}]
     elif args.command in {"ingest", "ingest-news"}:
         if args.command == "ingest":
-            report["results"] = await collect_public(settings, store)
+            report["results"] = await collect_public(
+                settings, store, selected=getattr(args, "public_provider", None)
+            )
         if args.keyword:
             report["news"] = await collect_news(settings, store, args.keyword, budget=budget)
     elif args.command == "validate-news":
@@ -146,6 +150,12 @@ def main():
     )
     parser.add_argument("--window-hours", action="append", type=int, choices=[24, 168])
     parser.add_argument(
+        "--public-provider",
+        action="append",
+        choices=["seoul_events", "seoul_city", "seoul_incidents", "tourapi", "manual_events"],
+        help="ingest only: collect selected public sources instead of all sources",
+    )
+    parser.add_argument(
         "--max-requests", type=int, help="News HTTP attempt budget, including retries/details (1..100)"
     )
     parser.add_argument("--report", type=Path, help="Sanitized report path; no raw bodies or credential URLs")
@@ -154,6 +164,8 @@ def main():
         parser.error("--max-requests must be between 1 and 100")
     if args.command == "ingest-news" and not args.keyword:
         parser.error("ingest-news requires at least one --keyword")
+    if args.public_provider and args.command != "ingest":
+        parser.error("--public-provider is supported only with ingest")
     asyncio.run(run(args))
 
 

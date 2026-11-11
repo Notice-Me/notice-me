@@ -2,7 +2,7 @@
 
 import argparse
 import json
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from urllib.parse import quote
 
@@ -18,12 +18,53 @@ def require(condition, code):
         raise CheckFailed(code)
 
 
+def timestamp(value):
+    stamp = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    require(stamp.tzinfo is not None, "NAIVE_CONTENT_TIME")
+    return stamp
+
+
+def check_playback(feed, now):
+    """Check the actual playback path, including alerts and rights evidence."""
+    queue, alerts = feed["queue"], feed["alerts"]
+    for item in queue:
+        require(item["tts_eligible"], "QUEUE_RIGHTS_VIOLATION")
+    for item in queue + alerts:
+        if not item["tts_eligible"]:
+            continue
+        require(
+            item["rights_status"] == "TTS_ALLOWED"
+            and item["rights_evidence_url"]
+            and item["verification_status"] in ("VERIFIED", "SIMULATED"),
+            "PLAYBACK_RIGHTS_VIOLATION",
+        )
+        require(timestamp(item["expires_at"]) > now, "PLAYBACK_CONTAINS_EXPIRED_CONTENT")
+        if item["content_type"] == "TRAFFIC":
+            traffic = item["traffic"]
+            require(
+                timestamp(item["fetched_at"]) <= now <= timestamp(item["fetched_at"]) + timedelta(minutes=10)
+                and timestamp(traffic["occurred_at"]) <= now < timestamp(traffic["valid_until"])
+                and traffic["status"] == "ACTIVE"
+                and traffic["match_status"] == "LINK_MATCH",
+                "PLAYBACK_TRAFFIC_STALE_OR_UNMATCHED",
+            )
+    expected = [x["id"] for x in alerts + queue if x["tts_eligible"]]
+    require(len(expected) == len(set(expected)), "DUPLICATE_PLAYBACK_ID")
+    require(feed["playback_order"] == expected, "PLAYBACK_ORDER_MISMATCH")
+    for item in feed["top3"] + queue + alerts:
+        if item["rights_status"] != "TTS_ALLOWED":
+            require(not item["tts_eligible"] and item["id"] not in expected, "UNCLEARED_CONTENT_PLAYABLE")
+
+
 def check_api(client, expect_mode=None, demo_route=False):
     report = {
         "checked_at": datetime.now(UTC).isoformat(),
         "status": "FAILED",
         "checks": [],
         "route_context": "MANUAL_DEMO_LINK" if demo_route else "NO_NAVIGATION",
+        "verification_scope": "SERVER_HTTP_ONLY",
+        "pleos_sdk_verified": False,
+        "vehicle_tts_verified": False,
     }
     try:
         health = client.get("/api/v1/health")
@@ -47,18 +88,13 @@ def check_api(client, expect_mode=None, demo_route=False):
             require(feed["data_mode"] == expect_mode, "DATA_MODE_MISMATCH")
         require(0 < len(feed["top3"]) <= 3 and feed["queue"], "NO_ELIGIBLE_TTS_CONTENT")
         now = datetime.now(UTC)
-        for item in feed["queue"]:
-            require(item["rights_status"] == "TTS_ALLOWED" and item["tts_eligible"], "QUEUE_RIGHTS_VIOLATION")
-            expiry = datetime.fromisoformat(item["expires_at"].replace("Z", "+00:00"))
-            require(expiry.tzinfo is not None and expiry > now, "QUEUE_CONTAINS_EXPIRED_CONTENT")
+        check_playback(feed, now)
         for group in ("top3", "queue", "alerts"):
             for item in feed[group]:
                 require(
                     item["verification_status"] != "SIMULATED" or item["data_mode"] == "MOCK",
                     "SIMULATED_MISLABELED_LIVE",
                 )
-        spoken = {x["id"] for x in feed["queue"] + feed["alerts"] if x["tts_eligible"]}
-        require(set(feed["playback_order"]) <= spoken, "UNKNOWN_PLAYBACK_ID")
         report["checks"].append("feed:200;mode/rights/expiry/playback_checked")
         identifier = quote(feed["queue"][0]["id"], safe="")
         detail = client.get("/api/v1/contents/" + identifier)
@@ -71,11 +107,26 @@ def check_api(client, expect_mode=None, demo_route=False):
         require(client.get("/api/v1/contents/contract-check-unknown-id").status_code == 404, "MISSING_404")
         require(client.get("/api/v1/feed", params={"lat": 91, "lon": 127}).status_code == 422, "MISSING_422")
         report["checks"].append("errors:404/422")
+        blocked_news = {
+            item["id"]
+            for item in feed["top3"]
+            if item["content_type"] == "NEWS" and item["rights_status"] != "TTS_ALLOWED"
+        }
         if health.json()["configured_data_mode"] in ("MOCK", "MIXED"):
+            blocked_news.add("mock:news-anime")
+        for content_id in sorted(blocked_news):
+            path = "/api/v1/contents/" + quote(content_id, safe="")
+            blocked_detail = client.get(path)
             require(
-                client.post("/api/v1/contents/mock:news-anime/explain").status_code == 403,
+                blocked_detail.status_code == 200 and not blocked_detail.json()["tts_eligible"],
+                "UNCLEARED_NEWS_DETAIL_PLAYABLE",
+            )
+            require(
+                client.post(path + "/explain").status_code == 403,
                 "UNCLEARED_NEWS_NOT_BLOCKED",
             )
+        report["blocked_news_checked"] = len(blocked_news)
+        if blocked_news:
             report["checks"].append("uncleared_news:403")
         spec_response = client.get("/openapi.json")
         require(spec_response.status_code == 200, "OPENAPI_FAILED")
