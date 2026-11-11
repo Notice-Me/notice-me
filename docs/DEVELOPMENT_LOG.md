@@ -81,6 +81,20 @@
 
 **남은 문제:** 애니메이션500의 제공자 내부 원인, 정확한168h 전체/고유 기사 수, 뉴스 TTS/AI 권리. 이번 결과를500 해결이나 전체 뉴스 검색 안정성 검증으로 표현하지 않습니다.
 
+## 2026-11-11 — Pleos 연동 준비 우선 전환 (20시대 KST)
+
+**요구/현재 상태:** 사용자에게 첫 환경이 Pleos SDK 에뮬레이터·실차임을 확인했습니다. feature5626e46, 기존 pytest99를 재검증했고 원격 PR은 OPEN/미병합이었습니다. API/기존 인계 도구를 재사용했습니다. 새 앱 코드나 SDK 실행 결과는 없습니다.
+
+**문제/수정:** HTTP 검사 도구가 playback_order의 일부 포함만 검사하고 alerts의 권리 근거를 직접 검사하지 않던 한계를 보강했습니다. 전체 재생 순서·권리·교통 freshness와 LIVE 권리 미확인 뉴스의 상세 false/설명403을 검사합니다. 보고서에 서버 HTTP 한정/SDK·TTS 미검증 값을 추가했습니다. 기존 API JSON은 변경하지 않았습니다. 선택 수집 옵션 --public-provider seoul_city로 시연 날씨만 갱신할 수 있게 했습니다.
+
+**실제 데이터/HTTP:** 서울시 sample 도시데이터만1회 호출해200/날씨1건을 저장했고 원천 기준 만료는2026-11-11T11:50Z였습니다. FreeNews 추가 호출0회. 실제 수집 DB의 백업과 시작 fixture로 Uvicorn을 실행해 MOCK3/5/0, LIVE3/1/0, MIXED3/6/0(화면/큐/alerts), DEMO 입력 MOCK/MIXED alert1을 확인했습니다. LIVE 뉴스2건은 상세 음성 자격 false/설명403입니다. localhost TCP와 서버 PC 자신의 LAN 주소 health200은 확인했으나 다른 기기의 접속 증거는 없습니다. 검증 서버는 종료했습니다. [측정](verification/2026-11-11-vehicle-handoff.json).
+
+**발생한 문제/해결:** 추가 테스트가 TOP3에 권리 미확인 뉴스가 항상 있을 것이라고 가정해1 failed/109 passed가 나왔습니다. 실제 순위는 관심사/점수에 따라 달라지므로 검사하려는 잘못된 응답을 명시적으로 구성하도록 테스트를 수정했습니다. 별도 HTTP 보조 검증은 Windows의 임시 DB 정리에서 WinError32로 두 차례 종료 실패했습니다. 잠금의 내부 원인은 확정하지 않았고 검사 DB를 Git 제외 reports에 보존하여 최종 HTTP 보고서를 생성했습니다. 외부 제공자를 반복 호출하지 않았습니다.
+
+**최종 검증/인계:** pytest110 passed(기존99+신규11), Ruff/format/pip check/compileall 통과, 기존 TestClient 경고1건. OpenAPI paths/components 일치. 접속 주소·PC→앱 단계 구분·권리/오류 처리·Pleos 공식 SDK 권한/TTS 모드 문서를 검토해 [연동 안내](VEHICLE_INTEGRATION.md)와 [미실행 확인표](VEHICLE_ACCEPTANCE.md)를 갱신했습니다. PROJECT_STATUS/CONTEXT의 FreeNews 미인증 표현을 현재와 초기 이력으로 분리했습니다. 기술 이유는 [TD-10](TECH_DECISIONS.md#td-10-서버-http-준비와-pleos-기기tts-완료를-따로-판정-2026-11-11).
+
+**미완료:** 팀원 앱 HTTP 호출/DTO·화면·TTS SDK 초기화/실제 음성·오디오 포커스·실차 UX. 원격 접속 주소/서버 상시 실행, 자동 갱신·외부 배포/인증/TLS도 아직 없습니다. 이번 결과를 Pleos 연동 완료로 표시하지 않습니다.
+
 ## 미해결 항목과 다음 기록
 
 최우선은 팀원 기기의 health→feed→TTS 실제 연결 증거. FreeNews 인증/일부 metadata 수집은 확인했지만 애니메이션500·전체 pagination·뉴스 가공/재배포 권리는 남아 있음. 자동 수집 스케줄러, 자동차 이동시간·지도 링크 매핑, 학교 AI, ITS, 운영 인증/TLS 및 부하 검증도 남아 있음. 최신 우선순위와 담당/완료 기준은 [PROJECT_STATUS](PROJECT_STATUS.md#1115-mvp-우선순위와-완료-기준)를 유지함.

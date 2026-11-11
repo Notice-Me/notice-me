@@ -1,6 +1,8 @@
 # 데이터 출처·조건·실제 검증
 
-확인일 **2026-11-11 KST**. 공식 문서 읽기, HTTP 응답 수신, 정상 데이터 수신, 추천 노출, TTS 허가를 구분합니다. 재현 가능한 원본 측정값은 [API_VALIDATION_RESULTS.json](API_VALIDATION_RESULTS.json), 서버 HTTP 측정은 [HTTP_SMOKE_RESULTS.json](HTTP_SMOKE_RESULTS.json)입니다. 인증정보와 원본 기사 본문은 포함하지 않습니다.
+확인일 **2026-11-11 KST**. 공식 문서 읽기, HTTP 응답 수신, 정상 데이터 수신, 추천 노출, TTS 허가를 구분합니다. 초기 측정값은 [API_VALIDATION_RESULTS.json](API_VALIDATION_RESULTS.json), 초기 서버 HTTP는 [HTTP_SMOKE_RESULTS.json](HTTP_SMOKE_RESULTS.json)입니다. 인증정보와 원본 기사 본문은 포함하지 않습니다.
+
+**20시대 차량 인계 재현:** [최신 측정](verification/2026-11-11-vehicle-handoff.json). 서울시 도시데이터의 공식 공개 범위/공공누리1유형을 다시 확인하고 기존 어댑터로 날씨만1회 수집했습니다(200/정규화1건). FREE 뉴스 추가 호출0회, 기존 실제 뉴스2건은 권리 미확인으로 음성/설명 차단을 재확인했습니다. MOCK/LIVE/MIXED HTTP 검사에 추가 원천 호출은 없었습니다. 기존 날씨 필드의 허가를 다른 도시데이터 영역이나 언론사 기사에 확대하지 않습니다. 실제 Pleos TTS 출력은 미검증입니다.
 
 **같은 날 18시대 KST 재검증:** [새 보고서](verification/2026-11-11-revalidation.json)에 별도 보존했습니다. 서울시 sample에서 현재 행사5·날씨1·교통5건을 다시 수신/정규화했습니다. 아래의 교통4건 등은 초기 호출의 역사적 수치입니다. 뉴스/TourAPI 키는 여전히 미설정이고 이번에는 뉴스 무인증 요청을 반복하지 않았습니다. 실제 뉴스 검색·건수·중복률·TTS 라이선스를 확인했다고 주장하지 않습니다. 이 회차에는 권리 정책을 확대하지 않았으며, 기존 차단 정책을 유지했습니다. 공식 도시데이터 안내는 다시 조회했지만 모든 제공자 약관을 새로 재검토한 기록은 아닙니다.
 

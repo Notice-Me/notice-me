@@ -65,7 +65,7 @@ API 키는 각 데이터 제공자가 발급하는 접속 비밀값으로 GitHub
 
 ## 차량 앱 연동
 
-팀원은 [차량 앱 연동 시작 안내](docs/VEHICLE_INTEGRATION.md)를 먼저 읽으세요. 서버 주소 설정과 실제 HTTP 계약 검사를 순서대로 실행할 수 있습니다.
+팀원은 [차량 앱 연동 시작 안내](docs/VEHICLE_INTEGRATION.md)와 [Pleos 앱 담당 확인표](docs/VEHICLE_ACCEPTANCE.md)를 먼저 읽으세요. 서버 주소 설정과 실제 HTTP 계약 검사를 순서대로 실행할 수 있습니다. 서버와 에뮬레이터가 다른 PC라면10.0.2.2가 서버 PC를 가리키지 않는 점을 확인하세요. 시연 날씨만 갱신하려면 `app.cli ingest --public-provider seoul_city`를 사용합니다.
 
 [API 계약](docs/API_CONTRACT.md), [OpenAPI JSON](docs/openapi.json), [LIVE 예시](docs/examples/live-feed.json), [MIXED 예시](docs/examples/mixed-feed.json)를 공유하세요. 차량/에뮬레이터 연결 시 서버를 `--host 0.0.0.0`으로 실행하고 개발 PC의 접근 가능한 주소를 사용합니다. 공개 배포·인증·TLS 설정은 이 프로토타입에 포함되지 않습니다. 차량 앱/SDK 구현과 실제 TTS 재생은 아직 팀원 연동 검증이 필요합니다.
 

@@ -35,4 +35,4 @@ Python >=3.11, FastAPI, SQLite, httpx, pytest, 로컬 .env. 서버: 수집기, �
 
 ## 2026-11-11 재검증 이후 MVP 실행 순서
 
-핵심 서버를 재작성하지 않고 유효성 오류 수정과 응답 타입/연결 도구를 보강했습니다. 즉시 다음 단계는 차량 담당자의 실제 기기 HTTP 호출→카드/큐→TTS 재생 검증입니다. 뉴스 인증·라이선스, 실제 라우팅/차량 링크 매핑, 학교 AI는 미완료로 유지합니다. 최소 시연에서는 확인된 공공자료 경로와 명시적으로 표시된 Mock을 사용할 수 있으나 원래 전체 기획을 실자료로 구현했다는 의미는 아닙니다. 최신 우선순위/완료 기준은 PROJECT_STATUS, 팀원 실행은 VEHICLE_INTEGRATION을 따릅니다.
+핵심 서버를 재작성하지 않고 유효성 오류 수정과 응답 타입/연결 도구를 보강했습니다. 즉시 다음 단계는 Pleos 에뮬레이터·실차의 앱 HTTP 호출→카드/큐→허용 brief TTS 검증입니다. FreeNews 인증/일부 실제 수신은 확인했지만 뉴스 가공·재배포 라이선스, 실제 라우팅/차량 링크 매핑, 학교 AI는 미완료입니다. 최소 시연에서는 확인된 공공자료 경로와 명시적으로 표시된 Mock을 사용할 수 있으나 원래 전체 기획을 실자료로 구현했다는 의미는 아닙니다. 최신 우선순위/완료 기준은 [PROJECT_STATUS](PROJECT_STATUS.md), 팀원 실행은 [VEHICLE_INTEGRATION](VEHICLE_INTEGRATION.md), 실제 결과 기록은 [VEHICLE_ACCEPTANCE](VEHICLE_ACCEPTANCE.md)를 따릅니다.

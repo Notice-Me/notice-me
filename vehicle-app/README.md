@@ -4,8 +4,10 @@
 
 공유 계약: [`../docs/API_CONTRACT.md`](../docs/API_CONTRACT.md).
 
-바로 연결하기: [실행·에뮬레이터 주소·요청/응답·오류 처리](../docs/VEHICLE_INTEGRATION.md), [복사 가능한 HTTP 요청](../docs/examples/vehicle-api.http). 실행 중인 서버 주소만으로 `server/scripts/check_vehicle_api.py`를 실행하면 DB/API 키 없이 계약 검사가 가능합니다.
+바로 연결하기: [실행·Pleos 에뮬레이터/실차 주소·요청/응답·오류 처리](../docs/VEHICLE_INTEGRATION.md), [복사 가능한 HTTP 요청](../docs/examples/vehicle-api.http), [팀원이 실행하고 채울 연동 확인표](../docs/VEHICLE_ACCEPTANCE.md). 실행 중인 서버 주소만으로 `server/scripts/check_vehicle_api.py`를 실행하면 DB/API 키 없이 계약 검사가 가능합니다. 서버와 AVD가 서로 다른 PC라면10.0.2.2 대신 서버 PC의 도달 가능한 주소를 사용합니다.
 
 서버 응답의 `top3`는 화면 카드, `queue`는 권리 검증을 통과한 전체 음성 큐, `alerts`는 우선 처리 대상입니다. MOCK/MIXED 배지와 항목별 SIMULATED 표시를 유지하세요. `queue`에 없는 화면 카드를 임의로 TTS에 보내지 마세요.
 
 차량 SDK 권한, GPS, 내비 경로/ETA 읽기, CarUxRestrictions, 오디오 포커스, 미디어 다음/다시, TTS 실행은 차량 앱 담당 범위입니다. SDK 지원 여부를 확인하기 전에는 연동 완료로 표시하지 않습니다.
+
+첫 재생은 사용자 버튼→최신 feed의 playback_order→권리·유효성 재검사→허용 brief를 TTS로 전달하는 흐름입니다. 학교 AI/explain은 선행조건이 아닙니다. 현재 이 폴더에는 실행 가능한 앱/Gradle 프로젝트가 없으며 팀원 앱 코드를 작성하거나 SDK/TTS를 실행한 결과는 아닙니다.

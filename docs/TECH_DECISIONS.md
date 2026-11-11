@@ -97,6 +97,18 @@ LLMProvider는 classify/summarize/explain에 필요한 메서드를 Protocol로 
 
 **검증과 한계:** 신규35개를 포함해 pytest99 통과. 실제 추가 호출은 목록3·상세2로 끝냈고, 받은 목록을 재사용해 실제 뉴스2건을 저장했습니다. TTS/설명 권리는 확보하지 않아 두 건 모두 차단했습니다. 정책의 재시도 실패/복구 분기는 MockTransport로 확인했으며 실제 API timeout을 강제로 유발한 검증은 아닙니다. 20회는 한 CLI 실행의 예산으로, 다른 프로그램을 포함한 전역 일일 사용량 관리가 아닙니다. 애니메이션500 내부 원인은 여전히 미확정입니다.
 
+## TD-10. 서버 HTTP 준비와 Pleos 기기/TTS 완료를 따로 판정 (2026-11-11)
+
+**요구와 관측:** 11/15 MVP의 다음 병목은 Pleos 에뮬레이터·실차 연결입니다. 서버 API와 SDK/오디오 출력은 서로 다른 통신·권한 경로입니다. 기존 연결 검사 도구는 재생 id가 후보의 일부인지 확인했지만 전체 순서·긴급 항목의 권리 근거 검사는 부족했습니다. 서버가 잘못된 큐를 생성했다는 관측은 아니며 검사 도구의 검출 범위를 보강한 것입니다.
+
+**선택과 원리:** 차량 API v1을 유지하고 기존 HTTP 검사에서 queue/alerts의 권리·만료·교통 freshness, 긴급 우선 전체 playback_order, LIVE 화면 뉴스의 상세/설명 차단을 확인합니다. 보고서에 SERVER_HTTP_ONLY와 SDK/TTS 미검증 값을 명시합니다. health200은 서버/DB 접근이고 실제 재생 후보 준비·앱 연결·TTS 출력과 별개입니다. 학교 AI 없이도 허용 brief를 차량 TTS에 전달할 수 있으므로 explain을 첫 재생의 선행조건으로 두지 않습니다.
+
+**접속 대안과 트레이드오프:** 첫 에뮬레이터 시도는 팀원 PC에 서버도 실행하거나 도달 가능한 LAN을 사용하도록 안내했습니다. 공개 클라우드 배포보다 준비가 작지만 실행 PC·방화벽·동일 네트워크에 의존하며 외부망 접속은 해결하지 못합니다. 표준 AVD의10.0.2.2는 AVD가 실행되는 PC이므로 다른 PC의 서버 주소와 구분해야 합니다. [Android 공식 주소](https://developer.android.com/studio/run/emulator-networking-address), [FastAPI 실행/바인딩](https://fastapi.tiangolo.com/deployment/manually/). 서로 다른 기기에서의 연결 성능 비교는 수행하지 않았습니다.
+
+**무료 수집과 SDK 경계:** 기존 ingest에 선택적 --public-provider를 추가해 날씨만 갱신하며 기본 전체 수집 동작은 유지합니다. 실제로 서울시 날씨1회/FreeNews0회를 추가 호출했습니다. Pleos 공식 문서의 ON_DEVICE TTS는 첫 시연 후보로만 제안했고 SDK 의존성 설치나 모드 실행은 하지 않았습니다. HYBRID/SERVER 등록과 실제 한국어 엔진 지원을 확보했다고 기록하지 않습니다. [Pleos 문서·권한·앱 절차](VEHICLE_INTEGRATION.md#8-pleos-앱-담당자의-sdktts-준비).
+
+**검증/한계:** pytest110, 실제 Uvicorn5시나리오, 서버 PC의 자기 LAN 주소 health200. 실제 수집 뉴스2건의 TTS 자격 false/설명403을 재확인했습니다. 이 검사는 원격 팀원·Pleos SDK·음성 출력 성공을 입증하지 않습니다. [측정 JSON](verification/2026-11-11-vehicle-handoff.json), [팀원 확인표](VEHICLE_ACCEPTANCE.md). 기기 네트워크/권한/TTS 준비를 완료한 뒤에만 MVP 연결 완료를 판정합니다.
+
 ## 앞으로의 갱신 기준
 
 기술/저장 구조/계약/검증 정책이 바뀌었을 때 해당 결정에 날짜와 근거를 추가합니다. 수행하지 않은 대안 실험은 미수행으로 남깁니다. 변경하지 않은 기술의 설명을 매 작업마다 복제하지 않고 개발 로그에서 해당 TD 항목과 테스트/커밋을 연결합니다.
