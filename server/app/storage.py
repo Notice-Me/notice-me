@@ -2,7 +2,8 @@ import json
 import sqlite3
 from pathlib import Path
 
-from .models import Content, utcnow
+from .models import Content, Verification, utcnow
+from .providers.base import stable_id
 
 
 class Store:
@@ -25,6 +26,10 @@ class Store:
                     id INTEGER PRIMARY KEY, observed_at TEXT NOT NULL,
                     provider TEXT NOT NULL, keyword TEXT NOT NULL,
                     window_hours INTEGER NOT NULL, status TEXT NOT NULL, payload TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS event_pages (
+                    id INTEGER PRIMARY KEY, observed_at TEXT NOT NULL,
+                    provider TEXT NOT NULL, payload TEXT NOT NULL
                 );
             """)
 
@@ -98,5 +103,37 @@ class Store:
         with self.connect() as conn:
             rows = conn.execute(
                 "SELECT payload FROM news_searches WHERE provider=? ORDER BY id", (provider,)
+            ).fetchall()
+        return [json.loads(row[0]) for row in rows]
+
+    def save_event_page(self, provider: str, items: list[Content], page: dict):
+        """Retain page decisions and quarantine newly invalid records without deleting history."""
+        with self.connect() as conn:
+            conn.executemany(
+                "INSERT INTO contents VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET "
+                "data_mode=excluded.data_mode, payload=excluded.payload",
+                [(x.id, x.data_mode.value, x.model_dump_json()) for x in items],
+            )
+            for observation in page["rows"]:
+                if not observation.get("invalidate_previous") or not observation.get("contentid"):
+                    continue
+                identifier = stable_id("tour-event", observation["contentid"])
+                row = conn.execute("SELECT payload FROM contents WHERE id=?", (identifier,)).fetchone()
+                if row:
+                    item = Content.model_validate_json(row[0]).model_copy(
+                        update={"verification_status": Verification.UNVERIFIED}
+                    )
+                    conn.execute(
+                        "UPDATE contents SET payload=? WHERE id=?", (item.model_dump_json(), identifier)
+                    )
+            conn.execute(
+                "INSERT INTO event_pages(observed_at,provider,payload) VALUES (?,?,?)",
+                (page["observed_at"], provider, json.dumps(page, ensure_ascii=False)),
+            )
+
+    def event_pages(self, provider: str):
+        with self.connect() as conn:
+            rows = conn.execute(
+                "SELECT payload FROM event_pages WHERE provider=? ORDER BY id", (provider,)
             ).fetchall()
         return [json.loads(row[0]) for row in rows]

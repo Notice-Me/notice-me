@@ -26,19 +26,32 @@ async def collect_public(settings: Settings, store: Store, selected=None):
         SeoulEvents(settings.seoul_api_key.get_secret_value(), settings.http_timeout_seconds),
         SeoulCity(settings.seoul_api_key.get_secret_value(), settings.http_timeout_seconds),
         SeoulIncidents(settings.seoul_api_key.get_secret_value(), settings.http_timeout_seconds),
-        TourEvents(settings.tour_api_key.get_secret_value(), settings.http_timeout_seconds),
+        TourEvents(
+            settings.tour_api_key.get_secret_value(),
+            settings.http_timeout_seconds,
+            page_size=settings.tour_page_size,
+            max_pages=settings.tour_max_pages,
+            request_budget=settings.tour_request_budget,
+            lookahead_days=settings.tour_lookahead_days,
+        ),
     ]
     for provider in providers:
         if selected is not None and provider.name not in selected:
             continue
         try:
-            items, meta = await provider.collect(now)
+            if provider.name == "tourapi":
+                items, meta = await provider.collect(
+                    now, checkpoint=lambda items, page: store.save_event_page("tourapi", items, page)
+                )
+            else:
+                items, meta = await provider.collect(now)
             store.upsert(items)
-            store.record(provider.name, "SUCCESS", len(items), "OK")
+            status = meta.get("collection_status", "SUCCESS")
+            store.record(provider.name, status, len(items), meta.get("stop_reason", "OK"))
             report.append(
                 {
                     "provider": provider.name,
-                    "status": "SUCCESS",
+                    "status": status,
                     "http_status": provider.http.last_http_status,
                     "normalized_count": len(items),
                     "metadata": meta,
