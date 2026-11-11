@@ -79,6 +79,8 @@ health: status, database, configured_data_mode, stored_counts, providers, collec
 
 detail: 공통 필드 + is_expired + tts_eligible. 만료 상세는 읽을 수 있지만 음성 불가. 모드에서 숨긴 id도 404입니다.
 
+detail/explain도 feed와 같은 콘텐츠 유효성 검사를 적용합니다. 10분 초과 교통 수집, 해제 상태, 통제 유효기간 종료, 미래 발생/발행, 통제 필드 누락은 상세 tts_eligible=false이며 설명은 409로 거절합니다. 권리 미확인 항목의 403은 유지합니다. 상세의 자격 표시는 경로·관심사·행사 이동시간 검증을 대신하지 않으므로 재생 대상은 최신 feed의 queue/alerts에서 선택하세요.
+
 explain: 선택 body `{"question":"자세히 알려줘"}`, 질문 최대 500자. 반환 content_id, answer, ai_mode, provider, source_urls, grounding. 현재 항상 ai_mode=MOCK, provider=deterministic. 저장된 제목·brief·장소·일정을 재배열하며 임의 질문에 추가 사실을 만들지 않습니다. 학교 AI endpoint는 미설정입니다. 오류: 404 unknown, 403 RIGHTS_NOT_CLEARED(음성/가공 자격 미충족), 409 만료, 422 입력 오류. 미검증 콘텐츠는 권리 자격 검사에서도 차단될 수 있습니다.
 
 ## 추천 규칙
@@ -92,3 +94,4 @@ explain: 선택 body `{"question":"자세히 알려줘"}`, 질문 최대 500자.
 
 - 2026-11-11: initial contract and directory/bootstrap documentation. No functional backend in bootstrap commit.
 - 2026-11-11 feature 0.1.0: 기본 계약 유지. route_points/route_link_ids/**route_link_namespace**, fetched_at/권리 근거/항목 모드, 점수 근거, driving_time, traffic, diagnostics, playback_order, 상세 만료 표시, Mock 설명 응답 추가. 실제 수집은 CLI이며 공개 수집 endpoint는 없습니다.
+- 2026-11-11 재검증: feed/detail/explain의 콘텐츠 유효성 검사 일치. 기존 URL·필드·권리 오류 유지. 기존 49개와 신규 유효성 회귀 테스트 10개 통과.

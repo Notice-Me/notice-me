@@ -5,6 +5,7 @@ from typing import Annotated
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import ValidationError
 
+from .availability import unavailable_reason
 from .config import Settings
 from .fixtures import demo_contents
 from .llm import DeterministicLLM
@@ -15,7 +16,6 @@ from .models import (
     FeedContext,
     FeedResponse,
     Point,
-    Verification,
     utcnow,
 )
 from .recommendation import build_feed
@@ -123,10 +123,11 @@ def create_app(
         item = store.get(content_id, settings.data_mode)
         if item is None:
             raise HTTPException(404, "CONTENT_NOT_FOUND")
+        now = utcnow()
         return {
             **item.model_dump(mode="json"),
-            "is_expired": item.expires_at <= utcnow(),
-            "tts_eligible": tts_allowed(item) and item.expires_at > utcnow(),
+            "is_expired": item.expires_at <= now,
+            "tts_eligible": tts_allowed(item) and unavailable_reason(item, now) is None,
         }
 
     @app.post("/api/v1/contents/{content_id}/explain", response_model=ExplainResponse)
@@ -136,7 +137,7 @@ def create_app(
             raise HTTPException(404, "CONTENT_NOT_FOUND")
         if not tts_allowed(item):
             raise HTTPException(403, "RIGHTS_NOT_CLEARED")
-        if item.expires_at <= utcnow() or item.verification_status == Verification.UNVERIFIED:
+        if unavailable_reason(item, utcnow()) is not None:
             raise HTTPException(409, "CONTENT_EXPIRED_OR_UNVERIFIED")
         return await llm.explain(item, (request or ExplainRequest()).question)
 

@@ -6,6 +6,7 @@ from datetime import datetime
 from difflib import SequenceMatcher
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
+from .availability import unavailable_reason
 from .llm import normalize_interest
 from .models import (
     Content,
@@ -138,8 +139,9 @@ def build_feed(
     unique = deduplicate(valid)
     counts["DUPLICATE"] = len(valid) - len(unique)
     for item in unique:
-        if item.verification_status == Verification.UNVERIFIED:
-            counts["UNVERIFIED_CONTENT"] += 1
+        reason = unavailable_reason(item, now)
+        if reason is not None:
+            counts[reason] += 1
             continue
         overlap = interests & {normalize_interest(x) for x in item.interest_tags}
         local, local_reason = local_relevance(item, context)
@@ -188,12 +190,6 @@ def build_feed(
         )
         if item.content_type == ContentType.TRAFFIC:
             t = item.traffic
-            if t is None or t.status != "ACTIVE" or not (t.occurred_at <= now < t.valid_until):
-                counts["TRAFFIC_INVALID"] += 1
-                continue
-            if (now - item.fetched_at).total_seconds() > 600:
-                counts["TRAFFIC_STALE"] += 1
-                continue
             match = route_match(item, context)
             if match != "LINK_MATCH":
                 counts["TRAFFIC_ROUTE_UNVERIFIED"] += 1
