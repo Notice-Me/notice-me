@@ -8,6 +8,8 @@
 
 [현재 측정 보고서](verification/2026-11-11-revalidation.json)와 [차량 앱 연동 안내](VEHICLE_INTEGRATION.md)를 우선 참고하세요. 기존 API_VALIDATION_RESULTS/HTTP_SMOKE_RESULTS/examples는 초기 시각의 증거로 보존했습니다.
 
+기술·학습 기록도 [기술 선택 근거](TECH_DECISIONS.md), [날짜별 개발 로그](DEVELOPMENT_LOG.md), [학습/회고](LESSONS_LEARNED.md)로 누적합니다. 구현 코드·측정·문서상 비교·미수행 실험을 구분하며 이후 작업도 AGENTS의 기록 지침을 따릅니다.
+
 | 분류 | 항목 | 근거/범위 |
 |---|---|---|
 | 구현 완료 | 4개 endpoint와 응답 타입, SQLite, 규칙 추천/TOP3/별도 큐, 권리 차단 | 기존49 + 추가15 테스트. OpenAPI의 네 성공 응답 타입과 저장 명세 일치 검사. 큐/상세/설명에서 유효성 일치 |

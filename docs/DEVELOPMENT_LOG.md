@@ -1,0 +1,74 @@
+# 개발 기록
+
+날짜는 KST 기준입니다. 실제 수행한 작업·관측·검증 결과를 누적합니다. 기술 원리는 [TECH_DECISIONS](TECH_DECISIONS.md), 최신 완료/미완료와 일정은 [PROJECT_STATUS](PROJECT_STATUS.md), 학습 정리는 [LESSONS_LEARNED](LESSONS_LEARNED.md)로 연결합니다. 이력에 적힌 결과는 해당 시각의 결과이며 현재 제공자 상태를 보증하지 않습니다.
+
+## 2026-11-11 — 초기 구현 기록 확인
+
+**기록의 성격:** 기존 Git 커밋과 저장된 보고서로 확인한 초기 작업입니다. 당시의 모든 시도를 이번 회차에 다시 실행한 것은 아닙니다.
+
+- 기존 private 저장소를 사용한 초기화 커밋: 7346168. 기본 디렉터리/컨텍스트/계약을 main에 반영.
+- 서버 최초 기능 커밋: d8f5c96. FastAPI 4개 endpoint, SQLite, 추천/권리 검사, 수집기, 테스트, 문서와 PR #1.
+- 당시 보고: pytest49, 서울 문화행사5/날씨1/교통4, 실제 Uvicorn HTTP 성공. [초기 실제 API 기록](API_VALIDATION_RESULTS.json), [초기 HTTP 기록](HTTP_SMOKE_RESULTS.json).
+- 남은 조건: 뉴스/TourAPI 인증, 실제 이동시간/학교 AI/차량 경로·TTS 등은 미완료로 기록되어 있었음.
+
+## 2026-11-11 — 현재 환경에서 기준 상태 재검증
+
+**목적:** 11/15 MVP 연동 전에 과거 보고와 현재 상태를 구분하고, 기존 기능을 재작성하지 않고 필요한 결함을 찾음.
+
+**수행:** 지정된 PROJECT_CONTEXT/STATUS/API_CONTRACT/DATA_SOURCES와 PR #1의 변경/테스트를 조회. 작업 브랜치·원격·head 일치를 확인. 이번에는 연결 도구의 PR 조회와 GitHub CLI 조회가 모두 성공했음. PR은 OPEN, mergedAt/autoMerge는 없음. 개인 키 값은 출력하지 않음.
+
+**재실행:** Python3.11.9에서 pytest49 통과, Ruff check/format, pip check 통과. 외부 제공자 테스트는 MockTransport라는 점을 확인함. 뉴스3종/TourAPI/ITS 키는 설정되지 않았고 서울 키는 sample임을 값 없는 설정 상태로 확인.
+
+**실제 수집:** 18시대 KST에 기존 ingest CLI로 서울 행사5·날씨1·교통5 수신/정규화, 각 HTTP200. TourAPI는 MISSING_KEY로 정상 수신을 검증하지 못함. 뉴스 무인증 호출을 이번에 반복하지 않았고 실제 뉴스 검색/기사 수/중복률을 측정하지 않음. 갱신은 기존 SQLite에 upsert했으며 이전 자료를 무단 삭제하지 않았음.
+
+**근거:** [재검증 JSON](verification/2026-11-11-revalidation.json). 초기의 교통4와 현재 sample5는 다른 시각의 수신 결과임. 데이터는 정적 fixture가 아니므로 동일 개수를 보장하지 않음. 원천 이용조건 전문 전체를 새로 검토한 회차는 아니며 뉴스 권리 차단은 그대로 유지.
+
+## 2026-11-11 — feed/detail/explain의 유효성 불일치 수정
+
+**문제와 원인:** 수집 후11분이지만 종료예정은 아직 남은 교통정보를 만들었을 때 feed alerts=0, detail tts_eligible=true, explain HTTP200이었음. feed에 있던 교통 freshness/상태 검사가 다른 두 endpoint에는 없었기 때문임. 유효기간이 남아 있다는 사실만으로 현재 재생 가능한 교통정보라고 판단할 수 없었음.
+
+**실제로 시도한 해결 순서:**
+
+1. 임시 DB와 TestClient에서 문제를 재현. 실제 교통 통제 상황이라고 주장하는 대신 자체 fixture로 조건을 고정함.
+2. [유효성 회귀 테스트](../server/tests/test_content_availability.py)10개를 먼저 추가. 수정 전 결과는 **6 failed / 4 passed**. 오래됨·해제·통제 종료·미래 발생·통제 필드 누락·미래 발행에서 불일치를 확인.
+3. [availability.py](../server/app/availability.py)의 공통 함수를 feed/detail/explain에 적용. 상세 조회 자체는 유지하면서 tts_eligible=false, 설명409로 처리. 뉴스 권리 미확인403 유지.
+4. 기존49+신규10, **59 passed**. 수집 후정확히10분의 경계와 11분 조건도 검사.
+
+**변경 근거:** 커밋 fdd7e2f, [API 계약의 유효성 변경](API_CONTRACT.md), 위 회귀 테스트. 초기 실패 stdout을 별도 파일로 보관한 것은 아니며, 이 세션에서 실행한 결과와 재현 조건을 기록함. 최종 JUnit은 로컬 server/reports에, 집계는 재검증 JSON에 보존.
+
+**남은 범위:** 공통 유효성 검사는 실차 경로 관련성이나 자동차 이동시간 검사를 대체하지 않음. 실제 라우팅/학교 AI는 연결하지 않음. 결정 이유는 [TD-04](TECH_DECISIONS.md#td-04-설명-가능한-규칙과-단일-유효성-기준).
+
+## 2026-11-11 — 차량 앱 계약과 실행 검사 보강
+
+**발견:** 기존 health/detail은 정상 JSON을 반환했지만 OpenAPI의 성공 응답 schema는 `{}`였음. 앱 담당자가 명세만으로 해당 응답 모델을 확인하기 어려웠음.
+
+**수행:** HealthResponse/ContentDetail을 명시하고 top3의 maxItems=3을 schema에 추가. 기존 URL·요청·JSON 필드 유지. 네 응답 모델과 기록된 OpenAPI 일치 테스트2개를 추가해 **61 passed**. 키/외부 통신 없이 명세를 내보내는 [export_openapi.py](../server/scripts/export_openapi.py)를 작성함.
+
+**연결 도구:** [check_vehicle_api.py](../server/scripts/check_vehicle_api.py)는 서버 DB/.env를 읽지 않고 HTTP로 health/feed/detail/explain, 오류403/404/422, 권리/기한/모드/schema를 검사. 실제 앱 연결 여부나 TTS 재생은 판단하지 않음. 잘못된 기대 모드/빈 LIVE 응답을 성공으로 오인하지 않는 테스트3개 포함, 최종 **64 passed**.
+
+**실제 Uvicorn HTTP 관측:**
+
+응답 계약/연결 도구 변경: 커밋 00104b0. 테스트는 해당 커밋 전의 최종 작업 트리에서 실행했고, 이후에는 기술·학습 문서만 추가했습니다.
+
+| 시나리오 | 화면 / 일반큐 / alerts | 구분 |
+|---|---|---|
+| LIVE, 내비 미사용 | 1 / 1 / 0 | 실제 공공 날씨, 실제 뉴스 성공을 뜻하지 않음 |
+| MOCK, 수동 DEMO 경로 | 3 / 5 / 1 | 모두 MOCK, 교통 SIMULATED |
+| MIXED, 수동 DEMO 경로 | 3 / 6 / 1 | 실자료+fixture, 교통 SIMULATED |
+| LIVE, 수동 SEOUL_TOPIS 링크 | alert1 | LINK_MATCH 확인. 실차 내비에서 받은 경로가 아님 |
+
+모든 시나리오의 설명 ai_mode는 MOCK. 실제 차량/에뮬레이터 앱 실행·오디오 재생은 수행하지 않았음. [실측 집계](verification/2026-11-11-revalidation.json), [팀원 실행 안내](VEHICLE_INTEGRATION.md), [복사할 요청](examples/vehicle-api.http). 기술 이유는 [TD-01/TD-05](TECH_DECISIONS.md).
+
+## 2026-11-11 — 기술 근거·학습 기록 추가
+
+**사용자 요구:** 발표/면접/회고에 쓰기 위해 선택 이유, 문제/시도/검증, 학습 내용을 사실 기반으로 누적.
+
+**수행:** 이 문서와 TECH_DECISIONS/LESSONS_LEARNED를 한국어로 작성. Python/FastAPI/SQLite 등 사용자 지정 조건과 구현자가 선택한 httpx/직접 SQL/공통 검사 등을 구분함. SQLite·HTTPX/Requests·Pydantic·pytest·Protocol 등의 공식 문서를 읽어 원리를 설명했으나 PostgreSQL/다른 프레임워크 성능 실험은 수행하지 않았다고 명시. 실제 설치한 기술과 문서상 대안을 구분함. AGENTS에 이후의 누적 기록 지침 추가.
+
+**영향:** 문서 추가로 서버 기능이나 데이터 이용권한을 확대하지 않음. 새 코드가 없으므로 문서만을 위한 중복 기능 테스트는 추가하지 않고 링크·비밀정보·변경 파일을 점검. Gemini/Claude 교차검증은 사용자 계획이며 아직 수행 결과가 없음.
+
+## 미해결 항목과 다음 기록
+
+최우선은 팀원 기기의 health→feed→TTS 실제 연결 증거. 자동 수집 스케줄러/전체 pagination, 실제 뉴스 인증·권리, 자동차 이동시간·지도 링크 매핑, 학교 AI, ITS, 운영 인증/TLS 및 부하 검증은 남아 있음. 최신 우선순위와 담당/완료 기준은 [PROJECT_STATUS](PROJECT_STATUS.md#1115-mvp-우선순위와-완료-기준)를 유지함.
+
+다음 작업은 날짜, 목적, 관측한 문제/원인, 수행한 시도, 결과/테스트 명령·파일·커밋, 미해결 문제만 짧게 추가한다. 아직 하지 않은 조치는 계획이라고 표시한다. 비밀값·개인 위치/경로·신청서 개인정보는 기록하지 않는다.

@@ -10,6 +10,9 @@
 - `docs/API_CONTRACT.md`: 차량 앱과 공유하는 v1 API 계약
 - `docs/PROJECT_STATUS.md`: 실제 완료/미완료 상태와 검증 결과
 - `docs/DATA_SOURCES.md`: 공식 출처, 인증, 권리, 실제 호출 결과
+- `docs/TECH_DECISIONS.md`: 사용 기술의 선택 이유·원리·대안·검증·한계
+- `docs/DEVELOPMENT_LOG.md`: 날짜별 작업·문제·실제 시도·테스트·미해결 이력
+- `docs/LESSONS_LEARNED.md`: 검증된 경험에서 정리한 학습·회고·발표 근거
 
 초기화 이후 개발은 `feat/server-content-feed` 등 기능 브랜치에서 진행합니다. main에는 기능 코드를 직접 커밋하지 않으며, 테스트 확인 후 PR을 만들고 사용자 승인 전에는 병합하지 않습니다.
 
