@@ -47,6 +47,8 @@ $env:NOTICE_DATA_MODE='live'   # 실제 수집 자료만 사용; 혼합 시 'mix
 
 실측 예시/한계: [PROJECT_STATUS](docs/PROJECT_STATUS.md), [실제 호출 결과](docs/API_VALIDATION_RESULTS.json), [HTTP 검증](docs/HTTP_SMOKE_RESULTS.json).
 
+TourAPI 인증 후 현재/예정 행사만 상한을 두고 수집하려면 `app.cli ingest --public-provider tourapi --report reports/tourapi-next.json`을 사용합니다. 기본 KST 오늘~90일,50건/페이지·최대3페이지/3시도입니다. [실제76건 수집과 제외 사유](docs/TOURAPI_INVESTIGATION.md)를 확인하세요. 날짜 유효와 권리/이동시간 자격은 별개이며 LIVE 행사는 실제 이동시간 검증 전까지 추천에서 제외합니다.
+
 ## 테스트와 뉴스 키 설정
 
 ```powershell

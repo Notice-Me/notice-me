@@ -1,0 +1,2058 @@
+{
+  "assembled_at": "2026-11-11T14:52:09.394441+00:00",
+  "baseline_commit": "b22c1e2f509d87def5f10362a834d0906ef6b892",
+  "original_report": {
+    "checked_at": "2026-11-11T14:24:15.318565+00:00",
+    "results": [
+      {
+        "provider": "tourapi",
+        "status": "SUCCESS",
+        "http_status": 200,
+        "normalized_count": 2,
+        "metadata": {
+          "raw_count": 10,
+          "reported_total": 268
+        },
+        "valid_count_at_collection": 0,
+        "items": [
+          {
+            "id": "tour-event:7c2fd25ab1d5302e0ef00d5b",
+            "content_type": "EVENT",
+            "expires_at": "2026-10-18T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "LICENSE_UNVERIFIED",
+            "updated_at": "2026-10-06T00:15:02+00:00"
+          },
+          {
+            "id": "tour-event:dbacb551c5383d55a748dad8",
+            "content_type": "EVENT",
+            "expires_at": "2026-10-25T15:00:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "LICENSE_UNVERIFIED",
+            "updated_at": "2026-10-16T02:31:34+00:00"
+          }
+        ]
+      }
+    ],
+    "news_request_budget": {
+      "limit": 20,
+      "used": 0
+    }
+  },
+  "original_report_sha256": "580fc4ef6f08f273e359061363f46c2b8f98f6665efff1e60823ee25f4c6f927",
+  "legacy_replay": {
+    "checked_at": "2026-11-11T23:32:07.973929+09:00",
+    "query": {
+      "MobileOS": "ETC",
+      "MobileApp": "NoticeMe",
+      "_type": "json",
+      "eventStartDate": "20261012",
+      "numOfRows": 10,
+      "pageNo": 1
+    },
+    "http_status": 200,
+    "reported_total": 268,
+    "response_sha256": "0c126f7d7b68bd9d01af60a76be3a656e0d2efb3bb1c8f622b0037b82d0b8af7",
+    "rows": [
+      {
+        "contentid": "3379778",
+        "eventstartdate": "20261016",
+        "eventenddate": "20261018",
+        "progresstype": "",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "NORMALIZED"
+      },
+      {
+        "contentid": "1307813",
+        "eventstartdate": "20261016",
+        "eventenddate": "20261018",
+        "progresstype": "선택안함",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "EXCLUDED_NONEMPTY_PROGRESS"
+      },
+      {
+        "contentid": "2930716",
+        "eventstartdate": "20261015",
+        "eventenddate": "20261018",
+        "progresstype": "선택안함",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "EXCLUDED_NONEMPTY_PROGRESS"
+      },
+      {
+        "contentid": "825295",
+        "eventstartdate": "20261021",
+        "eventenddate": "20261025",
+        "progresstype": "선택안함",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "EXCLUDED_NONEMPTY_PROGRESS"
+      },
+      {
+        "contentid": "4127769",
+        "eventstartdate": "20261023",
+        "eventenddate": "20261025",
+        "progresstype": "",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "NORMALIZED"
+      },
+      {
+        "contentid": "3360113",
+        "eventstartdate": "20261119",
+        "eventenddate": "20261122",
+        "progresstype": "선택안함",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "EXCLUDED_NONEMPTY_PROGRESS"
+      },
+      {
+        "contentid": "3113995",
+        "eventstartdate": "20261030",
+        "eventenddate": "20261101",
+        "progresstype": "선택안함",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "EXCLUDED_NONEMPTY_PROGRESS"
+      },
+      {
+        "contentid": "3368470",
+        "eventstartdate": "20261121",
+        "eventenddate": "20261122",
+        "progresstype": "선택안함",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "EXCLUDED_NONEMPTY_PROGRESS"
+      },
+      {
+        "contentid": "141105",
+        "eventstartdate": "20260922",
+        "eventenddate": "20261101",
+        "progresstype": "선택안함",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "EXCLUDED_NONEMPTY_PROGRESS"
+      },
+      {
+        "contentid": "2648460",
+        "eventstartdate": "20260902",
+        "eventenddate": "20261024",
+        "progresstype": "선택안함",
+        "cpyrhtDivCd": "Type3",
+        "legacy_decision": "EXCLUDED_NONEMPTY_PROGRESS"
+      }
+    ],
+    "normalized_ids_match_original": true,
+    "original_raw_rows_were_not_saved": true
+  },
+  "official_sources": {
+    "portal_url": "https://www.data.go.kr/data/15101578/openapi.do",
+    "swagger_sha256": "4e39cb25df29d2fb0a1f8da02a60c875895be672cc297d8f1599eedfe2c5f727",
+    "manual_attachment_id": "FILE_000000003603931",
+    "manual_file_detail": "1",
+    "manual_version": "4.4",
+    "manual_zip_sha256": "d1ad707f83d1ab42c9d7a0aeb959a84fe5407e71e1f46c95cc27bb7da914e54a",
+    "download_limit_check_need_captcha": false,
+    "progress_schema": {
+      "type": "string",
+      "description": "축제형태(취소,행사연기)",
+      "properties": {}
+    },
+    "festivaltype_schema": {
+      "type": "string",
+      "description": "진행형태(상시,온라인,격년제)",
+      "properties": {}
+    },
+    "manual_default_verified_in_table_and_example": true,
+    "complete_enum_array_published": false,
+    "development_traffic_display": 1000,
+    "account_remaining_quota_checked": false
+  },
+  "first_live_attempt": {
+    "provider": "tourapi",
+    "status": "PARTIAL",
+    "http_status": 200,
+    "normalized_count": 76,
+    "valid_count_at_collection": 76
+  },
+  "first_live_attempt_metadata": {
+    "raw_count": 77,
+    "reported_total": 77,
+    "normalized_count": 76,
+    "excluded_count": 1,
+    "normalized_row_count": 76,
+    "duplicate_row_count": 0,
+    "excluded_by_reason": {
+      "UNKNOWN_PROGRESS_TYPE": 1
+    },
+    "ongoing_count": 36,
+    "upcoming_count": 40,
+    "requests_made": 3,
+    "request_budget": 3,
+    "coverage_complete": false,
+    "collection_status": "PARTIAL",
+    "stop_reason": "SCHEMA_MISMATCH",
+    "totals_changed_during_collection": false,
+    "date_timezone": "Asia/Seoul",
+    "overlap_check": "start <= horizon and end >= today",
+    "progress_policy": "empty/manual-default accepted; cancel/postpone/unknown excluded",
+    "source_updated_at_is_fetch_time": false
+  },
+  "first_attempt_page_counts": [
+    {
+      "page_no": 1,
+      "status": "SUCCESS",
+      "raw_count": 50,
+      "response_page_size": 50,
+      "reported_total": 77,
+      "code": null,
+      "http_status": 200
+    },
+    {
+      "page_no": 2,
+      "status": "SUCCESS",
+      "raw_count": 27,
+      "response_page_size": 27,
+      "reported_total": 77,
+      "code": null,
+      "http_status": 200
+    },
+    {
+      "page_no": 3,
+      "status": "FAILED",
+      "raw_count": null,
+      "response_page_size": null,
+      "reported_total": null,
+      "code": "SCHEMA_MISMATCH",
+      "http_status": 200
+    }
+  ],
+  "final_live_collection": {
+    "provider": "tourapi",
+    "status": "SUCCESS",
+    "http_status": 200,
+    "normalized_count": 76,
+    "metadata": {
+      "raw_count": 77,
+      "reported_total": 77,
+      "normalized_count": 76,
+      "excluded_count": 1,
+      "normalized_row_count": 76,
+      "duplicate_row_count": 0,
+      "excluded_by_reason": {
+        "UNKNOWN_PROGRESS_TYPE": 1
+      },
+      "ongoing_count": 36,
+      "upcoming_count": 40,
+      "requests_made": 2,
+      "request_budget": 2,
+      "coverage_complete": true,
+      "collection_status": "SUCCESS",
+      "stop_reason": "END_OF_RESULTS",
+      "totals_changed_during_collection": false,
+      "pages": [
+        {
+          "page_no": 1,
+          "status": "SUCCESS",
+          "http_status": 200,
+          "raw_count": 50,
+          "reported_total": 77,
+          "response_page_size": 50,
+          "query": {
+            "MobileOS": "ETC",
+            "MobileApp": "NoticeMe",
+            "_type": "json",
+            "arrange": "C",
+            "eventStartDate": "20261111",
+            "eventEndDate": "20270209",
+            "numOfRows": 50,
+            "pageNo": 1
+          },
+          "observed_at": "2026-11-11T14:43:24.152933+00:00",
+          "rows": [
+            {
+              "contentid": "4151221",
+              "eventstartdate": "20261120",
+              "eventenddate": "20261121",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4151224",
+              "eventstartdate": "20261121",
+              "eventenddate": "20261121",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2646950",
+              "eventstartdate": "20261114",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3315407",
+              "eventstartdate": "20261121",
+              "eventenddate": "20261122",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2854855",
+              "eventstartdate": "20261120",
+              "eventenddate": "20261122",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3437916",
+              "eventstartdate": "20261126",
+              "eventenddate": "20261225",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3301415",
+              "eventstartdate": "20261120",
+              "eventenddate": "20261122",
+              "progresstype": "",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4147845",
+              "eventstartdate": "20261114",
+              "eventenddate": "20261114",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "1095732",
+              "eventstartdate": "20261211",
+              "eventenddate": "20270131",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4124907",
+              "eventstartdate": "20261018",
+              "eventenddate": "20261122",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2613615",
+              "eventstartdate": "20261113",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4113301",
+              "eventstartdate": "20261114",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4144229",
+              "eventstartdate": "20261107",
+              "eventenddate": "20270228",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3557873",
+              "eventstartdate": "20261114",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3396705",
+              "eventstartdate": "20261126",
+              "eventenddate": "20261129",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3545306",
+              "eventstartdate": "20261114",
+              "eventenddate": "20261114",
+              "progresstype": "",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "1032770",
+              "eventstartdate": "20260628",
+              "eventenddate": "20261226",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "386053",
+              "eventstartdate": "20270101",
+              "eventenddate": "20270131",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4142164",
+              "eventstartdate": "20261112",
+              "eventenddate": "20261114",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "1882134",
+              "eventstartdate": "20270116",
+              "eventenddate": "20270214",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3522322",
+              "eventstartdate": "20261204",
+              "eventenddate": "20261220",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3488421",
+              "eventstartdate": "20260314",
+              "eventenddate": "20261226",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3035607",
+              "eventstartdate": "20261211",
+              "eventenddate": "20270110",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4115096",
+              "eventstartdate": "20261114",
+              "eventenddate": "20261114",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3395188",
+              "eventstartdate": "20261121",
+              "eventenddate": "20261122",
+              "progresstype": "",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4137577",
+              "eventstartdate": "20261114",
+              "eventenddate": "20261114",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3470738",
+              "eventstartdate": "20261121",
+              "eventenddate": "20261121",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4134331",
+              "eventstartdate": "20261029",
+              "eventenddate": "20261115",
+              "progresstype": "",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3360113",
+              "eventstartdate": "20261119",
+              "eventenddate": "20261122",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3016659",
+              "eventstartdate": "20261115",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "588175",
+              "eventstartdate": "20261119",
+              "eventenddate": "20261121",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2563387",
+              "eventstartdate": "20261015",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2769990",
+              "eventstartdate": "20261113",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2789700",
+              "eventstartdate": "20261031",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4127746",
+              "eventstartdate": "20261021",
+              "eventenddate": "20261121",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4127713",
+              "eventstartdate": "20261016",
+              "eventenddate": "20261206",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3370452",
+              "eventstartdate": "20261027",
+              "eventenddate": "20261122",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2853386",
+              "eventstartdate": "20261126",
+              "eventenddate": "20261128",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3468240",
+              "eventstartdate": "20261018",
+              "eventenddate": "20261129",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2987791",
+              "eventstartdate": "20261012",
+              "eventenddate": "20261129",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4120452",
+              "eventstartdate": "20261023",
+              "eventenddate": "20261114",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2410727",
+              "eventstartdate": "20261121",
+              "eventenddate": "20261122",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "1129018",
+              "eventstartdate": "20261120",
+              "eventenddate": "20261122",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "1748721",
+              "eventstartdate": "20261024",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4115275",
+              "eventstartdate": "20261114",
+              "eventenddate": "20261206",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4115260",
+              "eventstartdate": "20261216",
+              "eventenddate": "20261227",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4115201",
+              "eventstartdate": "20261115",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2630385",
+              "eventstartdate": "20261223",
+              "eventenddate": "20270213",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3367339",
+              "eventstartdate": "20261127",
+              "eventenddate": "20261129",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4108260",
+              "eventstartdate": "20261205",
+              "eventenddate": "20261205",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            }
+          ]
+        },
+        {
+          "page_no": 2,
+          "status": "SUCCESS",
+          "http_status": 200,
+          "raw_count": 27,
+          "reported_total": 77,
+          "response_page_size": 27,
+          "query": {
+            "MobileOS": "ETC",
+            "MobileApp": "NoticeMe",
+            "_type": "json",
+            "arrange": "C",
+            "eventStartDate": "20261111",
+            "eventEndDate": "20270209",
+            "numOfRows": 50,
+            "pageNo": 2
+          },
+          "observed_at": "2026-11-11T14:43:24.152933+00:00",
+          "rows": [
+            {
+              "contentid": "3368470",
+              "eventstartdate": "20261121",
+              "eventenddate": "20261122",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "617992",
+              "eventstartdate": "20260905",
+              "eventenddate": "20261115",
+              "progresstype": "",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4101384",
+              "eventstartdate": "20261120",
+              "eventenddate": "20270328",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4098134",
+              "eventstartdate": "20260814",
+              "eventenddate": "20261211",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4095478",
+              "eventstartdate": "20261206",
+              "eventenddate": "20261206",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3473295",
+              "eventstartdate": "20260101",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2786391",
+              "eventstartdate": "20260101",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4082595",
+              "eventstartdate": "20260604",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2433596",
+              "eventstartdate": "20260105",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3488655",
+              "eventstartdate": "20260312",
+              "eventenddate": "20261211",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3492276",
+              "eventstartdate": "20260401",
+              "eventenddate": "20261129",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4067214",
+              "eventstartdate": "20260301",
+              "eventenddate": "20261231",
+              "progresstype": "온라인",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [
+                "UNKNOWN_PROGRESS_TYPE"
+              ],
+              "warnings": [],
+              "normalized": false,
+              "invalidate_previous": true
+            },
+            {
+              "contentid": "507599",
+              "eventstartdate": "20270109",
+              "eventenddate": "20270131",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "UPCOMING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3399432",
+              "eventstartdate": "20260825",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3111722",
+              "eventstartdate": "20260420",
+              "eventenddate": "20261115",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4062805",
+              "eventstartdate": "20260430",
+              "eventenddate": "20261206",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4060434",
+              "eventstartdate": "20260101",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2720203",
+              "eventstartdate": "20260501",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3481597",
+              "eventstartdate": "20221101",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2598331",
+              "eventstartdate": "20260506",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "4058556",
+              "eventstartdate": "20260418",
+              "eventenddate": "20261215",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "293030",
+              "eventstartdate": "20260404",
+              "eventenddate": "20261129",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3113265",
+              "eventstartdate": "20260310",
+              "eventenddate": "20261130",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3377038",
+              "eventstartdate": "20260403",
+              "eventenddate": "20261112",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "292961",
+              "eventstartdate": "20260101",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "2809535",
+              "eventstartdate": "20260101",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            },
+            {
+              "contentid": "3107059",
+              "eventstartdate": "20260101",
+              "eventenddate": "20261231",
+              "progresstype": "선택안함",
+              "cpyrhtDivCd": "Type3",
+              "reasons": [],
+              "warnings": [
+                "RIGHTS_UNVERIFIED"
+              ],
+              "normalized": true,
+              "date_status": "ONGOING",
+              "invalidate_previous": false
+            }
+          ]
+        }
+      ],
+      "date_timezone": "Asia/Seoul",
+      "overlap_check": "start <= horizon and end >= today",
+      "progress_policy": "empty/manual-default accepted; cancel/postpone/unknown excluded",
+      "source_updated_at_is_fetch_time": false
+    },
+    "valid_count_at_collection": 76,
+    "items": [
+      {
+        "id": "tour-event:e5b33e32ccdc917cfd465405",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-04-27T01:36:38+00:00"
+      },
+      {
+        "id": "tour-event:1ec3d5966d337c6557e3c910",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-08-04T00:55:12+00:00"
+      },
+      {
+        "id": "tour-event:3f880cd09b79d0e5e4608278",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-01-27T07:19:47+00:00"
+      },
+      {
+        "id": "tour-event:48c0cfa462f70b6a8d5b44f7",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-01-19T06:52:33+00:00"
+      },
+      {
+        "id": "tour-event:896a0e4706b5a34a803017c3",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-03-12T00:08:40+00:00"
+      },
+      {
+        "id": "tour-event:bb49516821420e989d5c7540",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-07-08T06:10:34+00:00"
+      },
+      {
+        "id": "tour-event:f38368a4dc2c67a77f80493d",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-04-27T06:15:57+00:00"
+      },
+      {
+        "id": "tour-event:b6eaa65a34d58a47b6486002",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-06-30T09:44:28+00:00"
+      },
+      {
+        "id": "tour-event:dd02cba0257da3657ad375c6",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-30T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-03-31T01:36:23+00:00"
+      },
+      {
+        "id": "tour-event:8df414060d5d80c0857016f5",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-11T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-06-30T09:44:28+00:00"
+      },
+      {
+        "id": "tour-event:4f47d3e36e2e9506350f7b93",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-26T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-29T08:06:04+00:00"
+      },
+      {
+        "id": "tour-event:03f388a7722ee6875901e8ef",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-29T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-06-30T09:44:28+00:00"
+      },
+      {
+        "id": "tour-event:4f94df506100c860b3f78ef6",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-12T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-03-30T02:36:21+00:00"
+      },
+      {
+        "id": "tour-event:3b8856f140da94a979de44cf",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-29T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-04-07T06:29:26+00:00"
+      },
+      {
+        "id": "tour-event:efab5867ecd88d929514a7a3",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-04-17T01:18:07+00:00"
+      },
+      {
+        "id": "tour-event:48ab78645c1bd56878a51f19",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-06-01T07:29:47+00:00"
+      },
+      {
+        "id": "tour-event:62f90be3d8139da02b16b805",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-06T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-05-08T04:51:06+00:00"
+      },
+      {
+        "id": "tour-event:87a1f6f70ffb66854b5dd3f2",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-04-27T04:26:54+00:00"
+      },
+      {
+        "id": "tour-event:802fc6e2ea72b9c457c97d91",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-04-22T01:57:29+00:00"
+      },
+      {
+        "id": "tour-event:12779d21b9c171e913814176",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-07-07T04:47:15+00:00"
+      },
+      {
+        "id": "tour-event:875854e8adf99eb3c1c21e84",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-26T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-03T05:30:55+00:00"
+      },
+      {
+        "id": "tour-event:5950b0da69eeab4a5d001622",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-11T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-08-13T01:26:11+00:00"
+      },
+      {
+        "id": "tour-event:e8c144d86e8c53f7700bda38",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-06-11T04:20:42+00:00"
+      },
+      {
+        "id": "tour-event:f957b46b50c2adac50cc53ee",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-08-31T01:11:43+00:00"
+      },
+      {
+        "id": "tour-event:6a9113522100ef67b46cfc89",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-29T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-13T04:24:43+00:00"
+      },
+      {
+        "id": "tour-event:a8a214384a21f8b138e9f491",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-21T08:00:51+00:00"
+      },
+      {
+        "id": "tour-event:375db3a264e60e57b3d4839f",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-06T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-16T00:25:05+00:00"
+      },
+      {
+        "id": "tour-event:9617c86e6b904095bef32a60",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-06T00:13:17+00:00"
+      },
+      {
+        "id": "tour-event:b77e1b91aff19e12e6fb6a2e",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-29T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-13T08:28:47+00:00"
+      },
+      {
+        "id": "tour-event:f410692c16f2c4593fe747c6",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-21T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-16T00:58:44+00:00"
+      },
+      {
+        "id": "tour-event:05bd49002a79ef37119592d9",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-14T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-12T02:01:09+00:00"
+      },
+      {
+        "id": "tour-event:427cc826ce2646256084a68b",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-06T01:57:31+00:00"
+      },
+      {
+        "id": "tour-event:2f9d3e4fa343e6a86550a226",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-15T07:48:34+00:00"
+      },
+      {
+        "id": "tour-event:8c5be763b9ea8b03b2d0a63f",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-26T07:41:50+00:00"
+      },
+      {
+        "id": "tour-event:950602e9cf24cb66161083aa",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-20T09:03:36+00:00"
+      },
+      {
+        "id": "tour-event:f3bca4e2cea0ee3dd2a4b33e",
+        "content_type": "EVENT",
+        "expires_at": "2027-02-28T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-04T02:06:19+00:00"
+      },
+      {
+        "id": "tour-event:5553cd3bd703d708ebad5ffd",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-14T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-02T07:26:07+00:00"
+      },
+      {
+        "id": "tour-event:43f6d32f392f417d9d07d6e3",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-21T06:01:41+00:00"
+      },
+      {
+        "id": "tour-event:fab8c43b676707287268187e",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-05T08:10:17+00:00"
+      },
+      {
+        "id": "tour-event:2f02ec524854704c712004a2",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-05T03:32:49+00:00"
+      },
+      {
+        "id": "tour-event:40dce3143c64af73a6b6ebc2",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-06T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-09-28T06:46:40+00:00"
+      },
+      {
+        "id": "tour-event:a6ac7c481031325e652dcaba",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-14T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-27T09:47:40+00:00"
+      },
+      {
+        "id": "tour-event:a77be52068322e15129d0843",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-14T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-06T08:33:42+00:00"
+      },
+      {
+        "id": "tour-event:ab5a726b80fcf374e8828eed",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-10T23:48:02+00:00"
+      },
+      {
+        "id": "tour-event:bee2be56afc9b87241dc7bba",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-04T00:46:31+00:00"
+      },
+      {
+        "id": "tour-event:eaace71c2338dffbffdd42a7",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-14T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-29T03:54:20+00:00"
+      },
+      {
+        "id": "tour-event:f0f564c45343a464c903cbad",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-14T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-03T06:48:32+00:00"
+      },
+      {
+        "id": "tour-event:56bfb8f06f5b74f402a05345",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-23T08:25:52+00:00"
+      },
+      {
+        "id": "tour-event:94aac3509b48393347ab6fea",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-15T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-09-28T02:31:59+00:00"
+      },
+      {
+        "id": "tour-event:9f7687eced86e5ad82df2599",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-26T05:53:30+00:00"
+      },
+      {
+        "id": "tour-event:c9bbd2a3cb1c227a6eebfbf3",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-21T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-23T05:43:12+00:00"
+      },
+      {
+        "id": "tour-event:0c91b81f77a57388b1edd4cf",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-07T00:37:56+00:00"
+      },
+      {
+        "id": "tour-event:18db0ef8dea0e017c0fcf3ce",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-09T04:00:39+00:00"
+      },
+      {
+        "id": "tour-event:1f5d4dfd91dec263fe6d58c7",
+        "content_type": "EVENT",
+        "expires_at": "2027-03-28T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-08-31T00:15:26+00:00"
+      },
+      {
+        "id": "tour-event:4b9f731af70f8d8a9654eb5e",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-21T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-10T23:48:03+00:00"
+      },
+      {
+        "id": "tour-event:c79eee7e902dc9e67a5d4967",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-09T00:58:51+00:00"
+      },
+      {
+        "id": "tour-event:0ffd0c083240cc435835469f",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-21T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-27T00:26:13+00:00"
+      },
+      {
+        "id": "tour-event:3e83403dbb828d32e8aaff85",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-10T23:48:02+00:00"
+      },
+      {
+        "id": "tour-event:90baefc723099e13423e33f8",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-08-31T07:35:07+00:00"
+      },
+      {
+        "id": "tour-event:ac22c176f129fbade3fb3478",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-21T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-10T23:48:03+00:00"
+      },
+      {
+        "id": "tour-event:b045a670bdbe4f8c11306f46",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-28T08:49:50+00:00"
+      },
+      {
+        "id": "tour-event:c9d307b445dd87e1f252f344",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-22T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-07T00:52:07+00:00"
+      },
+      {
+        "id": "tour-event:9ce512fb9271c6f211e50f52",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-25T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-09T01:49:06+00:00"
+      },
+      {
+        "id": "tour-event:ed4d6244e39243b4aa74b1ab",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-29T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-04T00:29:34+00:00"
+      },
+      {
+        "id": "tour-event:febf166c3939474601ff731a",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-28T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-15T01:27:58+00:00"
+      },
+      {
+        "id": "tour-event:38063d74df3080fdb6ad8bf6",
+        "content_type": "EVENT",
+        "expires_at": "2026-11-29T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-09-16T08:00:32+00:00"
+      },
+      {
+        "id": "tour-event:e16e92f0b3f84b2170becaa0",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-20T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-30T05:51:11+00:00"
+      },
+      {
+        "id": "tour-event:1883c3f52db0b8c6885daf89",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-05T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-09-10T08:37:21+00:00"
+      },
+      {
+        "id": "tour-event:5ee96a0df075c538033a1da1",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-06T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-08-11T02:05:01+00:00"
+      },
+      {
+        "id": "tour-event:a8980fe1fbd59fe0448363f2",
+        "content_type": "EVENT",
+        "expires_at": "2027-01-10T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-10-29T07:54:57+00:00"
+      },
+      {
+        "id": "tour-event:f8397108d812f30befac709d",
+        "content_type": "EVENT",
+        "expires_at": "2027-01-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-06T04:07:15+00:00"
+      },
+      {
+        "id": "tour-event:319d602a6fda6944743e8a89",
+        "content_type": "EVENT",
+        "expires_at": "2026-12-27T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-09-28T04:58:32+00:00"
+      },
+      {
+        "id": "tour-event:e97ac301fd0f52fbb19f6a19",
+        "content_type": "EVENT",
+        "expires_at": "2027-02-13T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-09-18T07:34:19+00:00"
+      },
+      {
+        "id": "tour-event:e7ea7d69f61641269cde44f3",
+        "content_type": "EVENT",
+        "expires_at": "2027-01-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-03T01:27:21+00:00"
+      },
+      {
+        "id": "tour-event:2d19fe9e65b0d69aca684d73",
+        "content_type": "EVENT",
+        "expires_at": "2027-01-31T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-06-18T04:03:24+00:00"
+      },
+      {
+        "id": "tour-event:685fc926a6bc25e25ce62278",
+        "content_type": "EVENT",
+        "expires_at": "2027-02-14T15:00:00+00:00",
+        "data_mode": "LIVE",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "updated_at": "2026-11-02T06:14:38+00:00"
+      }
+    ]
+  },
+  "api_verification": {
+    "checked_at": "2026-11-11T14:43:24.152933+00:00",
+    "status": "SUCCESS",
+    "http_status": 200,
+    "raw_count": 77,
+    "reported_total": 77,
+    "normalized_count": 76,
+    "valid_count_at_collection": 76,
+    "ongoing_count": 36,
+    "upcoming_count": 40,
+    "requests_made": 2,
+    "coverage_complete": true,
+    "stop_reason": "END_OF_RESULTS",
+    "rights_counts": {
+      "LICENSE_UNVERIFIED": 76
+    },
+    "ongoing_started_before_request_window": 36,
+    "api_check": {
+      "transport": "ASGI_TESTCLIENT_WITH_ACTUAL_COLLECTED_DATA",
+      "feed_http_status": 200,
+      "tour_events_in_feed": 0,
+      "driving_time_diagnostic": 81,
+      "sample_detail_http_status": 200,
+      "sample_tts_eligible": false,
+      "sample_explain_http_status": 403,
+      "actual_driving_time_verified": false,
+      "pleos_tts_executed": false
+    },
+    "events_ending_after_requested_horizon": 4
+  },
+  "additional_data_api_calls": {
+    "legacy_replay": 1,
+    "first_collection": 3,
+    "final_collection": 2,
+    "total_tourapi": 6,
+    "freenews": 0,
+    "other_providers": 0
+  },
+  "post_live_hardening": {
+    "change": "numeric zero is unknown, not empty/default",
+    "verification": "MockTransport regression only; no further real requests"
+  },
+  "tests": {
+    "tests": 147,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "checks": {
+    "ruff": "PASS",
+    "format": "PASS",
+    "pip_check": "PASS",
+    "compileall": "PASS",
+    "openapi_contract": "PASS"
+  },
+  "source_sha256": {
+    "server/app/providers/tour.py": "28b92ab3b0e3d05c9f3b684d3f59b027ba9d83bf6556e3fd439d3bf3d637c773",
+    "server/app/providers/events.py": "c373593b2e992c84cd2a97899ce2a01731107b53d3bc4864706cf1d33c351cf6",
+    "server/app/config.py": "4a8c9f62d072841c3fa97ac65dd0114a3750621cf2ff6f200d82932b2bfc377a",
+    "server/app/cli.py": "0c003acb2cc189ce75d047ecb1a3dbb5a80d123a5355216cbb82dbefbd688ded",
+    "server/app/storage.py": "8e0f532fb48f2d8493b43cd6eb3ca851f2899ff7305c6fc91f258728b6eef57a",
+    "server/tests/test_tour_collection.py": "557e150ae4fd717ffbe66d985c9c870a2135fac025d234153d3f8c39d389db07"
+  },
+  "source_hash_scope": "Final implementation after numeric-zero hardening; final actual network validation predates that defensive branch change",
+  "unverified": [
+    "unknown online progress value",
+    "actual driving time",
+    "Pleos SDK/TTS playback",
+    "event homepage enrichment",
+    "full global event coverage",
+    "account-wide quota remaining"
+  ],
+  "verified_server_source_commit": "ccc6a2c3b3d54b8319587cf38e61964d7703b2a9"
+}

@@ -100,3 +100,4 @@ explain: 선택 body `{"question":"자세히 알려줘"}`, 질문 최대 500자.
 - 2026-11-11 연동 보강: health=HealthResponse, detail=ContentDetail 응답 모델을 명시하고 top3의 maxItems=3을 OpenAPI에 표현. 네 endpoint의 기존 JSON 필드와 요청 형식 유지. 앱에서 null 허용 필드와 403/404/409/422를 처리하도록 연동 안내 추가.
 - 2026-11-11 FreeNews 조사: 내부 수집의 timeout/재시도/예산/검색별 저장을 보강. 차량 API 요청/응답·권리 정책 변경 없음. 저장된 OpenAPI 일치 테스트 통과. 새 CLI의 JSON 관측 필드는 차량 API 필드와 별개.
 - 2026-11-11 Pleos 인계: API/OpenAPI 변경 없음. HTTP 검사 도구의 전체 재생 순서·alerts 권리/유효성·LIVE 뉴스403 검증 및 서버 HTTP 한정 표시를 보강. 선택 공공 수집 CLI와 앱 담당 확인표 추가. SDK/TTS 실행은 미검증.
+- 2026-11-11 TourAPI 개선: 차량 API/OpenAPI 변경 없음. 내부 날짜 범위/페이지·상태 판정·관측 저장을 보강. 날짜 유효한 LIVE 행사도 자동차 이동시간 미검증이면 feed에서 계속 제외. 원천 종료일/수집시각/권리 상태는 기존 필드 의미를 유지.

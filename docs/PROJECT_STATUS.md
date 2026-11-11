@@ -2,7 +2,17 @@
 
 **2026-11-11 KST / feature 0.1.0.** 서버 프로토타입과 실제 서울시 수집→SQLite→HTTP 응답 경로가 작동합니다. 실제 뉴스와 학교 AI/차량 연동까지 완성된 상태는 아닙니다.
 
-## 최신 차량 연동 준비 검증 (2026-11-11, 20시대 KST)
+## 최신 TourAPI 검증 (2026-11-11, 23시대 KST)
+
+사용자 인증 후 기존268/10/2/유효0 결과를 확인했습니다. [조사와 제외10행](TOURAPI_INVESTIGATION.md), [증거 JSON](verification/2026-11-11-tourapi-investigation.json). 공식 매뉴얼의 progresstype 기본값 선택안함까지 버리던 조건을 수정하고, KST 오늘~90일/수정일순/상한 있는 pagination을 적용했습니다.
+
+최종 실제 HTTP200/SUCCESS, **2회 호출·raw77/total77·정규화/날짜 유효76(진행 중36/예정40)**. 온라인 상태1건은 의미 미확정으로 보류했습니다. 전체 조사 호출은 재조회1+첫 수집3+수정 후2=6회, 다른 제공자0회입니다. 첫 수집의 불필요한3페이지/SCHEMA_MISMATCH도 실패 이력으로 기록했고 마지막 numOfRows가 반환 건수인 경우를 수정했습니다. 계정의 현재 잔여량은 확인하지 않았습니다.
+
+76건 모두 Type3/권리 미확인으로 brief 비움·음성/설명 차단을 유지합니다. **실제 자동차 이동시간 미검증이므로 LIVE 행사 추천0건**입니다. 실제 원천 수집→SQLite와 내부 ASGI 검사는 확인했으나 새 실차/길찾기/TTS 검증은 없습니다. 개별 원문 홈페이지·자동 갱신·전시 세부분류는 미구현입니다.
+
+기존110 + Tour 회귀37, **pytest147 통과**. API/OpenAPI 계약 유지. 페이지별 관측/제외 사유를 DB에 보존하고 새 취소·만료·미확인 상태는 기존 자료를 삭제하지 않고 격리합니다. 최우선 P0는 여전히 앱 담당자의 Pleos 실제 연결/재생 확인입니다.
+
+## 앞선 차량 연동 준비 검증 (2026-11-11, 20시대 KST)
 
 첫 대상은 사용자 확인에 따라 **Pleos SDK 에뮬레이터·실차**입니다. 서버 HTTP 준비와 실제 기기 연결을 분리합니다. 실행/주소/필드는 [차량 연동 안내](VEHICLE_INTEGRATION.md), 팀원이 채울 완료 판정은 [연동 확인표](VEHICLE_ACCEPTANCE.md), 실제 측정은 [증거 JSON](verification/2026-11-11-vehicle-handoff.json)입니다.
 
@@ -36,16 +46,17 @@ health/feed/detail/explain200, 권리 미확인 뉴스의 상세 음성 불가/�
 
 기술·학습 기록도 [기술 선택 근거](TECH_DECISIONS.md), [날짜별 개발 로그](DEVELOPMENT_LOG.md), [학습/회고](LESSONS_LEARNED.md)로 누적합니다. 구현 코드·측정·문서상 비교·미수행 실험을 구분하며 이후 작업도 AGENTS의 기록 지침을 따릅니다.
 
-## 현재 구현 분류 (20시대 검토 기준)
+## 현재 구현 분류 (23시대 검토 기준)
 
 | 분류 | 항목 | 근거/범위 |
 |---|---|---|
-| 구현 완료 | 4개 endpoint와 응답 타입, SQLite, 규칙 추천/TOP3/별도 큐, 권리 차단 | pytest110 및 실제 HTTP5시나리오. OpenAPI 네 성공 응답 타입/저장 명세 일치, 큐·상세·설명 유효성 검사 |
+| 구현 완료 | 4개 endpoint와 응답 타입, SQLite, 규칙 추천/TOP3/별도 큐, 권리 차단 | pytest147 및 앞선 실제 HTTP5시나리오. OpenAPI 네 성공 응답 타입/저장 명세 일치, 큐·상세·설명 유효성 검사 |
 | 구현 완료 | 서버 HTTP 계약 검사와 앱 인계 안내 | DB/키 없는 check_vehicle_api.py, 뉴스/긴급 권리·재생 순서 검사. Pleos 실제 연결은 미검증 |
 | 부분 구현 | 공공 데이터 수집 | 이번 날씨1건 실제 갱신. 앞선 행사5·교통5 수신은 당시 이력이며 현재 신선도를 뜻하지 않음. sample/첫 페이지, 자동 갱신 없음 |
 | 부분 구현 | 긴급 경로 처리 | 과거 수동 SEOUL_TOPIS 링크에서 LIVE alert1 확인, 이번 DEMO에서 SIMULATED alert1. 실차 경로 취득/지도 링크 매핑 미검증 |
 | 부분 구현 | FreeNews | 인증·일부 실제 metadata/URL 수신 확인. 실제 뉴스2건이 LIVE 화면에 있지만 권리 미확인으로 음성/설명 차단. 500 내부 원인/전체 건수 미확정 |
-| 부분 구현 | TourAPI, 팝업, AI | 스키마 어댑터/수동 입력/LLMProvider 구현. TourAPI 실제 수신·실제 팝업 등록·학교 AI는 미검증 |
+| 부분 구현 | TourAPI | 실제 날짜 유효76건 수집/저장. 90일/페이지·시도 예산 범위. 권리·이동시간 미검증으로 추천/TTS 제외, 원문 홈페이지·자동 갱신 미구현 |
+| 부분 구현 | 팝업, AI | 수동 입력/LLMProvider 구현. 실제 팝업 등록·학교 AI는 미검증 |
 | 미구현/미검증 | 실제 자동차 이동시간/실차 경로·TTS/학교 AI/ITS | Routing은 인터페이스와 fixture뿐. 학교 endpoint 미제공. ITS 미구현. 앱/SDK 실행 증거 없음 |
 
 18시대 HTTP 이력: no-navigation LIVE 화면1/일반큐1/alert0, MOCK+수동DEMO 화면3/큐5/alert1, MIXED+수동DEMO 화면3/큐6/alert1. 별도 수동 SEOUL_TOPIS 입력에서 실제 교통 alert1 확인. 모두 설명 ai_mode=MOCK입니다. 현재 LIVE 화면3건과 다른 것은 이후 실제 뉴스2건이 추가됐기 때문입니다. 이 기록은 실차 연결/재생 완료를 뜻하지 않습니다.
@@ -86,7 +97,7 @@ health/feed/detail/explain200, 권리 미확인 뉴스의 상세 음성 불가/�
 
 초기 실제 호출은 [API_VALIDATION_RESULTS.json](API_VALIDATION_RESULTS.json), 초기 HTTP 응답은 [HTTP_SMOKE_RESULTS.json](HTTP_SMOKE_RESULTS.json), 샘플은 [examples](examples) 참조. 스냅샷 이후에는 만료되거나 원천 자료가 바뀝니다. 재검증은 필요한 제공자만 선택 호출하고, 과거 성공을 현재 유효성으로 간주하지 않습니다.
 
-## 초기 테스트 기록 (당시49개, 최신은110개)
+## 초기 테스트 기록 (당시49개, 최신은147개)
 
 Windows / Python 3.11.9, [고정 의존성](../server/requirements.lock). 최종 기능 검증: **pytest 49 passed**, Ruff check/format 통과, pip check 의존성 충돌 없음. pytest에는 httpx 기반 TestClient에 관한 상위 Starlette의 deprecation warning 1건이 있으며 실패는 아닙니다.
 
@@ -101,7 +112,7 @@ HTTP smoke: live/mixed의 feed/detail/explain, rights/mode/queue 검증. 실제 
 | P0 / 11/11~12 | **다음 최우선: Pleos 에뮬레이터/기기에서 HTTP 연결** | 실행 PC/서버 주소를 합의하고 앱 코드로 health→feed→detail 호출. 서버/앱·기기/SDK 버전과 실제 HTTP 결과 기록. PC 검사만으로 완료하지 않음 |
 | P0 / 11/12~13 | 앱 화면·TTS 최소 흐름 | top3 카드, queue/alerts 순서, 사용자 재생/다음/다시, 데이터 모드 표시. 앱 담당이 실제 TTS 재생 및 주행 UX/오디오 포커스 확인. 서버는 계약/오류 재현 지원 |
 | P0 / 11/13 | 실제 공공자료 수집→응답 재현 | 시연 직전 ingest --public-provider seoul_city, 유효 날씨 등 적어도 한 실제 소스의 JSON 제공. 만료/빈 데이터/소스 오류 표시. 서버 HTTP 경로는 재현했고 앱 수신·재생은 확인해야 함 |
-| P1 / 11/13~14 | 뉴스 오류·권리·콘텐츠 확장 | FreeNews 인증/일부 metadata 수신은 확인. 애니메이션500/전체 기사 수는 미확정. 권리 근거 없으면 뉴스 TTS 계속 차단. TourAPI/서울 정식 키의 실제 수신과 조건 확인 |
+| P1 / 11/13~14 | 뉴스 오류·권리·콘텐츠 확장 | FreeNews 인증/일부 metadata, TourAPI 날짜 유효76건 수신 확인. 애니메이션500/뉴스 전체 건수·권리 미확정. TourAPI 권리/실제 라우팅과 서울 정식 키 조건은 추가 확인 |
 | P1 / 11/14 | 실제 경로·이동시간 | 무료 계정 조건/공식 schema/차량 경로 권한과 링크 매핑을 확인한 경우만 연결. 확보 전 LIVE 행사 제외, DEMO는 SIMULATED 유지 |
 | P0 / 11/15 | 재현 가능한 MVP 시연 | 실제 공공정보 흐름과 명시적 모의 시연을 구분, 앱 연결·음성 재생 증거 확보. 미연동 기능을 완료로 발표하지 않음 |
 
