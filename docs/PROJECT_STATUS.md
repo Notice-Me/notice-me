@@ -2,7 +2,15 @@
 
 **2026-11-11 KST / feature 0.1.0.** 서버 프로토타입과 실제 서울시 수집→SQLite→HTTP 응답 경로가 작동합니다. 실제 뉴스와 학교 AI/차량 연동까지 완성된 상태는 아닙니다.
 
-## 최신 재검증 결과 (2026-11-11, 18시대 KST)
+## 최신 FreeNews 검증 (2026-11-11, 19시대 KST)
+
+사용자의 키 로딩과 실제 인증 요청을 확인했습니다. [조사 결과](FREENEWS_INVESTIGATION.md)와 [증거 JSON](verification/2026-11-11-freenews-investigation.json)을 참고하세요. 원본 검증은 과학 IT24h=0건, 예술24h=5건, 예술168h=첫10건/추가 페이지 있음입니다. 애니메이션24h500은 재현했으나 내부 원인은 미확정입니다. 과학 IT168h는 대기를 늘린 동일 window에서10.844초 후0건을 받았고, 과거 TIMEOUT의 단계는 알 수 없습니다.
+
+목록 조사3회+받아 둔 목록의 상세2회로 추가 호출5회만 수행했습니다. metadata5건 보존, 원문 URL이 있는 실제 뉴스2건 저장. ASGI TestClient에서 화면2건/뉴스 음성0건/설명403·403 확인. LICENSE_UNVERIFIED를 유지했고 실차/TTS를 실행하지 않았습니다. 원본 사용자 JSON은 그대로 보존했습니다.
+
+수집기에는 read20초/연결5초/HTTP시도 전체30초, 선택 오류에 최대1회 재시도, 기본 뉴스 시도 예산20회, 검색별 DB/JSON 보존을 추가했습니다. 기존64+새35, **pytest99 통과**, Ruff/format/pip check/compileall 통과, 상위 TestClient 경고1건. 차량 API와 OpenAPI 계약은 유지합니다. 뉴스 인증/일부수신은 이제 확인됐지만500·정확한 전체 건수·재배포 권리는 해결되지 않았습니다.
+
+## 앞선 재검증 기록 (2026-11-11, 18시대 KST)
 
 시작 커밋 d8f5c96에서 기존 **49 passed**를 재현했습니다. 검토 중 상세/설명이 오래된 교통정보를 허용하는 문제를 재현하여 fdd7e2f에서 수정했고, 응답 계약/차량 연결 도구를 보강한 최종 작업 트리에서 **64 passed**를 확인했습니다. Ruff check/format, pip check, compileall 통과. 상위 Starlette TestClient deprecation warning 1건은 남아 있습니다.
 
@@ -55,7 +63,7 @@
 
 실제 호출은 [API_VALIDATION_RESULTS.json](API_VALIDATION_RESULTS.json), HTTP 응답 검증은 [HTTP_SMOKE_RESULTS.json](HTTP_SMOKE_RESULTS.json), 샘플 응답은 [examples](examples) 참조. 스냅샷 시각 이후에는 만료되거나 원천 자료가 바뀝니다. 현재 API 성공 여부는 재수집해 확인하세요.
 
-## 초기 테스트 기록 (49개, 최신은 64개)
+## 초기 테스트 기록 (49개, 최신은 99개)
 
 Windows / Python 3.11.9, [고정 의존성](../server/requirements.lock). 최종 기능 검증: **pytest 49 passed**, Ruff check/format 통과, pip check 의존성 충돌 없음. pytest에는 httpx 기반 TestClient에 관한 상위 Starlette의 deprecation warning 1건이 있으며 실패는 아닙니다.
 
@@ -70,7 +78,7 @@ HTTP smoke: live/mixed의 feed/detail/explain, rights/mode/queue 검증. 실제 
 | P0 / 11/11~12 | **다음 최우선: 팀원 기기에서 HTTP 연결** | 서버가 LAN에서 실행, 팀원이 health→feed→detail→explain 호출. 서버/앱 버전·실제 기기/에뮬레이터 정보와 응답 상태 기록. localhost 검사만으로 완료하지 않음 |
 | P0 / 11/12~13 | 앱 화면·TTS 최소 흐름 | top3 카드, queue/alerts 순서, 사용자 재생/다음/다시, 데이터 모드 표시. 앱 담당이 실제 TTS 재생 및 주행 UX/오디오 포커스 확인. 서버는 계약/오류 재현 지원 |
 | P0 / 11/13 | 실제 공공자료 수집→응답 재현 | 시연 직전 수동 ingest, 유효 날씨 등 적어도 한 실제 소스의 JSON 제공. 만료/빈 데이터/소스 오류를 표시. 재수집 명령과 유효기간은 연동 안내에 기록 |
-| P1 / 11/13~14 | 뉴스 인증·콘텐츠 확장 | FreeNewsAPI 무료 키를 본인이 발급해 로컬 .env에 설정, 24h/7d 검색 재검증. 권리 근거 없으면 뉴스 TTS 계속 차단. TourAPI/서울 정식 키의 실제 수신과 조건 확인 |
+| P1 / 11/13~14 | 뉴스 오류·권리·콘텐츠 확장 | FreeNews 인증/일부 metadata 수신은 확인. 애니메이션500/전체 기사 수는 미확정. 권리 근거 없으면 뉴스 TTS 계속 차단. TourAPI/서울 정식 키의 실제 수신과 조건 확인 |
 | P1 / 11/14 | 실제 경로·이동시간 | 무료 계정 조건/공식 schema/차량 경로 권한과 링크 매핑을 확인한 경우만 연결. 확보 전 LIVE 행사 제외, DEMO는 SIMULATED 유지 |
 | P0 / 11/15 | 재현 가능한 MVP 시연 | 실제 공공정보 흐름과 명시적 모의 시연을 구분, 앱 연결·음성 재생 증거 확보. 미연동 기능을 완료로 발표하지 않음 |
 

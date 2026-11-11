@@ -53,12 +53,15 @@ $env:NOTICE_DATA_MODE='live'   # 실제 수집 자료만 사용; 혼합 시 'mix
 .venv\Scripts\python.exe -m pytest -q
 .venv\Scripts\ruff.exe check app tests scripts
 .venv\Scripts\ruff.exe format --check app tests scripts
-.venv\Scripts\python.exe -m app.cli validate --report reports/validation.json
-# FreeNewsAPI 키를 .env에 설정한 뒤 명시적으로 검색/수집
-.venv\Scripts\python.exe -m app.cli ingest --keyword '애니메이션'
+# 뉴스만, 지정 질의만 검사. 재시도 포함 최대2회. 기존 결과는 다른 report 경로로 보존.
+.venv\Scripts\python.exe -m app.cli validate-news --provider freenews --keyword '예술' --window-hours 24 --max-requests 2 --report reports/freenews-targeted.json
+# FreeNewsAPI metadata/URL 수집. 목록/상세/재시도 전체 최대4회.
+.venv\Scripts\python.exe -m app.cli ingest-news --keyword '예술' --max-requests 4 --report reports/freenews-ingest.json
 ```
 
 API 키는 각 데이터 제공자가 발급하는 접속 비밀값으로 GitHub 인증과 별개입니다. 키가 없어도 Mock과 서울시 sample은 실행됩니다. [발급/설정 안내](docs/SETUP_API_KEYS.md)를 참고하세요. 키·.env·SQLite·원본 기사 본문은 Git에 올리지 않습니다. `validate`는 소량의 실제 요청을 수행하며 인증이 안 된 뉴스는 기사 수/중복률을 미측정으로 남깁니다.
+
+기존 `ingest`/`validate` 전체 수집·비교 명령도 유지합니다. [FreeNews 오류 조사](docs/FREENEWS_INVESTIGATION.md)에 실제0/5/10건의 의미, 재현된500, timeout·재시도·무료 예산·결과 보존을 정리했습니다. 뉴스 키가 있어도 TTS 권리가 생기지 않으며, 현재 FreeNews 뉴스는 화면 metadata만 가능하고 음성/설명은 차단됩니다. feed에서 실자료를 보려면 서버 모드를 live/mixed로 설정해야 합니다.
 
 ## 차량 앱 연동
 

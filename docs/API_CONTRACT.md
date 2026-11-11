@@ -98,3 +98,4 @@ explain: 선택 body `{"question":"자세히 알려줘"}`, 질문 최대 500자.
 - 2026-11-11 feature 0.1.0: 기본 계약 유지. route_points/route_link_ids/**route_link_namespace**, fetched_at/권리 근거/항목 모드, 점수 근거, driving_time, traffic, diagnostics, playback_order, 상세 만료 표시, Mock 설명 응답 추가. 실제 수집은 CLI이며 공개 수집 endpoint는 없습니다.
 - 2026-11-11 재검증: feed/detail/explain의 콘텐츠 유효성 검사 일치. 기존 URL·필드·권리 오류 유지. 기존 49개와 신규 유효성 회귀 테스트 10개 통과.
 - 2026-11-11 연동 보강: health=HealthResponse, detail=ContentDetail 응답 모델을 명시하고 top3의 maxItems=3을 OpenAPI에 표현. 네 endpoint의 기존 JSON 필드와 요청 형식 유지. 앱에서 null 허용 필드와 403/404/409/422를 처리하도록 연동 안내 추가.
+- 2026-11-11 FreeNews 조사: 내부 수집의 timeout/재시도/예산/검색별 저장을 보강. 차량 API 요청/응답·권리 정책 변경 없음. 저장된 OpenAPI 일치 테스트 통과. 새 CLI의 JSON 관측 필드는 차량 API 필드와 별개.

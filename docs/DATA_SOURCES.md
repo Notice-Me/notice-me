@@ -6,22 +6,24 @@
 
 ## 뉴스 비교
 
+**최신 FreeNews 인증/오류 조사:** [상세](FREENEWS_INVESTIGATION.md), [실측 JSON](verification/2026-11-11-freenews-investigation.json). 현재 키 로딩/인증된 검색을 확인했고 실제 뉴스2건을 metadata로 저장했습니다. 아래의 초기 무인증401은 과거 관측입니다. 다른 두 제공자의 인증 상태는 이번에 새로 검증하지 않았습니다. 뉴스 권리 등급은 변경하지 않습니다.
+
 | 항목 | FreeNewsAPI (.io, 1순위) | The News API (.com) | GNews |
 |---|---|---|---|
 | 무료 한도 | 5,000 요청/일, 2 요청/초 | 100 요청/일, 응답당 기사 3건 | 100 요청/일, 응답당 10건; 12시간 지연, 과거 30일 |
-| 한국어/한국 공식 지원 | country/language 필터 존재. ko/KR 실제 가용 목록·한국 기사량은 키 발급 후 확인 필요 | 문서에 `language=ko`, `locale=kr` 명시 | 현재 공식 검색 문서의 언어/국가 목록에 ko/kr 없음. 한국어 키워드 요청만 준비; 한국 뉴스 확보는 미검증 |
+| 한국어/한국 공식 지원 | ko/KR 필터의 실제 예술 검색200/metadata5건 확인. 전체 coverage는 미측정 | 문서에 `language=ko`, `locale=kr` 명시 | 현재 공식 검색 문서의 언어/국가 목록에 ko/kr 없음. 한국어 키워드 요청만 준비; 한국 뉴스 확보는 미검증 |
 | 검색 | `/v1/news`의 `in_title`; 현재 스키마는 q/in_body/in_subtitle 제거 | `/v1/news/all`, `search` | `/api/v4/search`, `q`; 지원되지 않은 lang/country를 추측해 넣지 않음 |
 | 제목/설명/출처/발행시각/URL | 목록: uuid,title,publisher,published_at. `/details`: original_url,incipit,body | title,description,source,published_at,url | title,description,source,publishedAt,url |
-| 24시간/7일 기사 수 | **미측정** | **미측정** | **미측정**; 무료 최신 12시간 공백도 고려 필요 |
-| 애니메이션/과학IT/예술 | 3키워드 × 24h/168h 검증 스크립트 준비; 인증 미확보 | 동일 | 동일, 한국어 corpus/필터 제한 명시 |
-| 실제 무인증 호출 | **HTTP 401** 인증 필요 | **HTTP 401** 인증 필요 | **HTTP 400**, 응답이 API 키 미전송을 명시 |
-| 사건 중복 비율 | 키가 없어 미측정 | 키가 없어 미측정 | 키가 없어 미측정 |
+| 24시간/7일 기사 수 | 과학 IT24h0, 예술24h5/168h첫10·추가 페이지 있음. 전체 count는 미제공 | **미측정** | **미측정**; 무료 최신 12시간 공백도 고려 필요 |
+| 애니메이션/과학IT/예술 | 애니메이션500 재현, 과학 IT168h 기존TIMEOUT→별도20초 대기 관측에서0건. 원인은 미확정 | 스크립트 준비, 인증 미확보 | 스크립트 준비, 한국어 corpus/필터 제한 명시 |
+| 초기 무인증 호출 (이전 관측) | **HTTP 401** | **HTTP 401** | **HTTP 400**, 응답이 API 키 미전송을 명시 |
+| 사건 중복 비율 | 예술 반환5/10건의 제목 표본0.0. 전체/동일 사건 비율은 미검증 | 키가 없어 미측정 | 키가 없어 미측정 |
 | AI 요약·TTS 재배포 | 뉴스 권리는 원저작권자에게 있음. 원문을 대체하는 재배포 제한; 별도 권리 필요 | 약관은 개인/비상업 사용 제한을 명시. 기사 AI/TTS 권리 부여 확인 못함 | 무료는 비상업/학술/평가 사용 범위. 유료도 제3자 기사 권리를 부여하지 않음 |
 | 현재 rights_status | LICENSE_UNVERIFIED | LICENSE_UNVERIFIED | LICENSE_UNVERIFIED |
 
-공식 근거: [FreeNews 홈](https://www.freenewsapi.io/), [OpenAPI](https://www.freenewsapi.io/docs/openapi.json), [FreeNews 약관](https://www.freenewsapi.io/terms.php); [The News API 문서](https://www.thenewsapi.com/documentation), [무료 가격](https://www.thenewsapi.com/pricing), [약관](https://www.thenewsapi.com/tos); [GNews 문서/무료 한도](https://docs.gnews.io/), [언어·국가·검색](https://docs.gnews.io/endpoints/search-endpoint), [약관](https://gnews.io/legal/terms-of-service). FreeNews 약관 페이지의 갱신 표시는 2026-11-10입니다. 제공자 전체 서비스의 허용과 개별 언론사의 권리를 동일시하지 않습니다.
+공식 근거: [FreeNews 홈](https://www.freenewsapi.io/), [OpenAPI](https://www.freenewsapi.io/docs/openapi.json), [FreeNews 약관](https://www.freenewsapi.io/terms.php); [The News API 문서](https://www.thenewsapi.com/documentation), [무료 가격](https://www.thenewsapi.com/pricing), [약관](https://www.thenewsapi.com/tos); [GNews 문서/무료 한도](https://docs.gnews.io/), [언어·국가·검색](https://docs.gnews.io/endpoints/search-endpoint), [약관](https://gnews.io/legal/terms-of-service). 이번 재조회에서 FreeNews 약관 페이지의 갱신 표시는 2026-11-11입니다. 제공자 전체 서비스의 허용과 개별 언론사의 권리를 동일시하지 않습니다.
 
-현재 실제 뉴스 검색 성공은 **0개 제공자**입니다. 키 없는 실패를 기사 0건으로 해석하지 않습니다. 인증 후에도 첫 페이지 표본 크기와 제공자가 보고한 전체 건수를 구분합니다. 중복률은 제목 정규화/문자열 유사도 0.88 기준 표본 비율이며, 동일 사건을 완벽히 식별하는 정확도 측정이 아닙니다. FreeNews는 기본 검색 결과 일부(최대 3건)만 details를 호출하고 본문을 버리며 출처 URL을 얻습니다. 뉴스 설명문은 라이선스 검토 전 feed brief에 재배포하지 않습니다. 요약/설명/TTS 대상에서도 차단합니다.
+현재 실제 인증 검색을 확인한 뉴스 제공자는 **FreeNewsAPI 1개**이며 일부 질의는 여전히 실패합니다. 실패/null을 기사0건으로 바꾸지 않고, 성공0건도 양수 기사 수신과 구분합니다. 첫 페이지/추가 페이지/전체 건수를 분리합니다. 제목 유사도0.88의 중복률은 표본 지표입니다. FreeNews는 기본 최대3건의 details만 보강하고 본문/설명문은 보존하지 않습니다. metadata와 기사 URL을 받았어도 라이선스 미확인 뉴스의 brief는 비어 있고 요약/설명/TTS에서 차단됩니다. 이번에는 실제 목록을 재사용해2건만 details 호출했습니다.
 
 ## 행사·전시
 

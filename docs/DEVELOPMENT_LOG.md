@@ -67,8 +67,22 @@
 
 **영향:** 문서 추가로 서버 기능이나 데이터 이용권한을 확대하지 않음. 새 코드가 없으므로 문서만을 위한 중복 기능 테스트는 추가하지 않고 링크·비밀정보·변경 파일을 점검. Gemini/Claude 교차검증은 사용자 계획이며 아직 수행 결과가 없음.
 
+## 2026-11-11 — FreeNewsAPI 인증 후 오류 조사/성공 자료 보존
+
+**입력:** 사용자가 로컬 .env에 키를 설정한 뒤 reports/validation.json을 생성. API 키 로딩 true를 값 출력 없이 재확인했습니다. 기존 사용자 보고서를 덮어쓰지 않았습니다.
+
+**관측과 원인 구분:** 원본에서 과학 IT24h는 SUCCESS지만0건, 예술24h는5건, 예술168h는10건/has_more=true였습니다. 전체 found는 미제공입니다. 공식 OpenAPI를 현재 NewsProvider와 비교해 형식 차이는 발견하지 못했습니다. 같은 window로 목록3회만 추가 호출하여 애니메이션24h500, 예술24h200/5건, 과학 IT168h200/0건(약10.844초)을 관측. 500 응답은 Internal Server Error뿐이어서 내부 원인은 미확정입니다. 과거 TIMEOUT의 단계도 기록되지 않아 사후 원인을 확정하지 않았습니다.
+
+**실제 변경:** 제한적 재시도/단계별 timeout/시도당 deadline/백오프/호출 예산을 추가했습니다. 500/인증/429는 반복하지 않습니다. 검색별 metadata와 오류를 news_searches에 append하고 JSON checkpoint를 저장하며, 상세 실패가 정상 기사를 버리지 않도록 했습니다. validate-news/ingest-news로 무관한 API 호출을 피합니다. 기존 coverage_note가 인증 성공 상황에도 키 없는 설명을 쓰던 문제도 수정했습니다. API v1/뉴스 권리 정책은 유지했습니다.
+
+**실수집 확인:** 목록 재조회 없이 받아 둔 예술5건 metadata를 보존하고2건만 details 호출/정규화/SQLite 저장. 이번 총 추가 호출5회, 마지막 응답 일일 잔여4,988. 두 LIVE 뉴스는 LICENSE_UNVERIFIED로 ASGI TestClient의 화면에는 표시되지만 음성 큐0건, 설명403/403입니다. 본문/설명문을 저장·LLM 전달하지 않았습니다. 실차/TTS 실행은 하지 않았습니다.
+
+**검증:** 기존64→최종99 passed, Ruff/format/pip check/compileall 통과. timeout 단계, 제한된 재시도/백오프, 반복하지 않는500/인증/429, 호출 예산, 잘못된 schema, 후속 검색/상세 실패·처리 중단 뒤 DB/JSON 보존, 뉴스 전용 CLI 등을 MockTransport로 확인. 상위 TestClient 경고1건 유지. [증거 JSON](verification/2026-11-11-freenews-investigation.json), [조사/재현 명령](FREENEWS_INVESTIGATION.md), [TD-09](TECH_DECISIONS.md#td-09-뉴스-실패-격리와-소량-재시도-2026-11-11-추가).
+
+**남은 문제:** 애니메이션500의 제공자 내부 원인, 정확한168h 전체/고유 기사 수, 뉴스 TTS/AI 권리. 이번 결과를500 해결이나 전체 뉴스 검색 안정성 검증으로 표현하지 않습니다.
+
 ## 미해결 항목과 다음 기록
 
-최우선은 팀원 기기의 health→feed→TTS 실제 연결 증거. 자동 수집 스케줄러/전체 pagination, 실제 뉴스 인증·권리, 자동차 이동시간·지도 링크 매핑, 학교 AI, ITS, 운영 인증/TLS 및 부하 검증은 남아 있음. 최신 우선순위와 담당/완료 기준은 [PROJECT_STATUS](PROJECT_STATUS.md#1115-mvp-우선순위와-완료-기준)를 유지함.
+최우선은 팀원 기기의 health→feed→TTS 실제 연결 증거. FreeNews 인증/일부 metadata 수집은 확인했지만 애니메이션500·전체 pagination·뉴스 가공/재배포 권리는 남아 있음. 자동 수집 스케줄러, 자동차 이동시간·지도 링크 매핑, 학교 AI, ITS, 운영 인증/TLS 및 부하 검증도 남아 있음. 최신 우선순위와 담당/완료 기준은 [PROJECT_STATUS](PROJECT_STATUS.md#1115-mvp-우선순위와-완료-기준)를 유지함.
 
 다음 작업은 날짜, 목적, 관측한 문제/원인, 수행한 시도, 결과/테스트 명령·파일·커밋, 미해결 문제만 짧게 추가한다. 아직 하지 않은 조치는 계획이라고 표시한다. 비밀값·개인 위치/경로·신청서 개인정보는 기록하지 않는다.
