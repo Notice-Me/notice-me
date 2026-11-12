@@ -55,6 +55,15 @@ class TrafficImpact(BaseModel):
     match_status: str = "UNVERIFIED"
 
 
+class WeatherObservation(BaseModel):
+    """Named observation area; never inferred from the requesting vehicle's location."""
+
+    area_code: Literal["POI009"]
+    region: str = Field(min_length=1, max_length=200)
+    observed_at: AwareDatetime
+    scope: Literal["FIXED_OBSERVATION_AREA"] = "FIXED_OBSERVATION_AREA"
+
+
 class Content(BaseModel):
     model_config = ConfigDict(extra="forbid")
     id: str = Field(min_length=1, max_length=180)
@@ -80,6 +89,7 @@ class Content(BaseModel):
     venue: str | None = None
     organizer_confirmed_at: AwareDatetime | None = None
     traffic: TrafficImpact | None = None
+    weather: WeatherObservation | None = None
 
     @model_validator(mode="after")
     def validate_provenance(self):
@@ -91,6 +101,8 @@ class Content(BaseModel):
             raise ValueError("Coordinates must be provided as a pair")
         if self.rights_status == RightsStatus.TTS_ALLOWED and not self.rights_evidence_url:
             raise ValueError("TTS_ALLOWED requires license evidence")
+        if self.weather is not None and self.content_type != ContentType.LIFE:
+            raise ValueError("Weather observations must be LIFE content")
         return self
 
 

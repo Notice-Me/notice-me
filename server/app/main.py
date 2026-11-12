@@ -21,7 +21,7 @@ from .models import (
     utcnow,
 )
 from .recommendation import build_feed
-from .rights import tts_allowed
+from .rights import tts_allowed, voice_allowed
 from .routing import DemoRouting, RoutingProvider, UnverifiedRouting
 from .storage import Store
 
@@ -129,7 +129,7 @@ def create_app(
         return {
             **item.model_dump(mode="json"),
             "is_expired": item.expires_at <= now,
-            "tts_eligible": tts_allowed(item) and unavailable_reason(item, now) is None,
+            "tts_eligible": voice_allowed(item) and unavailable_reason(item, now) is None,
         }
 
     @app.post("/api/v1/contents/{content_id}/explain", response_model=ExplainResponse)

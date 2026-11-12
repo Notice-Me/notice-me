@@ -1,0 +1,17 @@
+{
+  "base_commit": "eaa5741",
+  "verified_kst": "2026-11-13 00:10",
+  "content_provider_calls": {"seoul_city": 1, "news": 0, "tourapi": 0},
+  "collection": {"http": 200, "status": "SUCCESS", "count": 1, "area": "POI009", "observed_kst": "2026-11-13 00:00", "expires_kst": "2026-11-13 01:00"},
+  "live_http": {"status": "SUCCESS", "top3": 3, "queue": 1, "alerts": 0, "blocked_news": 2},
+  "mock_demo_route_http": {"status": "SUCCESS", "top3": 3, "queue": 5, "alerts": 1},
+  "server_tests": {"passed": 159, "warnings": 1, "new_cases": 12},
+  "ruff": "PASS",
+  "pip_check": "PASS",
+  "verification_scope": "SERVER_HTTP_AND_UNIT_TESTS",
+  "pleos_tts_in_this_server_record": "NOT_VERIFIED",
+  "original_db_modified": false,
+  "real_routing": "NOT_IMPLEMENTED",
+  "school_ai": "DETERMINISTIC_MOCK",
+  "audio_noise_priority": "P2"
+}

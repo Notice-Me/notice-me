@@ -1,5 +1,9 @@
 # API contract v1
 
+## 2026-11-13 additive weather / LIVE 음성 범위
+
+Content·FeedItem·ContentDetail에 nullable `weather`(`area_code`, `region`, `observed_at`, `scope`) 추가. 기존 URL/배열/필드와 MOCK 계약은 유지. LIVE `tts_eligible`·queue·playback_order는 허가된 POI009 날씨만 허용하며 뉴스·행사·교통은 이번 실음성 범위 밖이다. 관측1시간/미래값 검사와 고정 지역 표시 기준은 [실제 날씨 시연](LIVE_WEATHER_DEMO.md). 목적지 ETA는 음성 큐 예산이며 개별 행사 이동시간이 아니다. 내비 사용 시 제공된 목적지/경로 주변 점수를 현재 위치보다 우선한다. 경로를 받지 못하면 생성하지 않는다.
+
 버전 0.1.0 / 2026-11-11. Base URL `/api/v1`. UTF-8 JSON, timezone-aware ISO 8601 timestamps. 서버 정규화 자료는 UTC, 원천 날짜 해석은 KST입니다. [OpenAPI JSON](openapi.json)은 실행 중인 FastAPI에서 추출한 명세입니다. [LIVE](examples/live-feed.json) / [MIXED](examples/mixed-feed.json) 예시는 실제 HTTP 응답의 고정 스냅샷으로 현재 정보가 아닙니다.
 
 [차량 앱 실행/연결 안내](VEHICLE_INTEGRATION.md)와 [요청 예제](examples/vehicle-api.http)를 함께 사용하세요. OpenAPI는 `.venv\Scripts\python.exe scripts/export_openapi.py`로 외부 통신 없이 재생성하며, 테스트에서 기록된 명세와 런타임 명세의 일치를 검사합니다.

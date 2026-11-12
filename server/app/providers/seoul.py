@@ -1,7 +1,15 @@
 from datetime import datetime, timedelta
 from urllib.parse import quote
 
-from ..models import Content, ContentType, DataMode, RightsStatus, TrafficImpact, Verification
+from ..models import (
+    Content,
+    ContentType,
+    DataMode,
+    RightsStatus,
+    TrafficImpact,
+    Verification,
+    WeatherObservation,
+)
 from .base import ProviderError, SafeHTTP, check_seoul_xml, parse_datetime, stable_id
 
 CITY_DOC = "https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do"
@@ -51,6 +59,7 @@ class SeoulCity:
                         data_mode=DataMode.LIVE,
                         provenance="PUBLIC_API:seoul_citydata;KOGL_TYPE1;weather_fields_only",
                         venue=area,
+                        weather=WeatherObservation(area_code="POI009", region=area, observed_at=stamp),
                     )
                 )
         # Incident data from this source lacks link IDs. Preserve the capability gap;

@@ -524,6 +524,16 @@
               }
             ]
           },
+          "weather": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WeatherObservation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "is_expired": {
             "type": "boolean",
             "title": "Is Expired"
@@ -826,6 +836,16 @@
             "anyOf": [
               {
                 "$ref": "#/components/schemas/TrafficImpact"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "weather": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WeatherObservation"
               },
               {
                 "type": "null"
@@ -1194,6 +1214,40 @@
           "SIMULATED"
         ],
         "title": "Verification"
+      },
+      "WeatherObservation": {
+        "properties": {
+          "area_code": {
+            "type": "string",
+            "const": "POI009",
+            "title": "Area Code"
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Region"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Observed At"
+          },
+          "scope": {
+            "type": "string",
+            "const": "FIXED_OBSERVATION_AREA",
+            "title": "Scope",
+            "default": "FIXED_OBSERVATION_AREA"
+          }
+        },
+        "type": "object",
+        "required": [
+          "area_code",
+          "region",
+          "observed_at"
+        ],
+        "title": "WeatherObservation",
+        "description": "Named observation area; never inferred from the requesting vehicle's location."
       }
     }
   }

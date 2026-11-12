@@ -78,7 +78,7 @@ def test_destination_related_news_and_score_reasons(content, now):
 
 
 def test_top3_max_and_unlimited_independent_voice_queue(content, context, now):
-    items = [content(str(i), title=f"서로 다른 소식 {i}") for i in range(7)]
+    items = [content(str(i), title=f"서로 다른 소식 {i}", data_mode=DataMode.MOCK) for i in range(7)]
     result = feed(items, context, now)
     assert len(result.top3) == 3
     assert len(result.queue) == 7
@@ -87,7 +87,7 @@ def test_top3_max_and_unlimited_independent_voice_queue(content, context, now):
 
 def test_rights_gate_not_satisfied_by_verified_metadata(content, context, now):
     items = [
-        content("allowed"),
+        content("allowed", data_mode=DataMode.MOCK),
         content("unverified", rights_status=RightsStatus.LICENSE_UNVERIFIED, rights_evidence_url=None),
         content("link", rights_status=RightsStatus.LINK_ONLY, rights_evidence_url=None),
     ]

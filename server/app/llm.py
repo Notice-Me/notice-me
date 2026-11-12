@@ -22,6 +22,8 @@ def normalize_interest(tag: str) -> str:
         "anime": "애니메이션",
         "art": "예술",
         "weather": "생활",
+        "날씨": "생활",
+        "기온": "생활",
     }
     return aliases.get(value, tag.strip())
 
