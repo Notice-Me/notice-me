@@ -67,8 +67,13 @@ API 키는 각 데이터 제공자가 발급하는 접속 비밀값으로 GitHub
 
 ## 차량 앱 연동
 
-팀원은 [차량 앱 연동 시작 안내](docs/VEHICLE_INTEGRATION.md)와 [Pleos 앱 담당 확인표](docs/VEHICLE_ACCEPTANCE.md)를 먼저 읽으세요. 서버 주소 설정과 실제 HTTP 계약 검사를 순서대로 실행할 수 있습니다. 서버와 에뮬레이터가 다른 PC라면10.0.2.2가 서버 PC를 가리키지 않는 점을 확인하세요. 시연 날씨만 갱신하려면 `app.cli ingest --public-provider seoul_city`를 사용합니다.
+Pleos 앱 0.2.2가 `main`에 있습니다. 같은 Mac에서 로컬 MOCK 서버에 연결해 Pleos 에뮬레이터 화면에 추천 3건이 표시되는 것을 확인했습니다. 재생 확인 중 에뮬레이터 연결이 끊겨 음성 출력과 재생 완료는 아직 확인하지 못했습니다. 앱은 설정에 입력한 위치와 관심사를 사용하며 GPS와 내비 경로 연동은 남아 있습니다. [앱 빌드·실행](vehicle-app/README.md) · [연동 확인표](docs/VEHICLE_ACCEPTANCE.md)
 
-[API 계약](docs/API_CONTRACT.md), [OpenAPI JSON](docs/openapi.json), [LIVE 예시](docs/examples/live-feed.json), [MIXED 예시](docs/examples/mixed-feed.json)를 공유하세요. 차량/에뮬레이터 연결 시 서버를 `--host 0.0.0.0`으로 실행하고 개발 PC의 접근 가능한 주소를 사용합니다. 공개 배포·인증·TLS 설정은 이 프로토타입에 포함되지 않습니다. 차량 앱/SDK 구현과 실제 TTS 재생은 아직 팀원 연동 검증이 필요합니다.
+- **서버와 에뮬레이터가 같은 Mac**이라면 서버를 `--host 127.0.0.1 --port 8000`으로 실행하고 앱에서 `http://10.0.2.2:8000`을 사용하세요.
+- **서버가 다른 PC**라면 서버를 `--host 0.0.0.0`으로 실행하고 앱에는 서버 PC의 접근 가능한 LAN 주소를 입력하세요. HTTP를 쓰려면 앱의 debug 허용 목록에 해당 호스트를 추가하고 APK를 다시 빌드하세요. 공개 배포에는 별도로 인증과 TLS가 필요합니다. [서버 주소 설정](docs/VEHICLE_INTEGRATION.md)
 
-`top3`는 화면 카드, `queue`는 TTS 허용 전체 큐, `alerts`는 별도 우선 큐입니다. `playback_order`대로 재생하되 항목의 `tts_eligible`, `data_mode`, `verification_status`를 지키세요. 실제 AI가 없는 현재 설명 응답은 항상 `ai_mode=MOCK`입니다. 서버는 사용자의 위치·경로·질문 이력을 저장하지 않습니다.
+앱은 `top3`를 목록에 표시하고, `queue`와 `alerts`의 항목을 `playback_order` 순서로 확인합니다. 재생 직전 최신 피드와 상세 응답에서 `tts_eligible`, 권리 근거, 검증 상태, 데이터 모드, 유효기간을 다시 검사합니다. 앱이 현재 내비 경로를 보내지 않아 실제 경로 기반 긴급 안내는 미연동입니다. [API 계약](docs/API_CONTRACT.md) · [OpenAPI JSON](docs/openapi.json)
+
+기사와 날씨의 출처 모드는 항목의 `data_mode`에서 확인하세요. `ai_mode=MOCK`은 설명 API의 AI 모드입니다. 날씨만 새로 수집하려면 `python -m app.cli ingest --public-provider seoul_city`를 실행하세요. 앱에서 실제 자료를 보려면 수집된 데이터가 있는 LIVE 또는 MIXED 서버에 연결해야 합니다. [LIVE 응답 예시](docs/examples/live-feed.json) · [MIXED 응답 예시](docs/examples/mixed-feed.json)
+
+앱은 입력한 위치와 관심사를 피드 요청에 사용합니다. 서버 애플리케이션은 위치·경로·질문 이력을 저장하지 않으며, 로컬 시연 명령은 요청 URL이 기록되지 않도록 `--no-access-log`를 사용합니다.

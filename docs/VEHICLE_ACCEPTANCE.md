@@ -1,12 +1,12 @@
 # Pleos 연동 확인표
 
-2026-11-11. 이 문서는 **앞으로 팀원이 실행한 결과를 채울 양식**입니다. 아래 앱/기기 단계는 모두 NOT_RUN이며 서버 단독 결과로 완료 처리하지 않습니다. [서버 실행·주소·규격](VEHICLE_INTEGRATION.md), [API 계약](API_CONTRACT.md), [서버 측 실제 HTTP 증거](verification/2026-11-11-vehicle-handoff.json)를 사용합니다.
+2026-11-12. Pleos 0.2.2(커밋 `dafe69c`)에서 같은 Mac의 MOCK 서버에 연결해 추천 3건을 확인했습니다. 재생 확인 중 ADB가 offline이 되어 음성 출력과 재생 완료는 확인하지 못했습니다. [서버 실행·주소·규격](VEHICLE_INTEGRATION.md), [API 계약](API_CONTRACT.md), [서버 측 실제 HTTP 증거](verification/2026-11-11-vehicle-handoff.json)를 사용합니다.
 
 ## 첫 연결에서 합의할 값
 
 | 항목 | 기록할 값 |
 |---|---|
-| 서버 | feat/server-content-feed의 커밋, 실행 PC, 포트, configured_data_mode |
+| 서버 | 실행한 서버의 커밋, 실행 PC, 포트, configured_data_mode |
 | 앱 | 앱 브랜치/커밋, APK 빌드 타입, target/min SDK, Pleos SDK 버전 |
 | 기기 | Pleos AVD 이미지/Android API 또는 실차/Devbox 종류. 개인 식별번호 제외 |
 | 주소 | 서버와 같은 PC의 표준 AVD면 10.0.2.2 후보, 다른 PC/실차면 서버의 도달 가능한 LAN 주소 |
@@ -19,12 +19,12 @@ LAN 주소 등 로컬 접속값은 팀 내 로컬 기록에만 넣고 공개/저
 
 | 단계 | 실행·기대 동작 | 담당 | 실제 결과 |
 |---|---|---|---|
-| A | 서버 실행, 팀원 PC에서 TCP8000 및 health200. 서버와 에뮬레이터가 같은 PC면 PC health부터 확인 | 서버+앱 | NOT_RUN |
-| B | **앱의 HTTP 클라이언트**로 health200. PC curl/브라우저 성공만으로 대체하지 않음 | 앱 | NOT_RUN |
-| C | MOCK feed200, top3 0~3 카드, 빈 값/null 허용, MOCK/SIMULATED 표시 | 앱 | NOT_RUN |
+| A | 서버 실행, 팀원 PC에서 TCP8000 및 health200. 서버와 에뮬레이터가 같은 PC면 PC health부터 확인 | 서버+앱 | PASS · 같은 Mac에서 health OK (MOCK) |
+| B | **앱의 HTTP 클라이언트**로 health200. PC curl/브라우저 성공만으로 대체하지 않음 | 앱 | PASS · Pleos 앱 새로고침 후 추천 표시 |
+| C | MOCK feed200, top3 0~3 카드, 빈 값/null 허용, MOCK/SIMULATED 표시 | 앱 | PARTIAL · Pleos에서 MOCK 추천 3건과 시연 표시 확인. 빈 값/null은 기기 미검증 |
 | D | playback_order를 queue/alerts의 id로 연결. 긴급 먼저, top3와 큐를 따로 관리 | 앱 | NOT_RUN |
 | E | 재생 전 최신 feed·detail 검사, TTS_ALLOWED/근거/tts_eligible/유효성 충족 항목의 brief만 전달 | 앱 | NOT_RUN |
-| F | 실제 TTS 권한·초기화·언어·합성/재생 이벤트 성공 및 음성 출력 확인 | 앱 | NOT_RUN |
+| F | 실제 TTS 권한·초기화·언어·합성/재생 이벤트 성공 및 음성 출력 확인 | 앱 | INCONCLUSIVE · 재생 확인 중 ADB offline |
 | G | 사용자 중단/다음/다시와 오디오 포커스·주행 UX 제약 처리 | 앱 | NOT_RUN |
 | H | LIVE 실제 날씨 카드/brief 수신 및 허용 콘텐츠 재생. 수집시각·만료·모드 기록 | 서버+앱 | NOT_RUN |
 | I | MIXED에서 항목별 LIVE/MOCK 구분, 모의 긴급정보를 실제 사고라고 표시하지 않음 | 앱 | NOT_RUN |
@@ -50,4 +50,4 @@ LAN 주소 등 로컬 접속값은 팀 내 로컬 기록에만 넣고 공개/저
 
 ## 2026-11-11 앱 코드/빌드 사전검증 추가
 
-[앱 검증 기록](verification/2026-11-11-vehicle-app.md)에 APK 빌드·클라이언트 테스트·로컬 서버 HTTP 결과를 남겼습니다. 위 B~K의 **기기 실행 판정은 계속 NOT_RUN**입니다. 새 코드의 JVM 검증으로 해당 표를 PASS로 바꾸지 않았습니다.
+[앱 검증 기록](verification/2026-11-11-vehicle-app.md)에 APK 빌드·클라이언트 테스트·로컬 서버 HTTP 결과를 남겼습니다. 당시에는 기기 실행을 확인하지 못했습니다. 2026-11-12에 실제 확인한 항목은 위 표에 반영했습니다.

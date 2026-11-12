@@ -1,10 +1,10 @@
 # 차량 앱 연동 시작 안내
 
-기준 브랜치 `feat/server-content-feed`, API v1. 첫 대상은 **Pleos SDK 에뮬레이터·실차**입니다. 2026-11-11 20시대 서버 HTTP 재검증은 [측정 JSON](verification/2026-11-11-vehicle-handoff.json), 팀원의 실제 실행·완료 판정은 [연동 확인표](VEHICLE_ACCEPTANCE.md)를 사용합니다. 서버 HTTP 성공과 Pleos 앱/SDK·오디오 재생 성공은 별도입니다.
+기준 브랜치 `main`, API v1. 첫 대상은 **Pleos SDK 에뮬레이터·실차**입니다. 2026-11-11 20시대 서버 HTTP 재검증은 [측정 JSON](verification/2026-11-11-vehicle-handoff.json), 팀원의 실제 실행·완료 판정은 [연동 확인표](VEHICLE_ACCEPTANCE.md)를 사용합니다. 서버 HTTP 성공과 Pleos 앱/SDK·오디오 재생 성공은 별도입니다.
 
 ## 1. 서버 실행
 
-최초 clone이면 저장소 루트에서 `git switch feat/server-content-feed` 후 [README](../README.md)의 Python 설치 절차를 실행합니다. 이후 명령은 **server 폴더**에서 실행합니다. 기존 `.env`는 덮어쓰지 마세요.
+최초 clone이면 저장소 루트에서 `git switch main` 후 [README](../README.md)의 Python 설치 절차를 실행합니다. 이후 명령은 **server 폴더**에서 실행합니다. 기존 `.env`는 덮어쓰지 마세요.
 
 ```powershell
 cd server
