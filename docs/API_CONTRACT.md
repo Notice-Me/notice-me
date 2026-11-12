@@ -1,5 +1,11 @@
 # API contract v1
 
+## 2026-11-13 interests 의미 보강 — 필드/명세 변경 없음
+
+반복/쉼표 interests 및 기존 art/science/anime/weather 입력은 유지한다. 구체 별칭(먼작귀/치이카와/Chiikawa/ちいかわ)과 팝업·캐릭터굿즈·전시 형식은 서버 내부 profile로 해석한다. 구체 키워드는 제목 근거가 필요하고 형식도 지정하면 함께 충족해야 한다. EXHIBITION 타입도 전시 근거다. weather/생활을 명시하면 날씨는 별도로 유지한다. broad-only의 기존 위치 fallback과 MOCK 기본 흐름은 유지한다.
+
+기존 score_reasons 숫자 dict에 interest_topic/interest_keyword/interest_format을 추가하고, 기존 diagnostics 배열에서 SPECIFIC_INTEREST_MISMATCH/UNSUPPORTED_INTEREST를 사용할 수 있다. 새 최상위/Content 필드는 없다. top3/queue/alerts/playback_order 및 LIVE 음성·권리·만료 계약은 유지한다. title-only 뉴스 분류는 수집 검색어를 증거로 사용하지 않는다. 앱 파서 대조와 저장 OpenAPI 일치 검사를 수행했다. [구현 전 검토·예제·미구현 길안내 제안](INTEREST_CONTRACT_REVIEW.md).
+
 ## 2026-11-13 additive weather / LIVE 음성 범위
 
 Content·FeedItem·ContentDetail에 nullable `weather`(`area_code`, `region`, `observed_at`, `scope`) 추가. 기존 URL/배열/필드와 MOCK 계약은 유지. LIVE `tts_eligible`·queue·playback_order는 허가된 POI009 날씨만 허용하며 뉴스·행사·교통은 이번 실음성 범위 밖이다. 관측1시간/미래값 검사와 고정 지역 표시 기준은 [실제 날씨 시연](LIVE_WEATHER_DEMO.md). 목적지 ETA는 음성 큐 예산이며 개별 행사 이동시간이 아니다. 내비 사용 시 제공된 목적지/경로 주변 점수를 현재 위치보다 우선한다. 경로를 받지 못하면 생성하지 않는다.

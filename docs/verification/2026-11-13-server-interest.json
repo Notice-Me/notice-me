@@ -1,0 +1,180 @@
+{
+  "checked_at": "2026-11-12T16:51:01.963721+00:00",
+  "base_commit": "94de8750fa5e40658780f597af4bfa5b209d9c5a",
+  "branch": "feat/server-interest-content",
+  "scope": "SERVER_ONLY",
+  "content_provider_calls": 0,
+  "routing_provider_calls": 0,
+  "new_real_events_registered": 0,
+  "tests": {
+    "pytest": 190,
+    "new_interest_cases": 31,
+    "failures": 0,
+    "errors": 0,
+    "ruff_check": "PASS",
+    "ruff_format": "PASS",
+    "pip_check": "PASS",
+    "openapi_schema_unchanged": true,
+    "warning": "Existing Starlette TestClient/httpx deprecation warning (1)"
+  },
+  "http": {
+    "live": {
+      "checked_at": "2026-11-12T16:48:42.101217+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "NO_NAVIGATION",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "LIVE",
+      "top3_count": 3,
+      "queue_count": 1,
+      "alert_count": 0,
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 80,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "EXPIRED_OR_FUTURE",
+          "count": 11,
+          "message": "EXPIRED_OR_FUTURE"
+        },
+        {
+          "code": "FIXED_WEATHER_AREA",
+          "count": 1,
+          "message": "FIXED_WEATHER_AREA"
+        },
+        {
+          "code": "TRAFFIC_STALE",
+          "count": 3,
+          "message": "TRAFFIC_STALE"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 2
+    },
+    "mock_with_simulated_route": {
+      "checked_at": "2026-11-12T16:48:43.185302+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "MANUAL_DEMO_LINK",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "MOCK",
+      "top3_count": 3,
+      "queue_count": 5,
+      "alert_count": 1,
+      "diagnostics": [
+        {
+          "code": "MOCK_MODE",
+          "count": 1,
+          "message": "MOCK_MODE"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 6,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 1
+    },
+    "interest_queries": [
+      {
+        "interests": [
+          "art",
+          "science",
+          "weather"
+        ],
+        "http": 200,
+        "top3": 3,
+        "queue": 1,
+        "alerts": 0
+      },
+      {
+        "interests": [
+          "먼작귀"
+        ],
+        "http": 200,
+        "top3": 0,
+        "queue": 0,
+        "alerts": 0
+      },
+      {
+        "interests": [
+          "Chiikawa",
+          "popup",
+          "weather"
+        ],
+        "http": 200,
+        "top3": 1,
+        "queue": 1,
+        "alerts": 0
+      },
+      {
+        "interests": [
+          "ちいかわ",
+          "展示会"
+        ],
+        "http": 200,
+        "top3": 0,
+        "queue": 0,
+        "alerts": 0
+      }
+    ]
+  },
+  "existing_stored_data": {
+    "live_rows": 97,
+    "chiikawa_title_matches": 0,
+    "original_database_modified": false,
+    "source": "Existing LIVE demonstration database copied using SQLite backup; no new provider collection",
+    "weather_observation_kst": "2026-11-13T01:00:00+09:00",
+    "weather_expiry_kst": "2026-11-13T02:00:00+09:00",
+    "live_http_results_are_time_bounded": true
+  },
+  "preservation": {
+    "protected_files_hashes_unchanged": 3,
+    "vehicle_app_changed_files": 0
+  },
+  "not_verified_this_task": [
+    "Pleos SDK, vehicle UI or actual TTS playback",
+    "Current domestic Chiikawa popup schedule, venue coordinates and cancellation status",
+    "Real driving route/time or routing-account eligibility",
+    "Real school AI",
+    "Continuous weather refresh or automatic ingestion"
+  ],
+  "known_failures_resolved": [
+    "Editable venv initially imported another checkout; PYTHONPATH set to current server",
+    "Initial event dedup insertion regressed old news dedup; corrected branch placement and reran unchanged regression tests",
+    "cp949 console could not print Japanese query text after valid JSON was saved; UTF-8 console used for final HTTP checks"
+  ]
+}

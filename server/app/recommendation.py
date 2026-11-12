@@ -7,7 +7,7 @@ from difflib import SequenceMatcher
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from .availability import unavailable_reason
-from .llm import normalize_interest
+from .interests import match_interests, parse_interests
 from .models import (
     Content,
     ContentType,
@@ -38,6 +38,30 @@ def normalized_title(title: str) -> str:
     return re.sub(r"[^\w]", "", title)
 
 
+def same_event_occurrence(item: Content, old: Content) -> bool:
+    if not (
+        item.starts_at is not None
+        and item.starts_at == old.starts_at
+        and item.expires_at == old.expires_at
+        and item.verification_status == old.verification_status
+        and normalized_title(item.title) == normalized_title(old.title)
+        and len(normalized_title(item.title)) >= 4
+    ):
+        return False
+    coordinates_known = item.latitude is not None and old.latitude is not None
+    nearby = (
+        coordinates_known and distance_km(item.latitude, item.longitude, old.latitude, old.longitude) <= 0.1
+    )
+    if coordinates_known and not nearby:
+        return False
+    if item.venue and old.venue:
+        place = normalized_title(item.venue)
+        return bool(place and place == normalized_title(old.venue))
+    return bool(
+        nearby and (item.latitude, item.longitude) != (0, 0) and (old.latitude, old.longitude) != (0, 0)
+    )
+
+
 def deduplicate(items: list[Content]) -> list[Content]:
     kept: list[Content] = []
     for item in sorted(items, key=lambda x: x.updated_at or x.published_at or x.fetched_at, reverse=True):
@@ -61,6 +85,11 @@ def deduplicate(items: list[Content]) -> list[Content]:
                     a == b or (min(len(a), len(b)) >= 12 and SequenceMatcher(None, a, b).ratio() >= 0.88)
                 ):
                     duplicate = True
+            elif item.content_type in (ContentType.EVENT, ContentType.EXHIBITION) and old.content_type in (
+                ContentType.EVENT,
+                ContentType.EXHIBITION,
+            ):
+                duplicate = same_event_occurrence(item, old)
             if duplicate:
                 break
         if not duplicate:
@@ -136,7 +165,8 @@ def build_feed(
     counts: Counter = Counter()
     candidates: list[FeedItem] = []
     alerts: list[FeedItem] = []
-    interests = {normalize_interest(x) for x in context.interests}
+    interests = parse_interests(context.interests)
+    counts["UNSUPPORTED_INTEREST"] = len(interests.unsupported)
     valid = [x for x in items if x.expires_at > now and (x.published_at is None or x.published_at <= now)]
     counts["EXPIRED_OR_FUTURE"] = len(items) - len(valid)
     unique = deduplicate(valid)
@@ -146,12 +176,19 @@ def build_feed(
         if reason is not None:
             counts[reason] += 1
             continue
-        overlap = interests & {normalize_interest(x) for x in item.interest_tags}
+        interest = match_interests(item, interests)
         local, local_reason = local_relevance(item, context)
-        if item.content_type == ContentType.NEWS and not overlap and local <= 0:
+        if (
+            interests.specific
+            and not interest.matched
+            and item.content_type not in (ContentType.TRAFFIC, ContentType.EVENT, ContentType.EXHIBITION)
+        ):
+            counts["SPECIFIC_INTEREST_MISMATCH"] += 1
+            continue
+        if item.content_type == ContentType.NEWS and not interest.matched and local <= 0:
             counts["NEWS_NOT_RELEVANT"] += 1
             continue
-        if item.content_type == ContentType.LIFE and not overlap:
+        if item.content_type == ContentType.LIFE and not interest.matched:
             counts["LIFE_INTEREST_REQUIRED"] += 1
             continue
         travel = None
@@ -171,10 +208,13 @@ def build_feed(
             if now + timedelta(minutes=travel.minutes) >= item.expires_at:
                 counts["EVENT_ENDS_BEFORE_ARRIVAL"] += 1
                 continue
+            if interests.specific and not interest.matched:
+                counts["SPECIFIC_INTEREST_MISMATCH"] += 1
+                continue
         stamp = item.published_at or item.updated_at
         age_hours = max(0, (now - stamp).total_seconds() / 3600) if stamp else 168
         reasons = {
-            "interest_match": min(40, 20 * len(overlap)),
+            **interest.scores(),
             local_reason: round(local, 3),
             "freshness": round(max(0, 20 * (1 - age_hours / 168)), 3),
             "source_verified": 10 if item.verification_status == Verification.VERIFIED else 0,

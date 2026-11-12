@@ -1,5 +1,7 @@
 # 데이터 출처·조건·실제 검증
 
+2026-11-13 관심사 회차: 기존 LIVE DB 사본97행을 검사했으며 치이카와 한영일 별칭 제목0건이었다. 이번 원천 수집/라우팅 API 호출0, 실제 행사 등록0. 공식 서울 문화행사/TourAPI의 탐색 범위, 대원미디어·치이카와 공식 페이지의 확인 가능/불가능 정보, 수동 등록 취소 처리의 한계, 카카오/TMAP 무료 한도는 [P1 조사](POPUP_ROUTING_RESEARCH.md)에 정리했다. 공식 공지 발견과 개최·좌표·권리 검증을 구별하고 Type3·실제 뉴스 음성 차단을 유지한다. [회차 측정](verification/2026-11-13-server-interest.json).
+
 2026-11-13: 서울시 도시데이터 공식 페이지의 공공누리1유형·제3저작권자 없음·sample POI009 제한을 재확인했다. 고정 지역/관측시각을 weather 필드에 명시하고 실음성은 이 날씨로 제한한다. 실제1회 수집과 다른 제공자0회, 수동 갱신/만료 조건은 [LIVE_WEATHER_DEMO](LIVE_WEATHER_DEMO.md). 좌표별 다른 날씨·실제 라우팅 제공자는 미연결이다.
 
 확인일 **2026-11-11 KST**. 공식 문서 읽기, HTTP 응답 수신, 정상 데이터 수신, 추천 노출, TTS 허가를 구분합니다. 초기 측정값은 [API_VALIDATION_RESULTS.json](API_VALIDATION_RESULTS.json), 초기 서버 HTTP는 [HTTP_SMOKE_RESULTS.json](HTTP_SMOKE_RESULTS.json)입니다. 인증정보와 원본 기사 본문은 포함하지 않습니다.
