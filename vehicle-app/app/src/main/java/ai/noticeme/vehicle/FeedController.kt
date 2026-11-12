@@ -13,7 +13,7 @@ interface SpeechPlayer { suspend fun speak(text: String, allowed: () -> Boolean)
 data class ScreenState(
     val feed: Feed? = null, val connected: Boolean = false, val busy: Boolean = false,
     val playing: Boolean = false, val current: Content? = null,
-    val message: String = "서버 주소와 시연 위치를 확인한 뒤 연결하세요.",
+    val message: String = "새로고침을 눌러 소식을 불러오세요.",
 )
 
 /** All commands and callbacks are confined to the supplied UI scope. */
@@ -36,11 +36,15 @@ class FeedController(
         update(ScreenState(busy = true, message = "서버 상태 확인 중…"))
         job = scope.launch {
             try {
-                val mode = api.health()
-                update(state.copy(message = "health 200 · $mode · 추천 불러오는 중…"))
+                api.health()
+                update(state.copy(message = "추천 소식을 불러오는 중…"))
                 val feed = api.feed(query)
                 update(ScreenState(feed, connected = true,
-                    message = "health 200 · feed 200 · 카드 ${feed.top3.size}개 · 음성 후보 ${feed.candidates().size}개"))
+                    message = when (feed.dataMode) {
+                        "MOCK" -> "시연 데이터"
+                        "MIXED" -> "실제 소식과 시연 데이터"
+                        else -> "연결됨"
+                    }))
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) { update(ScreenState(message = userMessage(e))) }
         }
@@ -69,7 +73,7 @@ class FeedController(
     private fun begin(replayId: String?) {
         cancel()
         val token = generation
-        update(state.copy(busy = true, playing = false, message = "최신 음성 자격 확인 중…"))
+        update(state.copy(busy = true, playing = false, message = "재생할 소식 확인 중…"))
         job = scope.launch {
             try {
                 var requestedId = replayId
@@ -105,7 +109,7 @@ class FeedController(
                         continue
                     }
                     update(state.copy(current = detail, busy = false, playing = true,
-                        message = "재생 중 · ${detail.title}"))
+                        message = "재생 중"))
                     speech.speak(detail.brief) { item.canSpeak(now()) && detail.canSpeak(now()) }
                     if (token != generation) return@launch
                     consumed += item.id

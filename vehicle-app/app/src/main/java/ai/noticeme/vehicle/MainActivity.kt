@@ -3,7 +3,8 @@ package ai.noticeme.vehicle
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
+import android.content.res.ColorStateList
+import android.text.TextUtils
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -25,8 +26,7 @@ class MainActivity : Activity() {
     private var controller: FeedController? = null
     private lateinit var speech: DeviceSpeechPlayer
     private lateinit var status: TextView
-    private lateinit var mode: TextView
-    private lateinit var cards: LinearLayout
+    private lateinit var stories: LinearLayout
     private lateinit var diagnostics: TextView
     private lateinit var nowPlaying: TextView
     private lateinit var play: Button
@@ -37,31 +37,34 @@ class MainActivity : Activity() {
     private lateinit var latitude: EditText
     private lateinit var longitude: EditText
     private lateinit var interests: EditText
-    private val ink = Color.rgb(234, 242, 245)
-    private val muted = Color.rgb(162, 179, 189)
-    private val accent = Color.rgb(153, 230, 179)
+    private val ink = Color.rgb(39, 41, 35)
+    private val muted = Color.rgb(91, 94, 82)
+    private val accent = Color.rgb(76, 92, 52)
+    private val paper = Color.rgb(248, 247, 241)
+    private val line = Color.rgb(220, 221, 210)
     private var shownFeed: Feed? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         speech = DeviceSpeechPlayer(this) { controller?.stop("다른 오디오 안내로 재생이 중단되었습니다. 다시 듣기를 누르세요.") }
-        val root = column().apply { setPadding(dp(20), dp(16), dp(20), dp(12)) }
+        val root = column().apply {
+            setBackgroundColor(paper)
+            setPadding(dp(22), dp(12), dp(22), dp(10))
+        }
+        val settings = column().apply { visibility = View.GONE }
         val heading = row()
-        heading.addView(label("Notice Me", 28, ink, true), LinearLayout.LayoutParams(0, -2, 1f))
-        mode = label("연결 대기", 16, accent, true)
-        heading.addView(mode)
+        heading.addView(label("Notice Me", 29, ink, true), LinearLayout.LayoutParams(0, -2, 1f))
+        heading.addView(button("설정") {
+            settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        })
         root.addView(heading)
-        root.addView(label("내 주변의 소식, 듣기 편한 순서로", 16, muted))
+        root.addView(divider())
 
-        val scroll = ScrollView(this)
+        val scroll = ScrollView(this).apply { isFillViewport = true }
         val body = column()
         scroll.addView(body)
         root.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
 
-        val settings = column().apply { visibility = View.VISIBLE }
-        body.addView(button("서버 · 시연 위치 설정") {
-            settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        })
         address = field("서버 주소", getPreferences(MODE_PRIVATE).getString("server", "http://10.0.2.2:8000")!!,
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI, settings)
         val coordinates = row()
@@ -73,23 +76,27 @@ class MainActivity : Activity() {
         longitude = field("경도", "126.98", decimal, right)
         settings.addView(coordinates)
         interests = field("관심사 (쉼표로 구분)", "art,science,weather", InputType.TYPE_CLASS_TEXT, settings)
-        settings.addView(label("광화문 시연 좌표 · GPS/내비 미연동 · 정차 상태에서 시험하세요.", 14, muted))
+        settings.addView(label("광화문 시연 좌표를 사용합니다.", 14, muted))
+        settings.addView(label(speech.label, 14, muted))
         body.addView(settings)
-        body.addView(button("연결 / 새로고침") { connect() })
-        status = label("", 16, accent)
+        val feedHeading = row()
+        feedHeading.addView(label("추천 소식", 22, ink, true), LinearLayout.LayoutParams(0, -2, 1f))
+        feedHeading.addView(button("새로고침") { connect() })
+        body.addView(feedHeading)
+        status = label("", 15, muted)
         status.accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
         body.addView(status)
-        body.addView(label("추천 TOP 3", 23, ink, true))
-        cards = if (resources.configuration.screenWidthDp >= 840) row() else column()
-        body.addView(cards)
         diagnostics = label("", 14, muted)
         body.addView(diagnostics)
-        root.addView(label(speech.label, 13, muted))
+        stories = column()
+        body.addView(stories)
+        root.addView(divider())
         nowPlaying = label("재생 대기", 16, ink)
         nowPlaying.maxLines = 2
+        nowPlaying.ellipsize = TextUtils.TruncateAt.END
         root.addView(nowPlaying)
         val controls = row()
-        play = button("재생") { controller?.play() }
+        play = button("재생", primary = true) { controller?.play() }
         next = button("패스") { controller?.next() }
         again = button("다시 듣기") { controller?.replay() }
         stop = button("중단") { controller?.stop() }
@@ -104,7 +111,7 @@ class MainActivity : Activity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 controller?.stop()
                 controller = null
-                render(ScreenState(message = "설정이 변경되었습니다. 연결 / 새로고침을 누르세요."))
+                render(ScreenState(message = "설정이 변경되었습니다. 새로고침을 누르세요."))
             }
             override fun afterTextChanged(s: Editable?) = Unit
         }
@@ -127,42 +134,39 @@ class MainActivity : Activity() {
 
     private fun render(state: ScreenState) {
         status.text = state.message
-        mode.text = state.feed?.dataMode ?: "연결 대기"
         play.isEnabled = state.connected && !state.busy && !state.playing
         next.isEnabled = state.connected && state.current != null
         again.isEnabled = next.isEnabled
         stop.isEnabled = state.busy || state.playing
         nowPlaying.text = state.current?.let {
-            "${if (state.playing) "듣는 중" else "선택한 소식"} · ${it.title} · ${it.dataMode}" +
+            "${if (state.playing) "듣는 중" else "선택한 소식"} · ${it.title}" +
                 if (it.verification == "SIMULATED") " · 모의 자료" else ""
-        } ?: "재생 대기 · 재생 버튼을 눌러 시작하세요"
-        if (state.feed !== shownFeed || cards.childCount == 0) {
+        } ?: "재생 대기"
+        if (state.feed !== shownFeed || stories.childCount == 0) {
             shownFeed = state.feed
-            cards.removeAllViews()
+            stories.removeAllViews()
             if (state.feed?.top3.isNullOrEmpty()) {
-                cards.addView(label(if (state.connected) "지금 조건에 맞는 새 소식이 없습니다." else "서버에 연결하면 추천 카드가 표시됩니다.", 19, muted))
-            } else state.feed!!.top3.forEachIndexed { index, item ->
-                val card = column().apply {
-                    setPadding(dp(18), dp(16), dp(18), dp(16))
-                    background = GradientDrawable().apply { setColor(Color.rgb(28, 41, 51)); cornerRadius = dp(16).toFloat() }
-                }
-                card.addView(label("0${index + 1}   ${item.dataMode}" + if (item.verification == "SIMULATED") " · 모의 자료" else "", 14, accent, true))
-                card.addView(label(item.title, 22, ink, true))
-                card.addView(label(item.brief.ifBlank { "제목과 출처만 제공되는 소식입니다." }, 17, ink))
-                card.addView(label(item.sourceName, 14, muted))
-                card.addView(label(item.sourceUrl, 12, muted))
-                card.addView(label(if (item.ttsEligible) "음성 재생 전 자격 재확인" else "화면 전용 · 음성 재생 불가", 13, accent))
-                val params = if (cards.orientation == LinearLayout.HORIZONTAL)
-                    LinearLayout.LayoutParams(0, -2, 1f) else LinearLayout.LayoutParams(-1, -2)
-                params.setMargins(dp(3), dp(8), dp(3), dp(8))
-                cards.addView(card, params)
+                if (state.connected) stories.addView(label("추천할 소식이 없습니다.", 18, muted))
+            } else state.feed!!.top3.forEach { item ->
+                stories.addView(divider())
+                val story = column().apply { setPadding(0, dp(12), 0, dp(14)) }
+                val source = buildList {
+                    add(item.sourceName)
+                    if (item.dataMode == "MOCK" || item.verification == "SIMULATED") add("모의 자료")
+                    if (!item.ttsEligible) add("읽기 전용")
+                }.filter { it.isNotBlank() }.joinToString(" · ")
+                story.addView(label(source, 14, muted))
+                story.addView(label(item.title, 22, ink, true))
+                if (item.brief.isNotBlank()) story.addView(label(item.brief, 17, ink))
+                stories.addView(story)
             }
         }
-        diagnostics.text = state.feed?.let { feed ->
-            val alerts = if (feed.alerts.isEmpty()) "" else "우선 안내 ${feed.alerts.size}건 · " +
-                feed.alerts.joinToString(" / ") { it.title + if (it.verification == "SIMULATED") " (모의 자료)" else "" } + "\n"
-            alerts + feed.diagnostics.joinToString("\n") { "${it.code} · ${it.message}" }
-        } ?: ""
+        val alerts = state.feed?.alerts.orEmpty()
+        diagnostics.text = alerts.joinToString("\n") {
+            val simulation = if (it.verification == "SIMULATED" || it.dataMode == "MOCK") " (모의 자료)" else ""
+            "우선 안내 · ${it.title}$simulation"
+        }
+        diagnostics.visibility = if (alerts.isEmpty()) View.GONE else View.VISIBLE
     }
 
     override fun onStop() {
@@ -176,10 +180,31 @@ class MainActivity : Activity() {
     private fun label(text: String, size: Int, color: Int, bold: Boolean = false) = TextView(this).apply {
         this.text = text; textSize = size.toFloat(); setTextColor(color)
         setPadding(0, dp(5), 0, dp(5))
-        if (bold) setTypeface(typeface, Typeface.BOLD)
+        if (bold) {
+            setTypeface(typeface, Typeface.BOLD)
+            letterSpacing = -0.015f
+        }
     }
-    private fun button(text: String, action: () -> Unit) = Button(this).apply {
-        this.text = text; isAllCaps = false; minHeight = dp(56)
+    private fun divider() = View(this).apply {
+        setBackgroundColor(line)
+        layoutParams = LinearLayout.LayoutParams(-1, dp(1))
+        importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+    }
+    private fun button(text: String, primary: Boolean = false, action: () -> Unit) = Button(this).apply {
+        this.text = text
+        isAllCaps = false
+        minHeight = dp(54)
+        minWidth = dp(56)
+        elevation = 0f
+        stateListAnimator = null
+        backgroundTintList = ColorStateList(
+            arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf()),
+            intArrayOf(line, if (primary) accent else line),
+        )
+        setTextColor(ColorStateList(
+            arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf()),
+            intArrayOf(muted, if (primary) Color.WHITE else ink),
+        ))
         setOnClickListener { action() }
     }
     private fun field(title: String, value: String, type: Int, parent: LinearLayout): EditText {
