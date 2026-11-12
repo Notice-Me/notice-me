@@ -38,3 +38,7 @@ Python >=3.11, FastAPI, SQLite, httpx, pytest, 로컬 .env. 서버: 수집기, �
 핵심 서버를 재작성하지 않고 유효성 오류 수정과 응답 타입/연결 도구를 보강했습니다. 즉시 다음 단계는 Pleos 에뮬레이터·실차의 앱 HTTP 호출→카드/큐→허용 brief TTS 검증입니다. FreeNews 인증/일부 실제 수신은 확인했지만 뉴스 가공·재배포 라이선스, 실제 라우팅/차량 링크 매핑, 학교 AI는 미완료입니다. 최소 시연에서는 확인된 공공자료 경로와 명시적으로 표시된 Mock을 사용할 수 있으나 원래 전체 기획을 실자료로 구현했다는 의미는 아닙니다. 최신 우선순위/완료 기준은 [PROJECT_STATUS](PROJECT_STATUS.md), 팀원 실행은 [VEHICLE_INTEGRATION](VEHICLE_INTEGRATION.md), 실제 결과 기록은 [VEHICLE_ACCEPTANCE](VEHICLE_ACCEPTANCE.md)를 따릅니다.
 
 23시대 TourAPI 인증 후 현재·예정 행사76건을 실제 수집했습니다. 이는 날짜상 유효한 저장 후보이며 실제 이동시간/권리 확보·추천 노출을 완료했다는 뜻은 아닙니다. 검색 범위·제외/보류·상한과 검증은 [TourAPI 조사](TOURAPI_INVESTIGATION.md)를 따릅니다.
+
+## 2026-11-11 차량 앱 신규 구현
+
+사용자가 앱이 없는 상태임을 확인하여 `vehicle-app`에 Kotlin/Android 프로젝트를 생성했습니다. 서버 계약을 유지하며 수동 위치·관심사 → health/feed → TOP3 → 사용자 시작/패스/다시/중단을 구현했습니다. Pleos ON_DEVICE와 일반 Android 시험용 flavor를 구분합니다. [앱 실행 안내](../vehicle-app/README.md), [측정 검증 범위](verification/2026-11-11-vehicle-app.md) 참조. SDK 컴파일 성공과 실제 차량 실행 성공은 별개이며, GPS/내비/주행 제약 검증은 미완료입니다.

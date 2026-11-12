@@ -2,6 +2,10 @@
 
 **2026-11-11 KST / feature 0.1.0.** 서버 프로토타입과 실제 서울시 수집→SQLite→HTTP 응답 경로가 작동합니다. 실제 뉴스와 학교 AI/차량 연동까지 완성된 상태는 아닙니다.
 
+## 차량 앱 구현 추가 (2026-11-11, 23시대 KST)
+
+`vehicle-app` 신규 Android 프로젝트에 health/feed 연결, TOP3 카드, Pleos ON_DEVICE/일반 Android TTS, 재생·패스·다시·중단을 구현했습니다. 두 debug APK 빌드, 앱 테스트 19개(실제 로컬 MOCK HTTP 포함), 서버 테스트 110개 통과. **기기 화면/음성 출력은 미검증**입니다. 설치된 일반 에뮬레이터가 APK 설치 전 SIGILL로 종료되었고 Pleos 이미지는 없습니다. 수동 위치·관심사 시연용이며 GPS/내비/주행 UX 연동은 남았습니다. [앱 실행](../vehicle-app/README.md), [검증과 잔여 경고](verification/2026-11-11-vehicle-app.md).
+
 ## 최신 TourAPI 검증 (2026-11-11, 23시대 KST)
 
 사용자 인증 후 기존268/10/2/유효0 결과를 확인했습니다. [조사와 제외10행](TOURAPI_INVESTIGATION.md), [증거 JSON](verification/2026-11-11-tourapi-investigation.json). 공식 매뉴얼의 progresstype 기본값 선택안함까지 버리던 조건을 수정하고, KST 오늘~90일/수정일순/상한 있는 pagination을 적용했습니다.
