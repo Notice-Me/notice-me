@@ -14,7 +14,7 @@ async def test_public_selection_never_calls_unselected_sources(tmp_path, monkeyp
 
     def make_provider(name):
         class FakeProvider:
-            def __init__(self, *args):
+            def __init__(self, *args, **kwargs):
                 self.name = name
                 self.http = SimpleNamespace(last_http_status=200)
 

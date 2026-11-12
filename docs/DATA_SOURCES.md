@@ -32,9 +32,11 @@
 | 소스 | 인증/요금/갱신 | 필드 및 권리 | 실제 결과와 제한 |
 |---|---|---|---|
 | [서울시 문화행사](https://data.seoul.go.kr/dataList/OA-15486/A/1/datasetView.do) | 무료. sample은 첫 5건; 키 필요 시 본인 발급. 데이터셋 매일 1회 | TITLE, STRTDATE, END_DATE, PLACE, LAT/LOT, CODENAME, HMPG_ADDR/ORG_LINK. RGSTDATE는 등록일이며 최종 수정일로 대체하지 않음. 데이터셋 공공누리 1유형 | sample HTTP 200 / INFO-000, 5건 정규화. 전체 count 19,765는 조회 시 원천 전체 목록 건수. 갱신시각은 null, fetched_at 별도. 실데이터 자동차 이동시간 미검증이므로 5건 모두 추천 제외 |
-| [TourAPI 국문 관광정보_GW](https://www.data.go.kr/data/15101578/openapi.do) | 무료, 개발계정 표시 1,000; 승인 실제 한도 확인. 키 필요 | 공식 페이지 내 Swagger에서 KorService2/searchFestival2, title, eventstartdate/enddate, addr1, mapx/mapy, createdtime/modifiedtime, cpyrhtDivCd 확인. 항목 Type1만 TTS 허용, Type3/미확인은 보류 | 키 미설정. 무인증 실제 호출 HTTP 401. 정상 행사 수신 검증 안 됨. 어댑터는 공식 스키마 기반; 취소/연기 값은 보수적으로 제외 |
+| [TourAPI 국문 관광정보_GW](https://www.data.go.kr/data/15101578/openapi.do) | 무료, 개발계정 표시1,000. 계정 승인량/현재 잔여는 미조회. 기본 수집 최대3시도/3페이지×50 | 공식 Swagger/첨부 국문 매뉴얼v4.4 확인. eventstartdate/enddate·createdtime/modifiedtime·좌표·cpyrhtDivCd 구분. progresstype의 선택안함 허용, 취소/행사연기 제외, 불명확 값 보류. Type1만 TTS 허용 | 23시대 인증 실제 수집200: 2페이지 raw77/정규화·날짜 유효76(진행 중36/예정40), 온라인 상태1건 보류. 76건 모두 Type3/권리 미확인. 이동시간 미검증으로 추천 제외. 초기 무인증401은 과거 이력 |
 
 TourAPI 목록에는 행사별 원문 홈페이지가 없으므로 현재 `source_url`은 공식 데이터셋 URL입니다. 행사 ID로 안정 해시 id를 생성합니다. 행사별 공식 홈페이지 보강(detailCommon2 등)은 미구현입니다. 이미지와 전체 소개문을 사용하지 않습니다. 좌표가 없으면 null로 유지하고 미확인 위치를 만들어내지 않습니다. 행사 마지막 날짜는 KST 기준 해당 날짜가 끝나는 다음 날 00:00을 만료시각으로 사용합니다.
+
+TourAPI 조사 추가 호출은 총6회이며 첫 수집에서 마지막 numOfRows 해석 오류로 발생한 불필요한3페이지도 포함합니다. [실제 호출·제외 사유·한계](TOURAPI_INVESTIGATION.md)를 참고하세요. 현재/향후90일과 겹치는 날짜를 검사하며 수신/미수신만으로 개최 취소를 가정하지 않습니다. 수집 시각이 원천 종료일/수정일을 대체하지 않습니다. 권리 미확인 항목의 brief도 비워 둡니다.
 
 ## 생활·긴급 교통
 

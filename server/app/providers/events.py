@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from urllib.parse import quote
 
 from ..llm import DeterministicLLM
@@ -11,9 +11,9 @@ from .base import (
     parse_datetime,
     stable_id,
 )
+from .tour import TourEvents as TourEvents
 
 SEOUL_EVENTS_DOC = "https://data.seoul.go.kr/dataList/OA-15486/A/1/datasetView.do"
-TOUR_DOC = "https://www.data.go.kr/data/15101578/openapi.do"
 
 
 class SeoulEvents:
@@ -80,88 +80,3 @@ class SeoulEvents:
             "sample": self.key == "sample",
             "source_updated_at_available": False,
         }
-
-
-class TourEvents:
-    name = "tourapi"
-
-    def __init__(self, key: str, timeout=10, transport=None):
-        self.key = key
-        self.http = SafeHTTP(self.name, timeout, transport)
-
-    async def collect(self, now: datetime, *, probe=False) -> tuple[list[Content], dict]:
-        if not self.key and not probe:
-            raise ProviderError(self.name, "MISSING_KEY")
-        params = {
-            "serviceKey": self.key,
-            "MobileOS": "ETC",
-            "MobileApp": "NoticeMe",
-            "_type": "json",
-            "eventStartDate": (now - timedelta(days=30)).strftime("%Y%m%d"),
-            "numOfRows": 10,
-            "pageNo": 1,
-        }
-        response = await self.http.get(
-            "https://apis.data.go.kr/B551011/KorService2/searchFestival2", params=params
-        )
-        try:
-            data = response.json()["response"]
-        except (ValueError, KeyError, TypeError):
-            # API gateway often returns an XML auth error with HTTP 200.
-            from defusedxml import ElementTree
-
-            try:
-                root = ElementTree.fromstring(response.content)
-                code = root.findtext(".//returnReasonCode") or root.findtext(".//resultCode")
-            except Exception:
-                code = None
-            raise ProviderError(
-                self.name, "AUTH_OR_GATEWAY_ERROR" if code else "SCHEMA_MISMATCH", response.status_code
-            ) from None
-        if str(data.get("header", {}).get("resultCode")) != "0000":
-            raise ProviderError(self.name, "PROVIDER_ERROR", response.status_code)
-        body = data.get("body", {})
-        raw = body.get("items") or {}
-        rows = raw.get("item", []) if isinstance(raw, dict) else []
-        if isinstance(rows, dict):
-            rows = [rows]
-        items = []
-        for row in rows:
-            end = end_of_day(row.get("eventenddate", ""))
-            if not end or row.get("progresstype"):
-                # Current enum details not confirmed: conservatively exclude cancellation/postponement values.
-                continue
-            lat, lon = coordinates(row.get("mapy"), row.get("mapx"))
-            title = row.get("title", "")
-            try:
-                items.append(
-                    Content(
-                        id=stable_id("tour-event", str(row.get("contentid"))),
-                        content_type=ContentType.EVENT,
-                        title=title,
-                        brief=f"한국관광공사 행사정보. {title}. 장소: {row.get('addr1', '')}. "
-                        f"일정: {row.get('eventstartdate', '')}~{row.get('eventenddate', '')}.",
-                        source_name="한국관광공사 TourAPI",
-                        source_url=TOUR_DOC,
-                        published_at=parse_datetime(row.get("createdtime"), local=True),
-                        updated_at=parse_datetime(row.get("modifiedtime"), local=True),
-                        starts_at=parse_datetime(row.get("eventstartdate"), local=True),
-                        expires_at=end,
-                        fetched_at=now,
-                        latitude=lat,
-                        longitude=lon,
-                        interest_tags=DeterministicLLM().classify(title),
-                        # Type3/no item license is not treated as permission to transform for TTS.
-                        rights_status=RightsStatus.TTS_ALLOWED
-                        if row.get("cpyrhtDivCd") == "Type1"
-                        else RightsStatus.LICENSE_UNVERIFIED,
-                        rights_evidence_url=TOUR_DOC if row.get("cpyrhtDivCd") == "Type1" else None,
-                        verification_status=Verification.VERIFIED,
-                        data_mode=DataMode.LIVE,
-                        provenance="PUBLIC_API:tourapi_searchFestival2;classification=MOCK",
-                        venue=row.get("addr1"),
-                    )
-                )
-            except ValueError:
-                continue
-        return items, {"raw_count": len(rows), "reported_total": body.get("totalCount")}
