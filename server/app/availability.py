@@ -13,6 +13,15 @@ def unavailable_reason(item: Content, now: datetime) -> str | None:
         return "EXPIRED_OR_FUTURE"
     if item.verification_status == Verification.UNVERIFIED:
         return "UNVERIFIED_CONTENT"
+    if item.weather is not None:
+        from datetime import timedelta
+
+        if (
+            item.weather.observed_at > now
+            or item.fetched_at > now
+            or now - item.weather.observed_at >= timedelta(hours=1)
+        ):
+            return "WEATHER_STALE_OR_FUTURE"
     if item.content_type == ContentType.TRAFFIC:
         impact = item.traffic
         if (

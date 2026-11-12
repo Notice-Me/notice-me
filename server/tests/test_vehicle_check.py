@@ -106,7 +106,17 @@ def test_live_mode_checker_verifies_uncleared_news_without_mock_health(tmp_path,
     )
     app.state.store.upsert(
         [
-            content("spoken", **common),
+            content(
+                "spoken",
+                **(
+                    common
+                    | {
+                        "content_type": "LIFE",
+                        "provenance": "PUBLIC_API:seoul_citydata;SYNTHETIC_UNIT_TEST",
+                        "weather": {"area_code": "POI009", "region": "광화문·덕수궁", "observed_at": now},
+                    }
+                ),
+            ),
             content("blocked", **common, rights_status=RightsStatus.LICENSE_UNVERIFIED),
         ]
     )

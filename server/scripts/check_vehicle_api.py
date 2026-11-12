@@ -39,6 +39,20 @@ def check_playback(feed, now):
             "PLAYBACK_RIGHTS_VIOLATION",
         )
         require(timestamp(item["expires_at"]) > now, "PLAYBACK_CONTAINS_EXPIRED_CONTENT")
+        if item["data_mode"] == "LIVE":
+            weather = item.get("weather") or {}
+            require(
+                item["content_type"] == "LIFE"
+                and weather.get("area_code") == "POI009"
+                and weather.get("scope") == "FIXED_OBSERVATION_AREA"
+                and weather.get("region")
+                and item["provenance"].startswith("PUBLIC_API:seoul_citydata;"),
+                "LIVE_PLAYBACK_NOT_WEATHER",
+            )
+            require(
+                now - timedelta(hours=1) < timestamp(weather["observed_at"]) <= now,
+                "PLAYBACK_WEATHER_STALE_OR_FUTURE",
+            )
         if item["content_type"] == "TRAFFIC":
             traffic = item["traffic"]
             require(

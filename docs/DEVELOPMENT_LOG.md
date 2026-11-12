@@ -1,5 +1,9 @@
 # 개발 기록
 
+## 2026-11-13 — 실제 날씨 서버 P0
+
+git fetch/prune 후 팀원 내비 PR #4가 main에 이미 병합됨을 확인했다. 최신 main에서 feat/server-live-weather-policy를 생성했다. 날씨 관측 모델, LIVE 날씨 전용 음성 정책, 현재 위치보다 목적지/제공된 경로 우선 점수, 한국어 날씨 alias, OpenAPI를 보강했다. 원본 DB backup 사본에서 seoul_city1회 HTTP200·00:00 관측11.5도/01:00만료. LIVE3/1/0, MOCK 모의경로3/5/1 실제HTTP 통과. 초기4실패/155통과 원인과 수정, 최종검증·미실행·무료 호출량은 [상세 기록](LIVE_WEATHER_DEMO.md). 원본 .env/DB/팀원 코드는 덮어쓰지 않았다. 기기 증거는 서버 HTTP 성공과 구분한다.
+
 날짜는 KST 기준입니다. 실제 수행한 작업·관측·검증 결과를 누적합니다. 기술 원리는 [TECH_DECISIONS](TECH_DECISIONS.md), 최신 완료/미완료와 일정은 [PROJECT_STATUS](PROJECT_STATUS.md), 학습 정리는 [LESSONS_LEARNED](LESSONS_LEARNED.md)로 연결합니다. 이력에 적힌 결과는 해당 시각의 결과이며 현재 제공자 상태를 보증하지 않습니다.
 
 ## 2026-11-11 — 초기 구현 기록 확인

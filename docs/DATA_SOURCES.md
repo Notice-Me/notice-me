@@ -1,5 +1,7 @@
 # 데이터 출처·조건·실제 검증
 
+2026-11-13: 서울시 도시데이터 공식 페이지의 공공누리1유형·제3저작권자 없음·sample POI009 제한을 재확인했다. 고정 지역/관측시각을 weather 필드에 명시하고 실음성은 이 날씨로 제한한다. 실제1회 수집과 다른 제공자0회, 수동 갱신/만료 조건은 [LIVE_WEATHER_DEMO](LIVE_WEATHER_DEMO.md). 좌표별 다른 날씨·실제 라우팅 제공자는 미연결이다.
+
 확인일 **2026-11-11 KST**. 공식 문서 읽기, HTTP 응답 수신, 정상 데이터 수신, 추천 노출, TTS 허가를 구분합니다. 초기 측정값은 [API_VALIDATION_RESULTS.json](API_VALIDATION_RESULTS.json), 초기 서버 HTTP는 [HTTP_SMOKE_RESULTS.json](HTTP_SMOKE_RESULTS.json)입니다. 인증정보와 원본 기사 본문은 포함하지 않습니다.
 
 **20시대 차량 인계 재현:** [최신 측정](verification/2026-11-11-vehicle-handoff.json). 서울시 도시데이터의 공식 공개 범위/공공누리1유형을 다시 확인하고 기존 어댑터로 날씨만1회 수집했습니다(200/정규화1건). FREE 뉴스 추가 호출0회, 기존 실제 뉴스2건은 권리 미확인으로 음성/설명 차단을 재확인했습니다. MOCK/LIVE/MIXED HTTP 검사에 추가 원천 호출은 없었습니다. 기존 날씨 필드의 허가를 다른 도시데이터 영역이나 언론사 기사에 확대하지 않습니다. 실제 Pleos TTS 출력은 미검증입니다.

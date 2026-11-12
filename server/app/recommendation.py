@@ -18,7 +18,7 @@ from .models import (
     FeedResponse,
     Verification,
 )
-from .rights import tts_allowed
+from .rights import tts_allowed, voice_allowed
 from .routing import RoutingProvider, UnverifiedRouting
 
 
@@ -80,6 +80,9 @@ def local_relevance(item: Content, context: FeedContext) -> tuple[float, str]:
     distances = [(distance_km(context.lat, context.lon, item.latitude, item.longitude), "current_location")]
     if context.navigation_active:
         if context.destination_lat is not None:
+            # During guidance the destination/actual supplied route take priority.
+            # Do not invent route points from the two endpoints.
+            distances.clear()
             distances.append(
                 (
                     distance_km(
@@ -184,7 +187,7 @@ def build_feed(
             **item.model_dump(),
             score=round(sum(reasons.values()), 3),
             score_reasons=reasons,
-            tts_eligible=tts_allowed(item),
+            tts_eligible=voice_allowed(item),
             estimated_speech_seconds=duration,
             driving_time=travel,
         )
@@ -205,7 +208,11 @@ def build_feed(
     alerts.sort(key=lambda x: (-x.priority, -x.score, x.id))
     top3 = candidates[:3]
     queue = [x for x in candidates if x.tts_eligible]
-    counts["TTS_RIGHTS_BLOCKED"] = len(candidates) - len(queue)
+    counts["TTS_RIGHTS_BLOCKED"] = sum(not tts_allowed(x) for x in candidates)
+    counts["LIVE_TTS_WEATHER_ONLY"] = sum(
+        x.data_mode == DataMode.LIVE and tts_allowed(x) and not voice_allowed(x) for x in candidates + alerts
+    )
+    counts["FIXED_WEATHER_AREA"] = sum(x.weather is not None for x in candidates)
     if context.navigation_active and context.eta_minutes is not None:
         remaining = max(0, context.eta_minutes * 60 - 30)
         remaining -= sum(x.estimated_speech_seconds for x in alerts if x.tts_eligible)
