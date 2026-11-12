@@ -12,6 +12,7 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -19,11 +20,20 @@ import android.widget.TextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class MainActivity : Activity() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: FeedController? = null
+    private var navigationPoll: Job? = null
+    private var etaLabel: String? = null
+    private lateinit var queueStatus: TextView
+    private lateinit var locationStatus: TextView
+    private lateinit var useNavigation: CheckBox
     private lateinit var speech: DeviceSpeechPlayer
     private lateinit var status: TextView
     private lateinit var stories: LinearLayout
@@ -76,7 +86,14 @@ class MainActivity : Activity() {
         longitude = field("경도", "126.98", decimal, right)
         settings.addView(coordinates)
         interests = field("관심사 (쉼표로 구분)", "art,science,weather", InputType.TYPE_CLASS_TEXT, settings)
-        settings.addView(label("광화문 시연 좌표를 사용합니다.", displaySize(14, 26), muted))
+        useNavigation = CheckBox(this).apply {
+            text = "내비 위치 사용"
+            textSize = displaySize(16, 26).toFloat()
+            visibility = if (BuildConfig.FLAVOR == "pleos") View.VISIBLE else View.GONE
+            isChecked = BuildConfig.FLAVOR == "pleos" && getPreferences(MODE_PRIVATE).getBoolean("useNavigation", true)
+        }
+        settings.addView(useNavigation)
+        settings.addView(label("내비 위치를 받지 못하면 입력한 좌표를 사용합니다.", displaySize(14, 26), muted))
         settings.addView(label(speech.label, displaySize(14, 26), muted))
         body.addView(settings)
         val feedHeading = row()
@@ -86,6 +103,10 @@ class MainActivity : Activity() {
         status = label("", displaySize(15, 27), muted)
         status.accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
         body.addView(status)
+        locationStatus = label("", displaySize(14, 26), muted)
+        body.addView(locationStatus)
+        queueStatus = label("", displaySize(14, 26), muted)
+        body.addView(queueStatus)
         diagnostics = label("", displaySize(14, 27), muted)
         body.addView(diagnostics)
         stories = column()
@@ -99,7 +120,9 @@ class MainActivity : Activity() {
         play = button("재생", primary = true) { controller?.play() }
         next = button("패스") { controller?.next() }
         again = button("다시 듣기") { controller?.replay() }
-        stop = button("중단") { controller?.stop() }
+        stop = button("중단") {
+            if (controller != null) controller?.stop() else render(ScreenState(message = "새로고침을 중단했습니다."))
+        }
         listOf(play, next, again, stop).forEach {
             controls.addView(it, LinearLayout.LayoutParams(0, dp(displaySize(60, 96)), 1f))
         }
@@ -109,31 +132,73 @@ class MainActivity : Activity() {
         val invalidate = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                controller?.stop()
-                controller = null
-                render(ScreenState(message = "설정이 변경되었습니다. 새로고침을 누르세요."))
+                invalidateFeed()
             }
             override fun afterTextChanged(s: Editable?) = Unit
         }
         listOf(address, latitude, longitude, interests).forEach { it.addTextChangedListener(invalidate) }
+        useNavigation.setOnCheckedChangeListener { _, checked ->
+            getPreferences(MODE_PRIVATE).edit().putBoolean("useNavigation", checked).apply()
+            invalidateFeed()
+        }
+    }
+
+    private fun invalidateFeed() {
+        controller?.stop()
+        controller = null
+        locationStatus.text = ""
+        etaLabel = null
+        render(ScreenState(message = "설정이 변경되었습니다. 새로고침을 누르세요."))
     }
 
     private fun connect() {
         controller?.stop()
         controller = null
+        locationStatus.text = ""
+        etaLabel = null
+        val withNavigation = useNavigation.isChecked
+        val server = address.text.toString().trim()
+        val manualLatitude = latitude.text.toString().toDoubleOrNull() ?: Double.NaN
+        val manualLongitude = longitude.text.toString().toDoubleOrNull() ?: Double.NaN
+        val selectedInterests = interests.text.toString().split(',').map { it.trim() }.filter { it.isNotEmpty() }
         try {
-            val query = FeedQuery(latitude.text.toString().toDoubleOrNull() ?: Double.NaN,
-                longitude.text.toString().toDoubleOrNull() ?: Double.NaN,
-                interests.text.toString().split(',').map { it.trim() }.filter { it.isNotEmpty() })
-            val api = HttpContentApi(address.text.toString())
-            getPreferences(MODE_PRIVATE).edit().putString("server", address.text.toString().trim()).apply()
-            controller = FeedController(api, query, speech, scope, render = ::render)
-            controller!!.connect()
-        } catch (e: Exception) { render(ScreenState(message = userMessage(e))) }
+            val api = HttpContentApi(server)
+            val manual = FeedQuery(manualLatitude, manualLongitude, selectedInterests)
+            val queryProvider: suspend () -> FeedQuery = {
+                val navigation = if (withNavigation) readNavigationContext(applicationContext) else null
+                etaLabel = navigation?.remainingSeconds?.let { seconds ->
+                    if (seconds < 60) "도착까지 1분 미만" else "도착까지 약 ${(seconds + 59) / 60}분"
+                }
+                locationStatus.text = if (navigation == null) {
+                    if (withNavigation) "내비 위치 확인 불가 · 설정 좌표 사용" else "설정 좌표 사용"
+                } else {
+                    buildString {
+                        append(navigation.region ?: "내비 현재 위치")
+                        navigation.destination?.let { append(" · 목적지 ").append(navigation.destinationName ?: "반영") }
+                    }
+                }
+                if (navigation == null) manual else manual.copy(
+                    latitude = navigation.location.latitude,
+                    longitude = navigation.location.longitude,
+                    destination = navigation.destination,
+                    etaMinutes = navigation.remainingSeconds?.div(60.0),
+                )
+            }
+            getPreferences(MODE_PRIVATE).edit().putString("server", server).apply()
+            controller = FeedController(api, manual, speech, scope, currentQuery = queryProvider, render = ::render)
+            controller?.connect()
+        } catch (e: Exception) {
+            render(ScreenState(message = userMessage(e)))
+        }
     }
 
     private fun render(state: ScreenState) {
         status.text = state.message
+        queueStatus.text = state.feed?.let { feed ->
+            etaLabel?.let { "$it · 음성 큐 ${feed.queue.size}건" }
+        }.orEmpty()
+        queueStatus.visibility = if (queueStatus.text.isBlank()) View.GONE else View.VISIBLE
+        locationStatus.visibility = if (locationStatus.text.isBlank()) View.GONE else View.VISIBLE
         play.isEnabled = state.connected && !state.busy && !state.playing
         next.isEnabled = state.connected && state.current != null
         again.isEnabled = next.isEnabled
@@ -171,7 +236,20 @@ class MainActivity : Activity() {
         diagnostics.visibility = if (alerts.isEmpty()) View.GONE else View.VISIBLE
     }
 
+    override fun onStart() {
+        super.onStart()
+        navigationPoll = scope.launch {
+            while (isActive) {
+                delay(15_000)
+                if (useNavigation.isChecked) controller?.refreshWhenIdle()
+            }
+        }
+    }
+
     override fun onStop() {
+        navigationPoll?.cancel()
+        navigationPoll = null
+        if (controller == null) render(ScreenState())
         controller?.stop("앱이 화면에서 벗어나 재생을 중단했습니다.")
         super.onStop()
     }

@@ -7,8 +7,8 @@ android {
         applicationId = "ai.noticeme.vehicle"
         minSdk = 28
         targetSdk = 34
-        versionCode = 4
-        versionName = "0.2.2"
+        versionCode = 6
+        versionName = "0.3.1"
     }
     flavorDimensions += "speech"
     productFlavors {
@@ -31,6 +31,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.code.gson:gson:2.10.1")
     "pleosImplementation"("ai.pleos.playground:TextToSpeech:3.3.1")
+    "pleosImplementation"("ai.pleos.playground:NaviHelper:3.0.5")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")

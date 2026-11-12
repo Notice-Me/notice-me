@@ -35,7 +35,12 @@ class HttpContentApi(baseUrl: String) : ContentApi {
     override suspend fun feed(query: FeedQuery): Feed {
         val url = endpoint("feed").addQueryParameter("lat", query.latitude.toString())
             .addQueryParameter("lon", query.longitude.toString())
-            .addQueryParameter("navigation_active", "false")
+            .addQueryParameter("navigation_active", (query.destination != null).toString())
+        query.destination?.let {
+            url.addQueryParameter("destination_lat", it.latitude.toString())
+            url.addQueryParameter("destination_lon", it.longitude.toString())
+        }
+        query.etaMinutes?.let { url.addQueryParameter("eta_minutes", it.toString()) }
         query.interests.forEach { url.addQueryParameter("interests", it) }
         return FeedJson.feed(get(url.build()))
     }

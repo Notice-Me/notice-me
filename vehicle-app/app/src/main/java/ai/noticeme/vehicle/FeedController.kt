@@ -20,6 +20,7 @@ data class ScreenState(
 class FeedController(
     private val api: ContentApi, private val query: FeedQuery, private val speech: SpeechPlayer,
     private val scope: CoroutineScope, private val now: () -> Instant = Instant::now,
+    private val currentQuery: suspend () -> FeedQuery = { query },
     private val render: (ScreenState) -> Unit,
 ) {
     var state = ScreenState()
@@ -38,7 +39,7 @@ class FeedController(
             try {
                 api.health()
                 update(state.copy(message = "추천 소식을 불러오는 중…"))
-                val feed = api.feed(query)
+                val feed = api.feed(currentQuery())
                 update(ScreenState(feed, connected = true,
                     message = when (feed.dataMode) {
                         "MOCK" -> "시연 데이터"
@@ -47,6 +48,19 @@ class FeedController(
                     }))
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) { update(ScreenState(message = userMessage(e))) }
+        }
+    }
+
+    fun refreshWhenIdle() {
+        if (!state.connected || state.busy || state.playing || job?.isActive == true) return
+        job = scope.launch {
+            try {
+                update(state.copy(feed = api.feed(currentQuery())))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                update(state.copy(message = userMessage(e)))
+            }
         }
     }
 
@@ -79,7 +93,7 @@ class FeedController(
                 var requestedId = replayId
                 while (token == generation) {
                     // Never continue a cached queue on network failure, including replay/skip.
-                    val feed = api.feed(query)
+                    val feed = api.feed(currentQuery())
                     update(state.copy(feed = feed))
                     val item = feed.candidates().firstOrNull {
                         (if (requestedId != null) it.id == requestedId else it.id !in consumed) && it.canSpeak(now())

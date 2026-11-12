@@ -49,6 +49,23 @@ class ContentApiTest {
             assertEquals("가/나 ?", server.takeRequest().requestUrl!!.pathSegments.last())
         }
     }
+    @Test fun `active destination sends a complete coordinate pair`() = runBlocking {
+        MockWebServer().use { server ->
+            server.start()
+            server.enqueue(MockResponse().setBody("""{"top3":[],"queue":[],"alerts":[],"playback_order":[],"data_mode":"MOCK"}"""))
+            HttpContentApi(server.url("/").toString()).feed(
+                FeedQuery(37.57, 126.98, listOf("art"), MapPoint(37.485, 127.036), etaMinutes = 25.5),
+            )
+            val url = server.takeRequest().requestUrl!!
+            assertEquals("37.57", url.queryParameter("lat"))
+            assertEquals("126.98", url.queryParameter("lon"))
+            assertEquals("true", url.queryParameter("navigation_active"))
+            assertEquals("37.485", url.queryParameter("destination_lat"))
+            assertEquals("127.036", url.queryParameter("destination_lon"))
+            assertEquals("25.5", url.queryParameter("eta_minutes"))
+            assertNull(url.queryParameter("route_link_ids"))
+        }
+    }
     @Test fun `HTTP error status is preserved without raw body`() = runBlocking {
         MockWebServer().use { server ->
             server.start()
