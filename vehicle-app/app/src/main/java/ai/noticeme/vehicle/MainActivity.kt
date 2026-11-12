@@ -53,7 +53,7 @@ class MainActivity : Activity() {
         }
         val settings = column().apply { visibility = View.GONE }
         val heading = row()
-        heading.addView(label("Notice Me", displaySize(29, 38), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
+        heading.addView(label("Notice Me", displaySize(29, 46), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
         heading.addView(button("설정") {
             settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         })
@@ -76,22 +76,22 @@ class MainActivity : Activity() {
         longitude = field("경도", "126.98", decimal, right)
         settings.addView(coordinates)
         interests = field("관심사 (쉼표로 구분)", "art,science,weather", InputType.TYPE_CLASS_TEXT, settings)
-        settings.addView(label("광화문 시연 좌표를 사용합니다.", displaySize(14, 20), muted))
-        settings.addView(label(speech.label, displaySize(14, 20), muted))
+        settings.addView(label("광화문 시연 좌표를 사용합니다.", displaySize(14, 26), muted))
+        settings.addView(label(speech.label, displaySize(14, 26), muted))
         body.addView(settings)
         val feedHeading = row()
-        feedHeading.addView(label("추천 소식", displaySize(22, 30), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
+        feedHeading.addView(label("추천 소식", displaySize(22, 38), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
         feedHeading.addView(button("새로고침") { connect() })
         body.addView(feedHeading)
-        status = label("", displaySize(15, 21), muted)
+        status = label("", displaySize(15, 27), muted)
         status.accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
         body.addView(status)
-        diagnostics = label("", displaySize(14, 21), muted)
+        diagnostics = label("", displaySize(14, 27), muted)
         body.addView(diagnostics)
         stories = column()
         body.addView(stories)
         root.addView(divider())
-        nowPlaying = label("재생 대기", displaySize(16, 22), ink)
+        nowPlaying = label("재생 대기", displaySize(16, 28), ink)
         nowPlaying.maxLines = 2
         nowPlaying.ellipsize = TextUtils.TruncateAt.END
         root.addView(nowPlaying)
@@ -101,7 +101,7 @@ class MainActivity : Activity() {
         again = button("다시 듣기") { controller?.replay() }
         stop = button("중단") { controller?.stop() }
         listOf(play, next, again, stop).forEach {
-            controls.addView(it, LinearLayout.LayoutParams(0, dp(displaySize(60, 80)), 1f))
+            controls.addView(it, LinearLayout.LayoutParams(0, dp(displaySize(60, 96)), 1f))
         }
         root.addView(controls)
         setContentView(root)
@@ -149,15 +149,15 @@ class MainActivity : Activity() {
                 if (state.connected) stories.addView(label("추천할 소식이 없습니다.", 18, muted))
             } else state.feed!!.top3.forEach { item ->
                 stories.addView(divider())
-                val story = column().apply { setPadding(0, dp(displaySize(12, 20)), 0, dp(displaySize(14, 22))) }
+                val story = column().apply { setPadding(0, dp(displaySize(12, 20)), 0, dp(displaySize(14, 29))) }
                 val source = buildList {
                     add(item.sourceName)
                     if (item.dataMode == "MOCK" || item.verification == "SIMULATED") add("모의 자료")
                     if (!item.ttsEligible) add("읽기 전용")
                 }.filter { it.isNotBlank() }.joinToString(" · ")
-                story.addView(label(source, displaySize(14, 20), muted))
-                story.addView(label(item.title, displaySize(22, 32), ink, true))
-                if (item.brief.isNotBlank()) story.addView(label(item.brief, displaySize(17, 24), ink).apply {
+                story.addView(label(source, displaySize(14, 26), muted))
+                story.addView(label(item.title, displaySize(22, 42), ink, true))
+                if (item.brief.isNotBlank()) story.addView(label(item.brief, displaySize(17, 32), ink).apply {
                     setLineSpacing(dp(displaySize(2, 5)).toFloat(), 1f)
                 })
                 stories.addView(story)
@@ -200,9 +200,9 @@ class MainActivity : Activity() {
     private fun button(text: String, primary: Boolean = false, action: () -> Unit) = Button(this).apply {
         this.text = text
         isAllCaps = false
-        textSize = displaySize(14, 22).toFloat()
-        minHeight = dp(displaySize(54, 70))
-        minWidth = dp(displaySize(56, 104))
+        textSize = displaySize(14, 29).toFloat()
+        minHeight = dp(displaySize(54, 82))
+        minWidth = dp(displaySize(56, 128))
         elevation = 0f
         stateListAnimator = null
         backgroundTintList = ColorStateList(
@@ -216,10 +216,10 @@ class MainActivity : Activity() {
         setOnClickListener { action() }
     }
     private fun field(title: String, value: String, type: Int, parent: LinearLayout): EditText {
-        parent.addView(label(title, displaySize(14, 20), muted))
+        parent.addView(label(title, displaySize(14, 26), muted))
         return EditText(this).apply {
-            inputType = type; setSingleLine(true); setText(value); textSize = displaySize(17, 24).toFloat()
-            minHeight = dp(displaySize(52, 64)); setTextColor(ink); contentDescription = title
+            inputType = type; setSingleLine(true); setText(value); textSize = displaySize(17, 32).toFloat()
+            minHeight = dp(displaySize(52, 76)); setTextColor(ink); contentDescription = title
             importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
             parent.addView(this, LinearLayout.LayoutParams(-1, -2))
         }
