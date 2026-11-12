@@ -70,3 +70,11 @@ NOTICE_TEST_BASE_URL=http://127.0.0.1:8000 ./gradlew :app:testStandardDebugUnitT
 PowerShell은 `$env:NOTICE_TEST_BASE_URL='http://127.0.0.1:8000'` 설정 후 실행합니다. 변수가 없으면 외부 서버 통합 테스트 1개만 skip됩니다. 이 결과는 Android 네트워크 보안 정책 또는 기기 음성 출력 검증이 아닙니다.
 
 [검증 기록](../docs/verification/2026-11-11-vehicle-app.md), [기기 인수 확인표](../docs/VEHICLE_ACCEPTANCE.md)를 확인하세요. 서버 계약 변경은 없습니다.
+
+## 실제 날씨와 내비 문맥 (0.3.3 / 2026-11-13)
+
+서버 [PR #6](https://github.com/Notice-Me/notice-me/pull/6)의 실행본과 함께 LIVE 날씨를 검증했습니다. 고정 관측 지역·관측/만료 KST·LIVE/MOCK·원문 링크와 제외 사유를 표시합니다. LIVE 음성은 허가된 서울시 POI009 날씨만이며 뉴스/행사는 읽지 않습니다. 기존 서버의 weather 필드가 없으면 LIVE 음성은 차단합니다. MOCK 기능은 유지합니다.
+
+팀원의 내비 위치·목적지/ETA·15초 갱신을 유지합니다. 실제 현재 위치/경로 미사용과 사용자가 기본 내비에 설정한 안내 중 목적지/ETA의 서버 전달을 확인했습니다. 경로 전체·GPS 원천 관측시각·실차는 확인하지 않았습니다. 앱의 receivedAt은 콜백 수신 시각입니다. 원천날씨는 POI009 고정 지역이며 목적지 날씨로 확대하지 않습니다.
+
+별도 수집 CLI로 날씨를 갱신해야 합니다. 15초 feed 갱신이 외부 API를 호출하지 않으며 오래된 자료를 최신으로 표시하지 않습니다. [실행·실패·테스트·청취 근거](../docs/verification/2026-11-13-live-weather-vehicle.md). 잡음은P2이며 TTS/오디오 구현은 이번에 수정하지 않았습니다.

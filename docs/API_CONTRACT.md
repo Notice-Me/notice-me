@@ -109,3 +109,7 @@ explain: 선택 body `{"question":"자세히 알려줘"}`, 질문 최대 500자.
 ## 2026-11-11 차량 클라이언트 추가 (서버 계약 변경 없음)
 
 `vehicle-app`이 health/feed/detail을 소비합니다. 내비 비사용 요청은 lat/lon/반복 interests/navigation_active=false만 전송합니다. 알 수 없는 JSON 필드는 허용하며 nullable 좌표/시각을 처리합니다. 누락된 음성 허용 필드는 허용으로 추정하지 않습니다. top3와 playback_order를 분리하고, 매 재생/다시 듣기에 최신 피드 후보 포함과 detail 자격을 검사합니다. [클라이언트 실행 안내](../vehicle-app/README.md), [검증 결과](verification/2026-11-11-vehicle-app.md).
+
+## 2026-11-13 차량 소비 측 호환
+
+차량0.3.3는 서버 PR #6의 nullable weather(area_code/region/observed_at/scope)를 읽는다. 없으면 기존 JSON은 파싱하되 LIVE 음성은 허용하지 않는다. MOCK은 그대로 유지한다. LIVE 음성은 LIFE/POI009/고정 관측 지역/원천1시간/권리 근거/provenance를 재검사하고 최신 detail.brief만 전달한다. 내비 GET 파라미터는 기존 destination_lat/lon·eta_minutes를 유지하고 route_points/link는 새로 만들지 않는다. 구현·실제 서버 수신은 [2026-11-13 기기 검증](verification/2026-11-13-live-weather-vehicle.md).

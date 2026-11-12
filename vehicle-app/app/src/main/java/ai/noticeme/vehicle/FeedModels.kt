@@ -18,7 +18,16 @@ data class NavigationContext(
     val destination: MapPoint?,
     val destinationName: String?,
     val remainingSeconds: Int? = null,
-)
+    val receivedAt: Instant = Instant.now(),
+    val routeStatus: String = "UNAVAILABLE",
+) {
+    // Bounds callback reuse. SDK 3.0.5 does not expose source GPS observation time.
+    fun isFresh(now: Instant): Boolean = receivedAt <= now && receivedAt > now.minusSeconds(30)
+    fun applyTo(manual: FeedQuery, now: Instant): FeedQuery = if (!isFresh(now)) manual else manual.copy(
+        latitude = location.latitude, longitude = location.longitude, destination = destination,
+        etaMinutes = remainingSeconds?.takeIf { destination != null && it in 0..86_400 }?.div(60.0),
+    )
+}
 
 data class FeedQuery(
     val latitude: Double,
@@ -36,18 +45,25 @@ data class FeedQuery(
 }
 
 data class Traffic(val occurredAt: Instant, val validUntil: Instant, val status: String)
+data class Weather(val areaCode: String, val region: String, val observedAt: Instant, val scope: String)
 data class Content(
     val id: String, val title: String, val brief: String, val sourceName: String,
     val sourceUrl: String, val contentType: String, val dataMode: String,
     val verification: String, val ttsEligible: Boolean, val rightsStatus: String,
     val rightsEvidence: String?, val expiresAt: Instant, val fetchedAt: Instant,
     val publishedAt: Instant?, val traffic: Traffic?, val isExpired: Boolean = false,
+    val updatedAt: Instant? = null, val weather: Weather? = null, val provenance: String = "",
 ) {
     fun canSpeak(now: Instant): Boolean =
         ttsEligible && !isExpired && brief.isNotBlank() && rightsStatus == "TTS_ALLOWED" &&
             !rightsEvidence.isNullOrBlank() && verification in setOf("VERIFIED", "SIMULATED") &&
             dataMode in setOf("LIVE", "MOCK") && (verification != "SIMULATED" || dataMode == "MOCK") &&
             expiresAt > now && (publishedAt == null || publishedAt <= now) && fetchedAt <= now &&
+            (dataMode != "LIVE" || (contentType == "LIFE" && weather != null &&
+                weather.areaCode == "POI009" && weather.region.isNotBlank() &&
+                weather.scope == "FIXED_OBSERVATION_AREA" &&
+                weather.observedAt <= now && weather.observedAt > now.minusSeconds(3600) &&
+                provenance.startsWith("PUBLIC_API:seoul_citydata;"))) &&
             (contentType != "TRAFFIC" || (traffic != null && traffic.status == "ACTIVE" &&
                 traffic.occurredAt <= now && now < traffic.validUntil &&
                 fetchedAt >= now.minusSeconds(600)))
@@ -110,6 +126,10 @@ object FeedJson {
             optionalText("published_at")?.let { OffsetDateTime.parse(it).toInstant() },
             get("traffic")?.takeUnless { it.isJsonNull }?.asJsonObject?.let {
                 Traffic(it.time("occurred_at"), it.time("valid_until"), it.text("status"))
-            }, flag("is_expired"))
+            }, flag("is_expired"),
+            optionalText("updated_at")?.let { OffsetDateTime.parse(it).toInstant() },
+            get("weather")?.takeUnless { it.isJsonNull }?.asJsonObject?.let {
+                Weather(it.text("area_code"), it.text("region"), it.time("observed_at"), it.text("scope"))
+            }, optionalText("provenance") ?: "")
     }
 }

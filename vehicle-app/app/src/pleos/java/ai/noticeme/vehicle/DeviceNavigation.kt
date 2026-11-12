@@ -44,10 +44,15 @@ internal suspend fun readNavigationContext(context: Context): NavigationContext?
         val point = coordinates(current.latitude, current.longitude) ?: return null
         val region = current.address?.trim()?.takeIf { it.isNotEmpty() }
             ?.split(Regex("\\s+"))?.take(2)?.joinToString(" ")
+        var routeStatus = "UNAVAILABLE"
         val target = withTimeoutOrNull(1_500) {
             helper.getRouteStateInfo()
             val mode = route.await().naviMode
-            if (mode != NaviMode.ROUTE_GUIDING && mode != NaviMode.SIMULATION_GUIDING) return@withTimeoutOrNull null
+            if (mode != NaviMode.ROUTE_GUIDING && mode != NaviMode.SIMULATION_GUIDING) {
+                routeStatus = "INACTIVE"
+                return@withTimeoutOrNull null
+            }
+            routeStatus = if (mode == NaviMode.SIMULATION_GUIDING) "SIMULATED" else "GUIDING"
             helper.getDestinationInfo()
             destination.await()
         }
@@ -55,6 +60,7 @@ internal suspend fun readNavigationContext(context: Context): NavigationContext?
         return NavigationContext(
             point, region, destinationPoint, target?.name?.takeIf { it.isNotBlank() },
             target?.remainTime?.takeIf { destinationPoint != null && it in 0..86_400 },
+            routeStatus = if (routeStatus in setOf("GUIDING", "SIMULATED") && destinationPoint == null) "UNAVAILABLE" else routeStatus,
         )
     } catch (e: CancellationException) {
         throw e
