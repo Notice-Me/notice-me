@@ -149,3 +149,6 @@ KST 오늘~90일, 수정일순C, 페이지50/상한3/시도예산3을 구현했�
 - 실제 Pleos에서 LIVE 날씨11.5도 brief 전달 일치와 사용자 청취, 현재 위치·목적지/ETA 전달, 만료/서버 단절 신규TTS0, MOCK 제어를 확인했다. 두 APK/각26개 테스트와 소스 사본 Lint0오류.
 - 환경 검은 화면은 AVD 삭제 없이 보이는 창 cold start로 회복. 별도 instrumentation의 목적지 생성은 NAVI_ROUTE_SEARCH 부재로 실패해 권한을 추가하지 않았다. 사용자가 기본 내비에서 안내를 시작한 뒤 SDK ROUTE_GUIDING과 앱 feed의 목적지/ETA를 확인했다.
 - 사본 DB만 변경·복원했고 키/개인 위치/목적지·단말 로그를 커밋하지 않는다. 실제 수집은 seoul_city1회, 다른 콘텐츠 제공자0회. 내비 내부 검색/경로 서비스 호출량은 계측하지 않았다. 근거·남은 한계: [2026-11-13 기기 검증](verification/2026-11-13-live-weather-vehicle.md).
+
+
+2026-11-13 최종 보완: 원격 main에 외부 병합된 UI PR #7(94de875)을 기능 브랜치에 반영하고 두 충돌을 해결했다. 팀원 레이아웃과 날씨·권리 방어를 보존했으며 두 APK/각26테스트·Lint0오류·실제 기기 재생 제어와 brief 일치를 재검증했다. MOCK 테스트 URL 오지정 실패와 수정도 [최종 인수 기록](verification/2026-11-13-live-weather-vehicle.md)에 남겼다. main/타인 브랜치 push·force push·PR 병합은 수행하지 않았다.

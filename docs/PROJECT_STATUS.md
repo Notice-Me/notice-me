@@ -131,3 +131,6 @@ HTTP smoke: live/mixed의 feed/detail/explain, rights/mode/queue 검증. 실제 
 ## 2026-11-13 — 내비 문맥과 LIVE 날씨 기기 검증
 
 최신 main5664368에서 feat/vehicle-live-weather-context로 작업했다. 팀원 NaviHelper/15초 갱신을 유지하고 고정 날씨 지역·관측/만료·LIVE/MOCK·출처/링크·제외 안내와 LIVE 날씨 전용 방어를 보강했다. 두 APK/각26개 테스트, 소스 사본 Lint 오류0. 실제 Pleos에서 현재 위치·경로 미사용, 사용자가 설정한 실제 안내 경로의 목적지/ETA→서버feed200, LIVE 날씨→Pleos brief 일치·사용자 청취, 만료/연결 실패 신규TTS0, MOCK 제어를 확인했다. 이번 기록은 기존 미검증 이력을 대체하지 않고 최신 관측으로 추가한다. 경로 전체/실차·GPS 원천시각·좌표별 날씨·행사 라우팅·학교AI는 미검증/미연결. 상세와 남은 인수는 [2026-11-13 기기 검증](verification/2026-11-13-live-weather-vehicle.md). 잡음P2 유지.
+
+
+2026-11-13 최종 보완: 원격 main에 외부 병합된 UI PR #7(94de875)을 기능 브랜치에 반영하고 두 충돌을 해결했다. 팀원 레이아웃과 날씨·권리 방어를 보존했으며 두 APK/각26테스트·Lint0오류·실제 기기 재생 제어와 brief 일치를 재검증했다. MOCK 테스트 URL 오지정 실패와 수정도 [최종 인수 기록](verification/2026-11-13-live-weather-vehicle.md)에 남겼다. main/타인 브랜치 push·force push·PR 병합은 수행하지 않았다.

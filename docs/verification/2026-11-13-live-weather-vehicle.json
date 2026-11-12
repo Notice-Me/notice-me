@@ -79,6 +79,11 @@
       "MainActivity.kt": 1,
       "build.gradle.kts": 1
     },
-    "integration_of_team_ui": "NOT_PERFORMED_PENDING_REVIEW"
-  }
+    "integration_of_team_ui": "PRESERVED_FROM_MAIN_WITH_TWO_CONFLICTS_RESOLVED",
+    "team_ui_pr_state": "MERGED_BY_JUNNHA",
+    "team_ui_main_commit": "94de875",
+    "feature_update": "NORMAL_MERGE_IN_FEATURE_BRANCH_NO_FORCE_PUSH"
+  },
+  "final_with_team_ui_sdk_verified": true,
+  "final_with_team_ui_controls": "PASS_NEXT_REPLAY_STOP"
 }

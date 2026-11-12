@@ -3,6 +3,8 @@ package ai.noticeme.vehicle
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
 import android.content.res.ColorStateList
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
@@ -36,6 +38,7 @@ class MainActivity : Activity() {
     private var controller: FeedController? = null
     private var navigationPoll: Job? = null
     private var etaLabel: String? = null
+    private lateinit var tripSummary: LinearLayout
     private lateinit var queueStatus: TextView
     private lateinit var locationStatus: TextView
     private lateinit var useNavigation: CheckBox
@@ -56,7 +59,12 @@ class MainActivity : Activity() {
     private val muted = Color.rgb(91, 94, 82)
     private val accent = Color.rgb(76, 92, 52)
     private val paper = Color.rgb(248, 247, 241)
-    private val line = Color.rgb(220, 221, 210)
+    private val line = Color.rgb(219, 220, 209)
+    private val surface = Color.rgb(239, 239, 229)
+    private val playerSurface = Color.rgb(38, 41, 33)
+    private val playerControl = Color.rgb(63, 67, 54)
+    private val playerInk = Color.rgb(245, 245, 235)
+    private val playerMuted = Color.rgb(203, 208, 188)
     private var shownFeed: Feed? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,18 +72,25 @@ class MainActivity : Activity() {
         speech = DeviceSpeechPlayer(this) { controller?.stop("다른 오디오 안내로 재생이 중단되었습니다. 다시 듣기를 누르세요.") }
         val root = column().apply {
             setBackgroundColor(paper)
-            setPadding(dp(displaySize(22, 36)), dp(12), dp(displaySize(22, 36)), dp(12))
+            setPadding(dp(displaySize(20, 36)), dp(displaySize(8, 14)), dp(displaySize(20, 36)), dp(12))
         }
-        val settings = column().apply { visibility = View.GONE }
+        val settings = column().apply {
+            visibility = View.GONE
+            background = rounded(surface)
+            setPadding(dp(16), dp(10), dp(16), dp(14))
+        }
         val heading = row()
-        heading.addView(label("Notice Me", displaySize(29, 46), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
+        heading.addView(label("Notice Me", displaySize(27, 42), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
         heading.addView(button("설정") {
             settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         })
         root.addView(heading)
         root.addView(divider())
 
-        val scroll = ScrollView(this).apply { isFillViewport = true }
+        val scroll = ScrollView(this).apply {
+            isFillViewport = true
+            isVerticalScrollBarEnabled = false
+        }
         val body = column()
         scroll.addView(body)
         root.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
@@ -101,37 +116,51 @@ class MainActivity : Activity() {
         settings.addView(label("내비 위치를 받지 못하면 입력한 좌표를 사용합니다.", displaySize(14, 26), muted))
         settings.addView(label(speech.label, displaySize(14, 26), muted))
         body.addView(settings)
+        tripSummary = column().apply {
+            background = rounded(surface)
+            setPadding(dp(16), dp(9), dp(16), dp(9))
+        }
+        locationStatus = label("", displaySize(16, 28), ink, true)
+        queueStatus = label("", displaySize(14, 24), muted)
+        tripSummary.addView(locationStatus)
+        tripSummary.addView(queueStatus)
+        body.addView(tripSummary, LinearLayout.LayoutParams(-1, -2).apply {
+            topMargin = dp(12)
+            bottomMargin = dp(6)
+        })
+
         val feedHeading = row()
-        feedHeading.addView(label("추천 소식", displaySize(22, 38), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
+        feedHeading.addView(label("추천 소식", displaySize(22, 36), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
         feedHeading.addView(button("새로고침") { connect() })
         body.addView(feedHeading)
-        status = label("", displaySize(15, 27), muted)
+        status = label("", displaySize(14, 24), muted)
         status.accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
         body.addView(status)
-        locationStatus = label("", displaySize(14, 26), muted)
-        body.addView(locationStatus)
-        queueStatus = label("", displaySize(14, 26), muted)
-        body.addView(queueStatus)
-        diagnostics = label("", displaySize(14, 27), muted)
+        diagnostics = label("", displaySize(14, 26), accent)
         body.addView(diagnostics)
         stories = column()
         body.addView(stories)
-        root.addView(divider())
-        nowPlaying = label("재생 대기", displaySize(16, 28), ink)
+
+        val player = column().apply {
+            background = rounded(playerSurface)
+            setPadding(dp(12), dp(8), dp(12), dp(10))
+        }
+        nowPlaying = label("재생 대기", displaySize(15, 25), playerMuted)
         nowPlaying.maxLines = 2
         nowPlaying.ellipsize = TextUtils.TruncateAt.END
-        root.addView(nowPlaying)
+        player.addView(nowPlaying)
         val controls = row()
-        play = button("재생", primary = true) { controller?.play() }
-        next = button("패스") { controller?.next() }
-        again = button("다시 듣기") { controller?.replay() }
-        stop = button("중단") {
-            if (controller != null) controller?.stop() else render(ScreenState(message = "새로고침을 중단했습니다."))
+        play = button("재생", primary = true, onPlayer = true) { controller?.play() }
+        next = button("다음", onPlayer = true) { controller?.next() }
+        again = button("다시 듣기", onPlayer = true) { controller?.replay() }
+        stop = button("중단", onPlayer = true) { controller?.stop() }
+        listOf(play, next, again, stop).forEachIndexed { index, control ->
+            controls.addView(control, LinearLayout.LayoutParams(0, dp(displaySize(52, 78)), 1f).apply {
+                if (index > 0) marginStart = dp(6)
+            })
         }
-        listOf(play, next, again, stop).forEach {
-            controls.addView(it, LinearLayout.LayoutParams(0, dp(displaySize(60, 96)), 1f))
-        }
-        root.addView(controls)
+        player.addView(controls)
+        root.addView(player, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
         setContentView(root)
         render(ScreenState())
         val invalidate = object : TextWatcher {
@@ -207,10 +236,12 @@ class MainActivity : Activity() {
         }.orEmpty()
         queueStatus.visibility = if (queueStatus.text.isBlank()) View.GONE else View.VISIBLE
         locationStatus.visibility = if (locationStatus.text.isBlank()) View.GONE else View.VISIBLE
+        tripSummary.visibility = if (state.feed == null || locationStatus.text.isBlank()) View.GONE else View.VISIBLE
         play.isEnabled = state.connected && !state.busy && !state.playing
         next.isEnabled = state.connected && state.current != null
         again.isEnabled = next.isEnabled
         stop.isEnabled = state.busy || state.playing
+        nowPlaying.setTextColor(if (state.playing) playerInk else playerMuted)
         nowPlaying.text = state.current?.let {
             "${if (state.playing) "듣는 중" else "선택한 소식"} · ${it.title}" +
                 if (it.verification == "SIMULATED") " · 모의 자료" else ""
@@ -222,22 +253,23 @@ class MainActivity : Activity() {
                 if (state.connected) stories.addView(label("추천할 소식이 없습니다.", 18, muted))
             } else state.feed!!.top3.forEach { item ->
                 stories.addView(divider())
-                val story = column().apply { setPadding(0, dp(displaySize(12, 20)), 0, dp(displaySize(14, 29))) }
+                val story = column().apply { setPadding(0, dp(displaySize(11, 16)), 0, dp(displaySize(13, 21))) }
                 val source = buildList {
                     add(item.sourceName)
                     add(item.dataMode)
-                    if (item.dataMode == "MOCK" || item.verification == "SIMULATED") add("모의 자료")
+                    if ((item.dataMode == "MOCK" || item.verification == "SIMULATED") &&
+                        !item.sourceName.contains("모의 자료")) add("모의 자료")
                     if (!item.ttsEligible) add("읽기 전용")
                 }.filter { it.isNotBlank() }.joinToString(" · ")
-                story.addView(label(source, displaySize(14, 26), muted))
-                story.addView(label(item.title, displaySize(22, 42), ink, true))
+                story.addView(label(source, displaySize(13, 23), muted))
+                story.addView(label(item.title, displaySize(22, 40), ink, true))
                 item.weather?.let { weather ->
                     story.addView(label("고정 관측 지역 · ${weather.region}", displaySize(14, 26), muted))
                     story.addView(label("관측 ${displayTime(weather.observedAt)} · 유효 ${displayTime(item.expiresAt)}", displaySize(14, 24), muted))
                 } ?: story.addView(label(
                     item.publishedAt?.let { "발행 ${displayTime(it)}" } ?: "수집 ${displayTime(item.fetchedAt)}",
                     displaySize(14, 24), muted))
-                if (item.brief.isNotBlank() && item.contentType != "NEWS") story.addView(label(item.brief, displaySize(17, 32), ink).apply {
+                if (item.brief.isNotBlank() && item.contentType != "NEWS") story.addView(label(item.brief, displaySize(17, 30), ink).apply {
                     setLineSpacing(dp(displaySize(2, 5)).toFloat(), 1f)
                 })
                 story.addView(label(item.sourceUrl, displaySize(14, 24), accent).apply {
@@ -310,22 +342,41 @@ class MainActivity : Activity() {
         layoutParams = LinearLayout.LayoutParams(-1, dp(1))
         importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
     }
-    private fun button(text: String, primary: Boolean = false, action: () -> Unit) = Button(this).apply {
+    private fun rounded(color: Int) = GradientDrawable().apply {
+        setColor(color)
+        cornerRadius = dp(10).toFloat()
+    }
+
+    private fun button(
+        text: String,
+        primary: Boolean = false,
+        onPlayer: Boolean = false,
+        action: () -> Unit,
+    ) = Button(this).apply {
         this.text = text
         isAllCaps = false
-        textSize = displaySize(14, 29).toFloat()
-        minHeight = dp(displaySize(54, 82))
-        minWidth = dp(displaySize(56, 128))
+        textSize = displaySize(14, 27).toFloat()
+        minHeight = dp(displaySize(48, 65))
+        minWidth = 0
+        setPadding(dp(displaySize(8, 16)), 0, dp(displaySize(8, 16)), 0)
         elevation = 0f
         stateListAnimator = null
-        backgroundTintList = ColorStateList(
-            arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf()),
-            intArrayOf(line, if (primary) accent else line),
-        )
-        setTextColor(ColorStateList(
-            arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf()),
-            intArrayOf(muted, if (primary) Color.WHITE else ink),
-        ))
+        val fill = when {
+            primary -> accent
+            onPlayer -> playerControl
+            else -> surface
+        }
+        val disabledFill = if (onPlayer) playerSurface else surface
+        val enabledText = if (onPlayer) playerInk else ink
+        val disabledText = if (onPlayer) playerMuted else muted
+        val states = arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf())
+        val backgrounds = android.graphics.drawable.StateListDrawable().apply {
+            addState(states[0], rounded(disabledFill))
+            addState(states[1], rounded(fill))
+        }
+        background = RippleDrawable(ColorStateList.valueOf(0x247F8A73), backgrounds, null)
+        backgroundTintList = null
+        setTextColor(ColorStateList(states, intArrayOf(disabledText, enabledText)))
         setOnClickListener { action() }
     }
     private fun field(title: String, value: String, type: Int, parent: LinearLayout): EditText {

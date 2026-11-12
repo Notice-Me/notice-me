@@ -142,3 +142,6 @@ Pleos 3.3.1 공식 문서/AAR에 따라 ON_DEVICE를 명시했습니다. HYBRID 
 내비 문맥 조회를 다시 작성하는 대신 기존 NaviHelper/currentQuery/15초 idle 갱신을 유지했다. nullable weather 파싱과 앱 쪽 LIVE 날씨 전용 검사는 서버 구버전/잘못된 큐에서도 읽기 전용 콘텐츠가 재생되는 것을 막는다. LIVE/MOCK·고정 관측 지역·원천시각/만료·원문 링크·diagnostics를 표시하고 NEWS brief는 표시하지 않는다. idle 갱신 실패 때 옛 카드/연결 허가도 제거한다. UI/모델 변경 없이 TTS만 켜는 대안은 지역 오인·권한 혼동이 있어 제외했다. TTS 엔진/오디오 코드는 변경하지 않아 잡음 개선 범위로 확장하지 않았다.
 
 SDK CurrentLocationInfo에 원천 GPS 시각이 없어 receivedAt/30초는 콜백 재사용만 제한한다. routeStatus로 미사용/미수신/실제/모의 안내를 구분하되 도로 링크나 행사 소요시간을 생성하지 않는다. 단위26개/각flavor, 실제 SDK/HTTP/청취, 권한이 없어 실패한 별도 목적지 생성 실험은 [2026-11-13 기기 검증](verification/2026-11-13-live-weather-vehicle.md). 새 권한을 부여하지 않고 사용자가 기본 내비에 설정한 경로를 읽어 실제 목적지/ETA 전달을 확인했다.
+
+
+2026-11-13 최종 보완: 원격 main에 외부 병합된 UI PR #7(94de875)을 기능 브랜치에 반영하고 두 충돌을 해결했다. 팀원 레이아웃과 날씨·권리 방어를 보존했으며 두 APK/각26테스트·Lint0오류·실제 기기 재생 제어와 brief 일치를 재검증했다. MOCK 테스트 URL 오지정 실패와 수정도 [최종 인수 기록](verification/2026-11-13-live-weather-vehicle.md)에 남겼다. main/타인 브랜치 push·force push·PR 병합은 수행하지 않았다.
