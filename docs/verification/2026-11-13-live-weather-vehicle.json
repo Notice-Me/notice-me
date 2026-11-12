@@ -54,7 +54,7 @@
     "personal_local_properties": "PRESERVED_WITH_EXISTING_ESCAPE_ISSUE"
   },
   "content_provider_calls": {
-    "seoul_city": 1,
+    "seoul_city": 2,
     "news": 0,
     "tourapi": 0
   },
@@ -85,5 +85,18 @@
     "feature_update": "NORMAL_MERGE_IN_FEATURE_BRANCH_NO_FORCE_PUSH"
   },
   "final_with_team_ui_sdk_verified": true,
-  "final_with_team_ui_controls": "PASS_NEXT_REPLAY_STOP"
+  "final_with_team_ui_controls": "PASS_NEXT_REPLAY_STOP",
+  "review_weather": {
+    "observed_kst": "2026-11-13 01:00",
+    "expires_kst": "2026-11-13 02:00",
+    "temperature_celsius": 10.8,
+    "detail_brief_equals_pleos_text": true,
+    "on_done_observed": true,
+    "queue": 1
+  },
+  "natural_expiry_observed": {
+    "checked_kst": "2026-11-13 01:02",
+    "top3": 2,
+    "queue": 0
+  }
 }
