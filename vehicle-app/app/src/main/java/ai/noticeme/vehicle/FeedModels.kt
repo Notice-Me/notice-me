@@ -5,7 +5,26 @@ import com.google.gson.JsonParser
 import java.time.Instant
 import java.time.OffsetDateTime
 
-data class FeedQuery(val latitude: Double, val longitude: Double, val interests: List<String>) {
+data class MapPoint(val latitude: Double, val longitude: Double) {
+    init {
+        require(latitude.isFinite() && latitude in -90.0..90.0)
+        require(longitude.isFinite() && longitude in -180.0..180.0)
+    }
+}
+
+data class NavigationContext(
+    val location: MapPoint,
+    val region: String?,
+    val destination: MapPoint?,
+    val destinationName: String?,
+)
+
+data class FeedQuery(
+    val latitude: Double,
+    val longitude: Double,
+    val interests: List<String>,
+    val destination: MapPoint? = null,
+) {
     init {
         require(latitude.isFinite() && latitude in -90.0..90.0) { "위도는 -90~90이어야 합니다." }
         require(longitude.isFinite() && longitude in -180.0..180.0) { "경도는 -180~180이어야 합니다." }
