@@ -20,15 +20,18 @@ import android.widget.TextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class MainActivity : Activity() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var controller: FeedController? = null
-    private var refreshJob: Job? = null
+    private var navigationPoll: Job? = null
+    private var etaLabel: String? = null
+    private lateinit var queueStatus: TextView
     private lateinit var locationStatus: TextView
     private lateinit var useNavigation: CheckBox
     private lateinit var speech: DeviceSpeechPlayer
@@ -102,6 +105,8 @@ class MainActivity : Activity() {
         body.addView(status)
         locationStatus = label("", displaySize(14, 26), muted)
         body.addView(locationStatus)
+        queueStatus = label("", displaySize(14, 26), muted)
+        body.addView(queueStatus)
         diagnostics = label("", displaySize(14, 27), muted)
         body.addView(diagnostics)
         stories = column()
@@ -116,7 +121,6 @@ class MainActivity : Activity() {
         next = button("패스") { controller?.next() }
         again = button("다시 듣기") { controller?.replay() }
         stop = button("중단") {
-            refreshJob?.cancel()
             if (controller != null) controller?.stop() else render(ScreenState(message = "새로고침을 중단했습니다."))
         }
         listOf(play, next, again, stop).forEach {
@@ -140,34 +144,31 @@ class MainActivity : Activity() {
     }
 
     private fun invalidateFeed() {
-        refreshJob?.cancel()
         controller?.stop()
         controller = null
         locationStatus.text = ""
+        etaLabel = null
         render(ScreenState(message = "설정이 변경되었습니다. 새로고침을 누르세요."))
     }
 
     private fun connect() {
-        refreshJob?.cancel()
         controller?.stop()
         controller = null
         locationStatus.text = ""
+        etaLabel = null
         val withNavigation = useNavigation.isChecked
         val server = address.text.toString().trim()
         val manualLatitude = latitude.text.toString().toDoubleOrNull() ?: Double.NaN
         val manualLongitude = longitude.text.toString().toDoubleOrNull() ?: Double.NaN
         val selectedInterests = interests.text.toString().split(',').map { it.trim() }.filter { it.isNotEmpty() }
-        render(ScreenState(busy = true, message = if (withNavigation) "내비 위치 확인 중…" else "서버에 연결 중…"))
-        refreshJob = scope.launch {
-            try {
-                val api = HttpContentApi(server)
+        try {
+            val api = HttpContentApi(server)
+            val manual = FeedQuery(manualLatitude, manualLongitude, selectedInterests)
+            val queryProvider: suspend () -> FeedQuery = {
                 val navigation = if (withNavigation) readNavigationContext(applicationContext) else null
-                val query = FeedQuery(
-                    navigation?.location?.latitude ?: manualLatitude,
-                    navigation?.location?.longitude ?: manualLongitude,
-                    selectedInterests,
-                    navigation?.destination,
-                )
+                etaLabel = navigation?.remainingSeconds?.let { seconds ->
+                    if (seconds < 60) "도착까지 1분 미만" else "도착까지 약 ${(seconds + 59) / 60}분"
+                }
                 locationStatus.text = if (navigation == null) {
                     if (withNavigation) "내비 위치 확인 불가 · 설정 좌표 사용" else "설정 좌표 사용"
                 } else {
@@ -176,19 +177,27 @@ class MainActivity : Activity() {
                         navigation.destination?.let { append(" · 목적지 ").append(navigation.destinationName ?: "반영") }
                     }
                 }
-                getPreferences(MODE_PRIVATE).edit().putString("server", server).apply()
-                controller = FeedController(api, query, speech, scope, render = ::render)
-                controller?.connect()
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                render(ScreenState(message = userMessage(e)))
+                if (navigation == null) manual else manual.copy(
+                    latitude = navigation.location.latitude,
+                    longitude = navigation.location.longitude,
+                    destination = navigation.destination,
+                    etaMinutes = navigation.remainingSeconds?.div(60.0),
+                )
             }
+            getPreferences(MODE_PRIVATE).edit().putString("server", server).apply()
+            controller = FeedController(api, manual, speech, scope, currentQuery = queryProvider, render = ::render)
+            controller?.connect()
+        } catch (e: Exception) {
+            render(ScreenState(message = userMessage(e)))
         }
     }
 
     private fun render(state: ScreenState) {
         status.text = state.message
+        queueStatus.text = state.feed?.let { feed ->
+            etaLabel?.let { "$it · 음성 큐 ${feed.queue.size}건" }
+        }.orEmpty()
+        queueStatus.visibility = if (queueStatus.text.isBlank()) View.GONE else View.VISIBLE
         locationStatus.visibility = if (locationStatus.text.isBlank()) View.GONE else View.VISIBLE
         play.isEnabled = state.connected && !state.busy && !state.playing
         next.isEnabled = state.connected && state.current != null
@@ -227,8 +236,19 @@ class MainActivity : Activity() {
         diagnostics.visibility = if (alerts.isEmpty()) View.GONE else View.VISIBLE
     }
 
+    override fun onStart() {
+        super.onStart()
+        navigationPoll = scope.launch {
+            while (isActive) {
+                delay(15_000)
+                if (useNavigation.isChecked) controller?.refreshWhenIdle()
+            }
+        }
+    }
+
     override fun onStop() {
-        refreshJob?.cancel()
+        navigationPoll?.cancel()
+        navigationPoll = null
         if (controller == null) render(ScreenState())
         controller?.stop("앱이 화면에서 벗어나 재생을 중단했습니다.")
         super.onStop()

@@ -54,7 +54,7 @@ class ContentApiTest {
             server.start()
             server.enqueue(MockResponse().setBody("""{"top3":[],"queue":[],"alerts":[],"playback_order":[],"data_mode":"MOCK"}"""))
             HttpContentApi(server.url("/").toString()).feed(
-                FeedQuery(37.57, 126.98, listOf("art"), MapPoint(37.485, 127.036)),
+                FeedQuery(37.57, 126.98, listOf("art"), MapPoint(37.485, 127.036), etaMinutes = 25.5),
             )
             val url = server.takeRequest().requestUrl!!
             assertEquals("37.57", url.queryParameter("lat"))
@@ -62,6 +62,7 @@ class ContentApiTest {
             assertEquals("true", url.queryParameter("navigation_active"))
             assertEquals("37.485", url.queryParameter("destination_lat"))
             assertEquals("127.036", url.queryParameter("destination_lon"))
+            assertEquals("25.5", url.queryParameter("eta_minutes"))
             assertNull(url.queryParameter("route_link_ids"))
         }
     }

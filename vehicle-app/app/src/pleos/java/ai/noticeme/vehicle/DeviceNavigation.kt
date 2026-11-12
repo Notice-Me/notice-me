@@ -46,12 +46,16 @@ internal suspend fun readNavigationContext(context: Context): NavigationContext?
             ?.split(Regex("\\s+"))?.take(2)?.joinToString(" ")
         val target = withTimeoutOrNull(1_500) {
             helper.getRouteStateInfo()
-            if (route.await().naviMode != NaviMode.ROUTE_GUIDING) return@withTimeoutOrNull null
+            val mode = route.await().naviMode
+            if (mode != NaviMode.ROUTE_GUIDING && mode != NaviMode.SIMULATION_GUIDING) return@withTimeoutOrNull null
             helper.getDestinationInfo()
             destination.await()
         }
         val destinationPoint = target?.let { coordinates(it.latitude, it.longitude) }
-        return NavigationContext(point, region, destinationPoint, target?.name?.takeIf { it.isNotBlank() })
+        return NavigationContext(
+            point, region, destinationPoint, target?.name?.takeIf { it.isNotBlank() },
+            target?.remainTime?.takeIf { destinationPoint != null && it in 0..86_400 },
+        )
     } catch (e: CancellationException) {
         throw e
     } catch (_: Exception) {

@@ -17,6 +17,7 @@ data class NavigationContext(
     val region: String?,
     val destination: MapPoint?,
     val destinationName: String?,
+    val remainingSeconds: Int? = null,
 )
 
 data class FeedQuery(
@@ -24,10 +25,12 @@ data class FeedQuery(
     val longitude: Double,
     val interests: List<String>,
     val destination: MapPoint? = null,
+    val etaMinutes: Double? = null,
 ) {
     init {
         require(latitude.isFinite() && latitude in -90.0..90.0) { "위도는 -90~90이어야 합니다." }
         require(longitude.isFinite() && longitude in -180.0..180.0) { "경도는 -180~180이어야 합니다." }
+        require(etaMinutes == null || (destination != null && etaMinutes.isFinite() && etaMinutes in 0.0..1440.0))
         require(interests.size <= 30) { "관심사는 30개 이하로 입력하세요." }
     }
 }
