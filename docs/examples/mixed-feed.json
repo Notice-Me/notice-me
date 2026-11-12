@@ -1,0 +1,456 @@
+{
+  "top3": [
+    {
+      "id": "mock:exhibition",
+      "content_type": "EXHIBITION",
+      "title": "[모의] 예술 전시",
+      "brief": "[모의] 예술 전시. 동작 검증용으로 작성된 가상의 콘텐츠입니다. 실제 소식이나 행사가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/exhibition",
+      "published_at": "2026-11-10T16:22:20.885310Z",
+      "updated_at": "2026-11-10T17:17:20.885310Z",
+      "expires_at": "2026-11-11T17:22:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [
+        "예술"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 0,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": "2026-11-10T16:22:20.885310Z",
+      "venue": "가상 행사장",
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 69.878,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "current_location": 25.0,
+        "freshness": 19.878,
+        "source_verified": 0.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 15,
+      "driving_time": {
+        "status": "SIMULATED",
+        "minutes": 25.0,
+        "provider": "fixture-only",
+        "checked_at": null
+      }
+    },
+    {
+      "id": "mock:life-art",
+      "content_type": "LIFE",
+      "title": "[모의] 미술관 교육 안내",
+      "brief": "[모의] 미술관 교육 안내. 동작 검증용으로 작성된 가상의 콘텐츠입니다. 실제 소식이나 행사가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/life-art",
+      "published_at": "2026-11-10T16:22:20.885310Z",
+      "updated_at": "2026-11-10T17:17:20.885310Z",
+      "expires_at": "2026-11-11T17:22:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [
+        "예술"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 0,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": null,
+      "venue": null,
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 69.878,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "current_location": 25.0,
+        "freshness": 19.878,
+        "source_verified": 0.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 16,
+      "driving_time": null
+    },
+    {
+      "id": "mock:life-science",
+      "content_type": "LIFE",
+      "title": "[모의] 과학 프로그램 참가 안내",
+      "brief": "[모의] 과학 프로그램 참가 안내. 동작 검증용으로 작성된 가상의 콘텐츠입니다. 실제 소식이나 행사가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/life-science",
+      "published_at": "2026-11-10T16:22:20.885310Z",
+      "updated_at": "2026-11-10T17:17:20.885310Z",
+      "expires_at": "2026-11-11T17:22:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [
+        "과학IT"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 0,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": null,
+      "venue": null,
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 69.878,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "current_location": 25.0,
+        "freshness": 19.878,
+        "source_verified": 0.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 17,
+      "driving_time": null
+    }
+  ],
+  "queue": [
+    {
+      "id": "mock:exhibition",
+      "content_type": "EXHIBITION",
+      "title": "[모의] 예술 전시",
+      "brief": "[모의] 예술 전시. 동작 검증용으로 작성된 가상의 콘텐츠입니다. 실제 소식이나 행사가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/exhibition",
+      "published_at": "2026-11-10T16:22:20.885310Z",
+      "updated_at": "2026-11-10T17:17:20.885310Z",
+      "expires_at": "2026-11-11T17:22:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [
+        "예술"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 0,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": "2026-11-10T16:22:20.885310Z",
+      "venue": "가상 행사장",
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 69.878,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "current_location": 25.0,
+        "freshness": 19.878,
+        "source_verified": 0.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 15,
+      "driving_time": {
+        "status": "SIMULATED",
+        "minutes": 25.0,
+        "provider": "fixture-only",
+        "checked_at": null
+      }
+    },
+    {
+      "id": "mock:life-art",
+      "content_type": "LIFE",
+      "title": "[모의] 미술관 교육 안내",
+      "brief": "[모의] 미술관 교육 안내. 동작 검증용으로 작성된 가상의 콘텐츠입니다. 실제 소식이나 행사가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/life-art",
+      "published_at": "2026-11-10T16:22:20.885310Z",
+      "updated_at": "2026-11-10T17:17:20.885310Z",
+      "expires_at": "2026-11-11T17:22:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [
+        "예술"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 0,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": null,
+      "venue": null,
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 69.878,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "current_location": 25.0,
+        "freshness": 19.878,
+        "source_verified": 0.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 16,
+      "driving_time": null
+    },
+    {
+      "id": "mock:life-science",
+      "content_type": "LIFE",
+      "title": "[모의] 과학 프로그램 참가 안내",
+      "brief": "[모의] 과학 프로그램 참가 안내. 동작 검증용으로 작성된 가상의 콘텐츠입니다. 실제 소식이나 행사가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/life-science",
+      "published_at": "2026-11-10T16:22:20.885310Z",
+      "updated_at": "2026-11-10T17:17:20.885310Z",
+      "expires_at": "2026-11-11T17:22:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [
+        "과학IT"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 0,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": null,
+      "venue": null,
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 69.878,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "current_location": 25.0,
+        "freshness": 19.878,
+        "source_verified": 0.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 17,
+      "driving_time": null
+    },
+    {
+      "id": "mock:news-science",
+      "content_type": "NEWS",
+      "title": "[모의] 과학관 로봇 연구 소식",
+      "brief": "[모의] 과학관 로봇 연구 소식. 동작 검증용으로 작성된 가상의 콘텐츠입니다. 실제 소식이나 행사가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/news-science",
+      "published_at": "2026-11-10T16:22:20.885310Z",
+      "updated_at": "2026-11-10T17:17:20.885310Z",
+      "expires_at": "2026-11-11T17:22:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [
+        "과학IT"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 0,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": null,
+      "venue": null,
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 69.878,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "current_location": 25.0,
+        "freshness": 19.878,
+        "source_verified": 0.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 17,
+      "driving_time": null
+    },
+    {
+      "id": "mock:popup",
+      "content_type": "EVENT",
+      "title": "[모의] 캐릭터 팝업",
+      "brief": "[모의] 캐릭터 팝업. 동작 검증용으로 작성된 가상의 콘텐츠입니다. 실제 소식이나 행사가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/popup",
+      "published_at": "2026-11-10T16:22:20.885310Z",
+      "updated_at": "2026-11-10T17:17:20.885310Z",
+      "expires_at": "2026-11-11T17:22:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [
+        "애니메이션"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 0,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": "2026-11-10T16:22:20.885310Z",
+      "venue": "가상 행사장",
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 69.878,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "current_location": 25.0,
+        "freshness": 19.878,
+        "source_verified": 0.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 15,
+      "driving_time": {
+        "status": "SIMULATED",
+        "minutes": 25.0,
+        "provider": "fixture-only",
+        "checked_at": null
+      }
+    },
+    {
+      "id": "seoul-city:POI009:weather",
+      "content_type": "LIFE",
+      "title": "광화문·덕수궁 날씨",
+      "brief": "서울시 실시간 도시데이터 기준 광화문·덕수궁 기온은 6.0도입니다. 관측 기준시각 2026-11-11 02:10. 출처: 서울특별시.",
+      "source_name": "서울특별시 실시간 도시데이터",
+      "source_url": "https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do",
+      "published_at": null,
+      "updated_at": "2026-11-10T17:10:00Z",
+      "expires_at": "2026-11-10T18:10:00Z",
+      "fetched_at": "2026-11-10T17:19:57.872722Z",
+      "latitude": null,
+      "longitude": null,
+      "interest_tags": [
+        "생활",
+        "날씨"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do",
+      "verification_status": "VERIFIED",
+      "priority": 0,
+      "data_mode": "LIVE",
+      "provenance": "PUBLIC_API:seoul_citydata;KOGL_TYPE1;weather_fields_only",
+      "starts_at": null,
+      "venue": "광화문·덕수궁",
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 54.972,
+      "score_reasons": {
+        "interest_match": 20.0,
+        "location_unknown": 0.0,
+        "freshness": 19.972,
+        "source_verified": 10.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 19,
+      "driving_time": null
+    }
+  ],
+  "alerts": [
+    {
+      "id": "mock:traffic",
+      "content_type": "TRAFFIC",
+      "title": "[모의] 경로 차로 통제",
+      "brief": "사고 우선순위 검증용 가상 차로 통제입니다. 실제 교통정보가 아닙니다.",
+      "source_name": "Notice Me 자체 작성 모의 자료",
+      "source_url": "https://example.invalid/notice-me/traffic",
+      "published_at": "2026-11-10T17:20:20.885310Z",
+      "updated_at": "2026-11-10T17:22:20.885310Z",
+      "expires_at": "2026-11-10T17:32:20.885310Z",
+      "fetched_at": "2026-11-10T17:22:20.885310Z",
+      "latitude": 37.57,
+      "longitude": 126.98,
+      "interest_tags": [],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://github.com/Notice-Me/notice-me/blob/feat/server-content-feed/docs/FIXTURE_LICENSE.md",
+      "verification_status": "SIMULATED",
+      "priority": 200,
+      "data_mode": "MOCK",
+      "provenance": "SELF_AUTHORED_FIXTURE",
+      "starts_at": null,
+      "venue": null,
+      "organizer_confirmed_at": null,
+      "traffic": {
+        "occurred_at": "2026-11-10T17:20:20.885310Z",
+        "valid_until": "2026-11-10T17:32:20.885310Z",
+        "status": "ACTIVE",
+        "affected_link_ids": [
+          "demo-link-1"
+        ],
+        "link_namespace": "DEMO",
+        "radius_meters": 200.0,
+        "extent_description": "가상 링크 demo-link-1",
+        "native_x": null,
+        "native_y": null,
+        "native_crs": null,
+        "match_status": "LINK_MATCH"
+      },
+      "score": 149.993,
+      "score_reasons": {
+        "interest_match": 0.0,
+        "current_location": 25.0,
+        "freshness": 19.993,
+        "source_verified": 0.0,
+        "validity": 5.0,
+        "route_link_match": 100.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 12,
+      "driving_time": null
+    }
+  ],
+  "generated_at": "2026-11-10T17:24:00.436855Z",
+  "data_mode": "MIXED",
+  "diagnostics": [
+    {
+      "code": "DRIVING_TIME_UNVERIFIED",
+      "count": 5,
+      "message": "DRIVING_TIME_UNVERIFIED"
+    },
+    {
+      "code": "SIMULATED_CONTENT",
+      "count": 6,
+      "message": "SIMULATED_CONTENT"
+    },
+    {
+      "code": "TRAFFIC_ROUTE_UNVERIFIED",
+      "count": 4,
+      "message": "TRAFFIC_ROUTE_UNVERIFIED"
+    },
+    {
+      "code": "TTS_RIGHTS_BLOCKED",
+      "count": 2,
+      "message": "TTS_RIGHTS_BLOCKED"
+    },
+    {
+      "code": "SOURCE_UNAVAILABLE",
+      "count": 1,
+      "message": "tourapi:MISSING_KEY"
+    }
+  ],
+  "playback_order": [
+    "mock:traffic",
+    "mock:exhibition",
+    "mock:life-art",
+    "mock:life-science",
+    "mock:news-science",
+    "mock:popup",
+    "seoul-city:POI009:weather"
+  ],
+  "routing_status": "UNVERIFIED_FOR_LIVE_EVENTS"
+}

@@ -1,0 +1,347 @@
+{
+  "checked_at": "2026-11-11T11:13:27.486102+00:00",
+  "baseline_commit": "5626e462425e5a56fab78facc7010b3bad53ceb0",
+  "transport": "REAL_TCP_HTTP_TO_LOCAL_UVICORN",
+  "database_origin": "SQLite backup of existing actual collection plus startup fixtures",
+  "provider_calls_in_http_matrix": 0,
+  "pleos_sdk_executed": false,
+  "remote_teammate_access_verified": false,
+  "vehicle_tts_playback_verified": false,
+  "scenarios": [
+    {
+      "checked_at": "2026-11-11T11:13:28.874581+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "NO_NAVIGATION",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "MOCK",
+      "top3_count": 3,
+      "queue_count": 5,
+      "alert_count": 0,
+      "diagnostics": [
+        {
+          "code": "MOCK_MODE",
+          "count": 1,
+          "message": "MOCK_MODE"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 5,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TRAFFIC_ROUTE_UNVERIFIED",
+          "count": 1,
+          "message": "TRAFFIC_ROUTE_UNVERIFIED"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 1,
+      "configured_mode": "MOCK",
+      "exported_openapi_matches": true
+    },
+    {
+      "checked_at": "2026-11-11T11:13:28.927489+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "MANUAL_DEMO_LINK",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "MOCK",
+      "top3_count": 3,
+      "queue_count": 5,
+      "alert_count": 1,
+      "diagnostics": [
+        {
+          "code": "MOCK_MODE",
+          "count": 1,
+          "message": "MOCK_MODE"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 6,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 1,
+      "configured_mode": "MOCK",
+      "exported_openapi_matches": true
+    },
+    {
+      "checked_at": "2026-11-11T11:13:30.229226+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "NO_NAVIGATION",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "LIVE",
+      "top3_count": 3,
+      "queue_count": 1,
+      "alert_count": 0,
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 5,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "EXPIRED_OR_FUTURE",
+          "count": 8,
+          "message": "EXPIRED_OR_FUTURE"
+        },
+        {
+          "code": "TRAFFIC_STALE",
+          "count": 5,
+          "message": "TRAFFIC_STALE"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 2,
+      "configured_mode": "LIVE",
+      "exported_openapi_matches": true
+    },
+    {
+      "checked_at": "2026-11-11T11:13:31.626345+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "NO_NAVIGATION",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "MIXED",
+      "top3_count": 3,
+      "queue_count": 6,
+      "alert_count": 0,
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 5,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "EXPIRED_OR_FUTURE",
+          "count": 8,
+          "message": "EXPIRED_OR_FUTURE"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 5,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TRAFFIC_ROUTE_UNVERIFIED",
+          "count": 1,
+          "message": "TRAFFIC_ROUTE_UNVERIFIED"
+        },
+        {
+          "code": "TRAFFIC_STALE",
+          "count": 5,
+          "message": "TRAFFIC_STALE"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 4,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 1,
+      "configured_mode": "MIXED",
+      "exported_openapi_matches": true
+    },
+    {
+      "checked_at": "2026-11-11T11:13:31.683754+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "MANUAL_DEMO_LINK",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "MIXED",
+      "top3_count": 3,
+      "queue_count": 6,
+      "alert_count": 1,
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 5,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "EXPIRED_OR_FUTURE",
+          "count": 8,
+          "message": "EXPIRED_OR_FUTURE"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 6,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TRAFFIC_STALE",
+          "count": 5,
+          "message": "TRAFFIC_STALE"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 4,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 1,
+      "configured_mode": "MIXED",
+      "exported_openapi_matches": true
+    }
+  ],
+  "same_host_lan_address_probe": {
+    "attempts": 1,
+    "health_statuses": [
+      200
+    ],
+    "scope": "SERVER_PC_TO_ITS_OWN_LAN_ADDRESS; not a second device",
+    "addresses_persisted": false
+  },
+  "temporary_servers_stopped": true,
+  "all_scenarios_succeeded": true,
+  "evidence_assembled_at": "2026-11-11T11:20:55.418363+00:00",
+  "additional_provider_requests": {
+    "seoul_city": 1,
+    "freenews": 0,
+    "other_public_providers": 0
+  },
+  "weather_collection": {
+    "checked_at": "2026-11-11T11:09:34.775905+00:00",
+    "results": [
+      {
+        "provider": "seoul_city",
+        "status": "SUCCESS",
+        "http_status": 200,
+        "normalized_count": 1,
+        "metadata": {
+          "raw_count": 1,
+          "weather_available": true,
+          "city_incident_count": 0,
+          "sample_area": "POI009",
+          "city_incident_adapter": "DEFERRED_ROUTE_LINKS_MISSING"
+        },
+        "valid_count_at_collection": 1,
+        "items": [
+          {
+            "id": "seoul-city:POI009:weather",
+            "content_type": "LIFE",
+            "expires_at": "2026-11-11T11:50:00+00:00",
+            "data_mode": "LIVE",
+            "rights_status": "TTS_ALLOWED",
+            "updated_at": "2026-11-11T10:50:00+00:00"
+          }
+        ]
+      }
+    ],
+    "news_request_budget": {
+      "limit": 20,
+      "used": 0
+    }
+  },
+  "weather_report_sha256": "0d640bc5d6caa5a30b4a854727837b1a1ab80669dd2a1db9e4c447c54b382ee3",
+  "tests": {
+    "tests": 110,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "checks": {
+    "ruff": "PASS",
+    "format": "PASS",
+    "pip_check": "PASS",
+    "compileall": "PASS",
+    "openapi_paths_components_match": "PASS"
+  },
+  "earlier_local_probe_runs": {
+    "count": 2,
+    "status": "FAILED_DURING_TEMP_DB_CLEANUP",
+    "error": "WinError32",
+    "root_cause": "UNCONFIRMED",
+    "workaround": "Final probe preserves snapshots under ignored server/reports; no extra external provider calls"
+  },
+  "source_sha256": {
+    "server/app/cli.py": "c2b7b1a219cb785f2be6c52bb4114ea020ee6aae4671bbeb7d637ed365a3ed5f",
+    "server/scripts/check_vehicle_api.py": "488ba290e370a619eee0e8437313a9afd4ab06e14979c66831fb055b21e18da7",
+    "server/tests/test_vehicle_check.py": "3a1939b7c44db2c9d606ae7b0deea87c1fa0276dc6a0011acd67ad021973b7ae",
+    "server/tests/test_public_selection.py": "f822a07be507f703d68f87e8fd191cdee09e0796cdb8e860dc1a0cab50f03591"
+  },
+  "documentation_review": {
+    "checked_on": "2026-11-11",
+    "sdk_executed": false,
+    "pleos_tts_documented_version": "3.3.1",
+    "sources": [
+      "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/intro",
+      "https://document.pleos.ai/en/docs/pleos-only/connect-sdk-pleos/TextToSpeech/declaring-permissions",
+      "https://developer.android.com/studio/run/emulator-networking-address",
+      "https://developer.android.com/privacy-and-security/security-config",
+      "https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do"
+    ]
+  },
+  "verified_server_source_commit": "689099734f6c6a0b8eef9edb2ca04b7a55b25179"
+}

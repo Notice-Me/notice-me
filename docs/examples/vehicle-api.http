@@ -1,0 +1,38 @@
+# Run the server in MOCK mode first. Repeated parameters and URL-encoded Korean work.
+@baseUrl = http://127.0.0.1:8000
+
+### 200: health (server/database status, not proof of all external provider success)
+GET {{baseUrl}}/api/v1/health
+
+### 200: no navigation; screen top3 and separate voice queue
+GET {{baseUrl}}/api/v1/feed?lat=37.57&lon=126.98&interests=art&interests=science&interests=anime
+
+### 200: explicitly SIMULATED traffic on a manually supplied DEMO link
+GET {{baseUrl}}/api/v1/feed?lat=37.57&lon=126.98&interests=art,science,anime&navigation_active=true&route_link_ids=demo-link-1&route_link_namespace=DEMO&eta_minutes=10
+
+### 200: public LIVE weather after ingestion, with server mode=live
+GET {{baseUrl}}/api/v1/feed?lat=37.57&lon=126.98&interests=weather&navigation_active=false
+
+### 200: mock detail (MOCK/MIXED server only)
+GET {{baseUrl}}/api/v1/contents/mock:news-science
+
+### 200: deterministic MOCK explanation (MOCK/MIXED server only)
+POST {{baseUrl}}/api/v1/contents/mock:news-science/explain
+Content-Type: application/json
+
+{"question":"자세히 알려줘"}
+
+### 403: do not fall back to reading this news title aloud
+POST {{baseUrl}}/api/v1/contents/mock:news-anime/explain
+Content-Type: application/json
+
+{"question":"요약해줘"}
+
+### 404: unknown ID
+GET {{baseUrl}}/api/v1/contents/unknown-id
+
+### 422: invalid latitude
+GET {{baseUrl}}/api/v1/feed?lat=91&lon=126.98
+
+### 422: omit ETA/destination/route when navigation_active=false
+GET {{baseUrl}}/api/v1/feed?lat=37.57&lon=126.98&navigation_active=false&eta_minutes=10

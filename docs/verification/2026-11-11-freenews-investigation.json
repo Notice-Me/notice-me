@@ -1,0 +1,244 @@
+{
+  "checked_at": "2026-11-11T10:44:30.341055+00:00",
+  "baseline_commit": "2b2417f2c047d39d14ad42c2528134e6e9a3d2b4",
+  "original_validation": {
+    "checked_at": "2026-11-11T10:18:02.055525+00:00",
+    "sha256": "44ed7f108f7d0da097621d489901eb1a3ae4c04d8a2d52f74cd0c508124dfc51",
+    "provider": {
+      "provider": "freenews",
+      "key_configured": true,
+      "unauthenticated_probe": null,
+      "cases": [
+        {
+          "keyword": "애니메이션",
+          "window_hours": 24,
+          "status": "FAILED",
+          "code": "HTTP_ERROR",
+          "http_status": 500,
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "애니메이션",
+          "window_hours": 168,
+          "status": "FAILED",
+          "code": "HTTP_ERROR",
+          "http_status": 500,
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "과학 IT",
+          "window_hours": 24,
+          "status": "SUCCESS",
+          "reported_total": null,
+          "sample_count": 0,
+          "has_more": false,
+          "duplicate_sample_ratio": null,
+          "observed_fields": []
+        },
+        {
+          "keyword": "과학 IT",
+          "window_hours": 168,
+          "status": "FAILED",
+          "code": "TIMEOUT",
+          "http_status": null,
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "예술",
+          "window_hours": 24,
+          "status": "SUCCESS",
+          "reported_total": null,
+          "sample_count": 5,
+          "has_more": false,
+          "duplicate_sample_ratio": 0.0,
+          "observed_fields": [
+            "published_at",
+            "publisher",
+            "title",
+            "uuid"
+          ]
+        },
+        {
+          "keyword": "예술",
+          "window_hours": 168,
+          "status": "SUCCESS",
+          "reported_total": null,
+          "sample_count": 10,
+          "has_more": true,
+          "duplicate_sample_ratio": 0.0,
+          "observed_fields": [
+            "published_at",
+            "publisher",
+            "title",
+            "uuid"
+          ]
+        }
+      ],
+      "requests_made": 6,
+      "duplicate_method": "title normalization / similarity >=0.88 within first result page; not exact event identity",
+      "coverage_note": "Authenticated coverage not measured without key"
+    }
+  },
+  "official_spec": {
+    "url": "https://www.freenewsapi.io/docs/openapi.json",
+    "stored_spec_sha256": "258e0fd2a5e55289e40ccc1143a72d190f5265dd639f8cdf0f0a7f83dec4a838",
+    "request_format_mismatch_found": false,
+    "api_auth": "x-api-key header; secret excluded"
+  },
+  "controlled_probe": {
+    "checked_at": "2026-11-11T10:28:38.053641+00:00",
+    "window_end": "2026-11-11T10:18:02.055525+00:00",
+    "actual_listing_requests": 3,
+    "attempts": [
+      {
+        "keyword": "애니메이션",
+        "window_hours": 24,
+        "params": {
+          "language": "ko",
+          "country": "KR",
+          "in_title": "애니메이션",
+          "published_after": "2026-11-10T10:18:02.055525+00:00",
+          "published_before": "2026-11-11T10:18:02.055525+00:00",
+          "order_by": "recent"
+        },
+        "http_status": 500,
+        "elapsed_seconds": 0.844,
+        "content_type": "application/json; charset=utf-8",
+        "response_sha256": "fbfd907ef88bfde1d632177b488e92dbcb3f5f2d1a4a08d82638e520f330e46a",
+        "quota": {},
+        "sanitized_provider_message": "Internal Server Error",
+        "status": "FAILED"
+      },
+      {
+        "keyword": "예술",
+        "window_hours": 24,
+        "params": {
+          "language": "ko",
+          "country": "KR",
+          "in_title": "예술",
+          "published_after": "2026-11-10T10:18:02.055525+00:00",
+          "published_before": "2026-11-11T10:18:02.055525+00:00",
+          "order_by": "recent"
+        },
+        "http_status": 200,
+        "elapsed_seconds": 1.422,
+        "content_type": "application/json; charset=utf-8",
+        "response_sha256": "3a39ce74bf4ecb0aedef7f07f8274aecc56b072f38cbdb0947b98a88f18a41c5",
+        "quota": {
+          "x-ratelimit-limit-day": "5000",
+          "x-ratelimit-remaining-day": "4991"
+        },
+        "status": "SUCCESS",
+        "sample_count": 5
+      },
+      {
+        "keyword": "과학 IT",
+        "window_hours": 168,
+        "params": {
+          "language": "ko",
+          "country": "KR",
+          "in_title": "과학 IT",
+          "published_after": "2026-11-04T10:18:02.055525+00:00",
+          "published_before": "2026-11-11T10:18:02.055525+00:00",
+          "order_by": "recent"
+        },
+        "http_status": 200,
+        "elapsed_seconds": 10.844,
+        "content_type": "application/json; charset=utf-8",
+        "response_sha256": "98fcd24c877a78b080d3a43c51978a0e48cc2b34e3ed6344af48de4c1080a4fb",
+        "quota": {
+          "x-ratelimit-limit-day": "5000",
+          "x-ratelimit-remaining-day": "4990"
+        },
+        "status": "SUCCESS",
+        "sample_count": 0
+      }
+    ]
+  },
+  "cached_ingestion": {
+    "checked_at": "2026-11-11T10:39:09.627481+00:00",
+    "listing_origin": "CACHED_ACTUAL_PROBE",
+    "listing_count": 5,
+    "new_listing_requests": 0,
+    "new_detail_requests": 2,
+    "normalized_count": 2,
+    "detail_errors": [],
+    "quota_remaining_day": 4988,
+    "items": [
+      {
+        "id": "freenews:5a28c4bec1230048239ea5ed",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "data_mode": "LIVE",
+        "published_at": "2026-11-11T08:46:52+00:00",
+        "body_persisted": false
+      },
+      {
+        "id": "freenews:e8fc51361306a9a0313c50d2",
+        "rights_status": "LICENSE_UNVERIFIED",
+        "data_mode": "LIVE",
+        "published_at": "2026-11-11T06:46:39+00:00",
+        "body_persisted": false
+      }
+    ],
+    "new_news_displayed": 2,
+    "new_news_in_voice_queue": 0,
+    "explain_http_statuses": [
+      403,
+      403
+    ]
+  },
+  "root_cause_status": {
+    "animation_http500": "REPRODUCED; upstream internal cause unknown; no provider logs",
+    "original_timeout_phase": "NOT_RECORDED; cannot determine retrospectively",
+    "longer_wait_probe": "Same science-IT 168h window completed in 10.844s with 0 rows; not proof of original timeout cause"
+  },
+  "additional_news_api_requests": 5,
+  "additional_api_requests_after_this_evidence": "NONE_PLANNED",
+  "public_vehicle_api_contract_changed": false,
+  "rights_policy_changed": false,
+  "real_vehicle_tts_verified": false,
+  "retry_policy": {
+    "read_seconds": 20,
+    "connect_write_pool_seconds": 5,
+    "per_attempt_total_seconds": 30,
+    "max_retries": 1,
+    "retry_http_statuses": [
+      502,
+      503,
+      504
+    ],
+    "retry_errors": [
+      "TIMEOUT",
+      "NETWORK_ERROR"
+    ],
+    "no_retry_http_statuses": [
+      400,
+      401,
+      403,
+      429,
+      500
+    ],
+    "backoff_seconds": "1*2^index + uniform(0,0.25)",
+    "default_news_attempt_budget": 20,
+    "scope": "single CLI invocation, not global daily accounting"
+  },
+  "tests": {
+    "tests": 99,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "checks": {
+    "ruff": "PASS",
+    "format": "PASS",
+    "pip_check": "PASS",
+    "compileall": "PASS"
+  }
+}

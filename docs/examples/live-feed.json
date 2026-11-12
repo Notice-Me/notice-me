@@ -1,0 +1,161 @@
+{
+  "top3": [
+    {
+      "id": "seoul-city:POI009:weather",
+      "content_type": "LIFE",
+      "title": "광화문·덕수궁 날씨",
+      "brief": "서울시 실시간 도시데이터 기준 광화문·덕수궁 기온은 6.0도입니다. 관측 기준시각 2026-11-11 02:10. 출처: 서울특별시.",
+      "source_name": "서울특별시 실시간 도시데이터",
+      "source_url": "https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do",
+      "published_at": null,
+      "updated_at": "2026-11-10T17:10:00Z",
+      "expires_at": "2026-11-10T18:10:00Z",
+      "fetched_at": "2026-11-10T17:19:57.872722Z",
+      "latitude": null,
+      "longitude": null,
+      "interest_tags": [
+        "생활",
+        "날씨"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do",
+      "verification_status": "VERIFIED",
+      "priority": 0,
+      "data_mode": "LIVE",
+      "provenance": "PUBLIC_API:seoul_citydata;KOGL_TYPE1;weather_fields_only",
+      "starts_at": null,
+      "venue": "광화문·덕수궁",
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 74.972,
+      "score_reasons": {
+        "interest_match": 40.0,
+        "location_unknown": 0.0,
+        "freshness": 19.972,
+        "source_verified": 10.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 19,
+      "driving_time": null
+    }
+  ],
+  "queue": [
+    {
+      "id": "seoul-city:POI009:weather",
+      "content_type": "LIFE",
+      "title": "광화문·덕수궁 날씨",
+      "brief": "서울시 실시간 도시데이터 기준 광화문·덕수궁 기온은 6.0도입니다. 관측 기준시각 2026-11-11 02:10. 출처: 서울특별시.",
+      "source_name": "서울특별시 실시간 도시데이터",
+      "source_url": "https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do",
+      "published_at": null,
+      "updated_at": "2026-11-10T17:10:00Z",
+      "expires_at": "2026-11-10T18:10:00Z",
+      "fetched_at": "2026-11-10T17:19:57.872722Z",
+      "latitude": null,
+      "longitude": null,
+      "interest_tags": [
+        "생활",
+        "날씨"
+      ],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do",
+      "verification_status": "VERIFIED",
+      "priority": 0,
+      "data_mode": "LIVE",
+      "provenance": "PUBLIC_API:seoul_citydata;KOGL_TYPE1;weather_fields_only",
+      "starts_at": null,
+      "venue": "광화문·덕수궁",
+      "organizer_confirmed_at": null,
+      "traffic": null,
+      "score": 74.972,
+      "score_reasons": {
+        "interest_match": 40.0,
+        "location_unknown": 0.0,
+        "freshness": 19.972,
+        "source_verified": 10.0,
+        "validity": 5.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 19,
+      "driving_time": null
+    }
+  ],
+  "alerts": [
+    {
+      "id": "seoul-incident:0064644d3e95caf2ba4fa9f0",
+      "content_type": "TRAFFIC",
+      "title": "탄천나들목 및 봉은교 구조개선공사\r-일시 : 26.4.7.(화) 10:00~30.5.3.(금) 23:59\r- 장소 : 탄천나들목밑 탄천동로 본선\r- 통제 : 양방향 전면통제",
+      "brief": "서울시 교통 돌발정보: 탄천나들목 및 봉은교 구조개선공사\r-일시 : 26.4.7.(화) 10:00~30.5.3.(금) 23:59\r- 장소 : 탄천나들목밑 탄천동로 본선\r- 통제 : 양방향 전면통제. 출처: 서울특별시 TOPIS.",
+      "source_name": "서울특별시 TOPIS",
+      "source_url": "https://data.seoul.go.kr/dataList/OA-13315/A/1/datasetView.do",
+      "published_at": "2026-04-07T01:00:00Z",
+      "updated_at": null,
+      "expires_at": "2030-05-03T15:00:00Z",
+      "fetched_at": "2026-11-10T17:19:57.872722Z",
+      "latitude": null,
+      "longitude": null,
+      "interest_tags": [],
+      "rights_status": "TTS_ALLOWED",
+      "rights_evidence_url": "https://data.seoul.go.kr/dataList/OA-13315/A/1/datasetView.do",
+      "verification_status": "VERIFIED",
+      "priority": 100,
+      "data_mode": "LIVE",
+      "provenance": "PUBLIC_API:AccInfo;KOGL_TYPE1;status_derived_from_current_listing_and_end_time",
+      "starts_at": null,
+      "venue": null,
+      "organizer_confirmed_at": null,
+      "traffic": {
+        "occurred_at": "2026-04-07T01:00:00Z",
+        "valid_until": "2030-05-03T15:00:00Z",
+        "status": "ACTIVE",
+        "affected_link_ids": [
+          "1230029600"
+        ],
+        "link_namespace": "SEOUL_TOPIS",
+        "radius_meters": 200.0,
+        "extent_description": "TOPIS 링크 1230029600",
+        "native_x": 206163.4066056019,
+        "native_y": 446427.4506882597,
+        "native_crs": "GRS80TM_EPSG_UNVERIFIED",
+        "match_status": "LINK_MATCH"
+      },
+      "score": 115.0,
+      "score_reasons": {
+        "interest_match": 0.0,
+        "location_unknown": 0.0,
+        "freshness": 0.0,
+        "source_verified": 10.0,
+        "validity": 5.0,
+        "route_link_match": 100.0
+      },
+      "tts_eligible": true,
+      "estimated_speech_seconds": 30,
+      "driving_time": null
+    }
+  ],
+  "generated_at": "2026-11-10T17:24:00.426767Z",
+  "data_mode": "LIVE",
+  "diagnostics": [
+    {
+      "code": "DRIVING_TIME_UNVERIFIED",
+      "count": 5,
+      "message": "DRIVING_TIME_UNVERIFIED"
+    },
+    {
+      "code": "TRAFFIC_ROUTE_UNVERIFIED",
+      "count": 3,
+      "message": "TRAFFIC_ROUTE_UNVERIFIED"
+    },
+    {
+      "code": "SOURCE_UNAVAILABLE",
+      "count": 1,
+      "message": "tourapi:MISSING_KEY"
+    }
+  ],
+  "playback_order": [
+    "seoul-incident:0064644d3e95caf2ba4fa9f0",
+    "seoul-city:POI009:weather"
+  ],
+  "routing_status": "UNVERIFIED_FOR_LIVE_EVENTS"
+}

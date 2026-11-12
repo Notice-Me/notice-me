@@ -18,3 +18,9 @@
 - Write focused behavior tests for recommendation, rights, expiry, provider failures, and API contracts. Run tests before PR.
 - Maintain PROJECT_CONTEXT, PROJECT_STATUS, API_CONTRACT, and DATA_SOURCES while implementing.
 - Do not commit personal application forms, phone numbers, emails, precise user location histories, or raw third-party article bodies.
+
+## Korean engineering and learning records (user requirement)
+- Keep `docs/TECH_DECISIONS.md`, `docs/DEVELOPMENT_LOG.md`, and `docs/LESSONS_LEARNED.md` cumulative and in Korean.
+- For meaningful changes, record the actual reason, mechanism, alternatives considered, tradeoffs, problem/cause, attempted fixes, measured tests/evidence, and remaining gaps. Link existing context/status/contract/source docs instead of duplicating them.
+- Distinguish user-mandated stack choices, implemented choices, documentation-only comparisons, and experiments actually performed. Never invent benchmarks, provider success, personal learning, AI reviews, or vehicle/TTS validation.
+- Update these records alongside the implementation without delaying the MVP for unrelated research. Add dates/evidence when facts change; retain earlier verified observations as history.

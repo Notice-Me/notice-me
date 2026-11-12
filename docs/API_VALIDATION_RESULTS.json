@@ -1,0 +1,335 @@
+{
+  "checked_at": "2026-11-10T17:19:57.872722+00:00",
+  "results": [
+    {
+      "provider": "seoul_events",
+      "status": "SUCCESS",
+      "http_status": 200,
+      "normalized_count": 5,
+      "metadata": {
+        "raw_count": 5,
+        "reported_total": 19765,
+        "sample": true,
+        "source_updated_at_available": false
+      },
+      "valid_count_at_collection": 5,
+      "items": [
+        {
+          "id": "seoul-event:8604019b12457fe1abf63198",
+          "content_type": "EVENT",
+          "expires_at": "2026-12-24T15:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        },
+        {
+          "id": "seoul-event:699d4bccbe1cf895514a2691",
+          "content_type": "EVENT",
+          "expires_at": "2026-12-22T15:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        },
+        {
+          "id": "seoul-event:b360692fb157c43586da1150",
+          "content_type": "EVENT",
+          "expires_at": "2026-12-22T15:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        },
+        {
+          "id": "seoul-event:65f3c9bda0c05406dc8d6d4a",
+          "content_type": "EVENT",
+          "expires_at": "2027-02-09T15:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        },
+        {
+          "id": "seoul-event:08407da2221c6a9ea3bd16f2",
+          "content_type": "EVENT",
+          "expires_at": "2026-12-27T15:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        }
+      ]
+    },
+    {
+      "provider": "seoul_city",
+      "status": "SUCCESS",
+      "http_status": 200,
+      "normalized_count": 1,
+      "metadata": {
+        "raw_count": 1,
+        "weather_available": true,
+        "city_incident_count": 0,
+        "sample_area": "POI009",
+        "city_incident_adapter": "DEFERRED_ROUTE_LINKS_MISSING"
+      },
+      "valid_count_at_collection": 1,
+      "items": [
+        {
+          "id": "seoul-city:POI009:weather",
+          "content_type": "LIFE",
+          "expires_at": "2026-11-10T18:10:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": "2026-11-10T17:10:00+00:00"
+        }
+      ]
+    },
+    {
+      "provider": "seoul_incidents",
+      "status": "SUCCESS",
+      "http_status": 200,
+      "normalized_count": 4,
+      "metadata": {
+        "raw_count": 4,
+        "reported_total": "4",
+        "coordinates": "NATIVE_GRS80TM_ONLY; EPSG_UNVERIFIED",
+        "status": "DERIVED_FROM_LISTING_AND_EXPIRY; requery within 10 minutes"
+      },
+      "valid_count_at_collection": 4,
+      "items": [
+        {
+          "id": "seoul-incident:88688e76c98154a15cf13567",
+          "content_type": "TRAFFIC",
+          "expires_at": "2027-02-28T15:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        },
+        {
+          "id": "seoul-incident:0064644d3e95caf2ba4fa9f0",
+          "content_type": "TRAFFIC",
+          "expires_at": "2030-05-03T15:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        },
+        {
+          "id": "seoul-incident:63179aa4796b748d08c95934",
+          "content_type": "TRAFFIC",
+          "expires_at": "2026-11-10T21:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        },
+        {
+          "id": "seoul-incident:f6dcff66982091666d87a145",
+          "content_type": "TRAFFIC",
+          "expires_at": "2026-11-25T20:00:00+00:00",
+          "data_mode": "LIVE",
+          "rights_status": "TTS_ALLOWED",
+          "updated_at": null
+        }
+      ]
+    },
+    {
+      "provider": "tourapi",
+      "status": "FAILED",
+      "code": "MISSING_KEY",
+      "http_status": null,
+      "normalized_count": 0
+    }
+  ],
+  "news": [
+    {
+      "provider": "freenews",
+      "key_configured": false,
+      "unauthenticated_probe": {
+        "status": "FAILED",
+        "code": "AUTH_REQUIRED",
+        "http_status": 401
+      },
+      "cases": [
+        {
+          "keyword": "애니메이션",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "애니메이션",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "과학 IT",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "과학 IT",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "예술",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "예술",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        }
+      ],
+      "requests_made": 1,
+      "duplicate_method": "title normalization / similarity >=0.88 within first result page; not exact event identity",
+      "coverage_note": "Authenticated coverage not measured without key"
+    },
+    {
+      "provider": "thenewsapi",
+      "key_configured": false,
+      "unauthenticated_probe": {
+        "status": "FAILED",
+        "code": "AUTH_REQUIRED",
+        "http_status": 401
+      },
+      "cases": [
+        {
+          "keyword": "애니메이션",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "애니메이션",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "과학 IT",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "과학 IT",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "예술",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "예술",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        }
+      ],
+      "requests_made": 1,
+      "duplicate_method": "title normalization / similarity >=0.88 within first result page; not exact event identity",
+      "coverage_note": "Authenticated coverage not measured without key"
+    },
+    {
+      "provider": "gnews",
+      "key_configured": false,
+      "unauthenticated_probe": {
+        "status": "FAILED",
+        "code": "AUTH_REQUIRED",
+        "http_status": 400
+      },
+      "cases": [
+        {
+          "keyword": "애니메이션",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "애니메이션",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "과학 IT",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "과학 IT",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "예술",
+          "window_hours": 24,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        },
+        {
+          "keyword": "예술",
+          "window_hours": 168,
+          "status": "BLOCKED_NO_KEY",
+          "reported_total": null,
+          "sample_count": null,
+          "duplicate_sample_ratio": null
+        }
+      ],
+      "requests_made": 1,
+      "duplicate_method": "title normalization / similarity >=0.88 within first result page; not exact event identity",
+      "coverage_note": "ko/kr absent from official filter lists; Korean keyword only, 12h delay"
+    }
+  ],
+  "tour_unauthenticated_probe": {
+    "status": "FAILED",
+    "code": "AUTH_REQUIRED",
+    "http_status": 401
+  },
+  "its": {
+    "status": "NOT_CALLED",
+    "reason": "NO_KEY_AND_CURRENT_OFFICIAL_ENDPOINT_DOC_UNREACHABLE"
+  }
+}
