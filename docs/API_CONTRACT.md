@@ -8,6 +8,10 @@ Content·FeedItem·ContentDetail에 nullable `weather`(`area_code`, `region`, `o
 
 [차량 앱 실행/연결 안내](VEHICLE_INTEGRATION.md)와 [요청 예제](examples/vehicle-api.http)를 함께 사용하세요. OpenAPI는 `.venv\Scripts\python.exe scripts/export_openapi.py`로 외부 통신 없이 재생성하며, 테스트에서 기록된 명세와 런타임 명세의 일치를 검사합니다.
 
+## 2026-11-13 후속 제안 — 프로필 OR와 상세 검색 AND (미구현)
+
+이번 문서 PR은 기존 GET /feed, interests, FeedContext/FeedResponse 및 저장 OpenAPI를 변경하지 않는다. #9의 상세 조건을 OR로 재해석하지 않는다. [앱 담당자 공유용 변경안](INTEREST_PROFILE_PROPOSAL.md)은 기존 GET 유지와 별도 POST /api/v1/feed/query를 권고하며, profile 내부 OR·filter 필드 간 AND를 명시한다. 구 서버가 모르는 query를 무시하는 문제를 피하려는 선택이며 현재 새 endpoint는404다. 구현 전에 앱 담당자와 요청·404·날씨/긴급정보 규약을 검토하고 이후 구현 PR에서만 OpenAPI를 추가해야 한다. 메시지 발송·합의 완료·프로필 영속 저장·실제 길안내 구현을 뜻하지 않는다.
+
 ## Endpoints
 
 - `GET /health`: service/database health and provider configuration status (no credentials).

@@ -21,6 +21,12 @@ Python 3.11+, FastAPI, SQLite, pytest, .env는 사용자 요구사항입니다. 
 | TD-07 .env + SecretStr + 기능 브랜치 | 사용 중 | 키/개인정보 제외, 검토 전 main 병합 금지 |
 | TD-08 출처별 정규화 + XML 파싱 | 사용 중 | 서로 다른 공식 API 필드/시각/좌표를 공통 콘텐츠로 변환 |
 
+## TD-15. 프로필과 상세 검색을 명시적으로 분리하는 계약 제안 (2026-11-13)
+
+사용자 요청은 이번에는 구현보다 먼저 호환 방안을 제안하는 것이다. #9의 구체 관심사 matcher에 치이카와·science·anime를 그대로 넣으면 실제 지브리 제목이 빠지는 것을 별도 사본에서 재현했다. 기존 배열을 OR로 바꾸면 치이카와 AND 팝업을 넓히므로 채택하지 않았다. GET에 mode를 추가하는 대안은 구 서버가 모르는 query를 무시할 수 있다. 기존 GET을 유지하고 새 POST의 profile OR/filter AND·구 서버404를 권고했다. 이는 **설계 제안**이며 구현/성능 비교가 아니다. [필드·날씨/긴급 경계·인수 기준](INTEREST_PROFILE_PROPOSAL.md).
+
+새 기능 구현을 선행하지 않고 공식 출처를 조사한 결과, 실제 공지라도 주소·좌표·개별 운영사·재사용/변경 확인이 부족했다. 공식 티켓 공지 자체에도17시/19:30 상충이 있어 임의 선택하지 않았다. KOGL1 공공 메타데이터5건은 기존 수집기로 검증했지만 기존 라우팅 게이트를 풀지 않았다. [관측·누락·권리](CONTENT_SOURCE_FOLLOWUP.md). 무료 길찾기는 키·사용조건/과금 상태가 미확인이라 조사/소량 시험 계획만 작성했다. 이는 쿼터 우회·유료 사용·실측 이동시간 확보가 아니다. [연결 조건과 동기/비동기 대안](ROUTING_TRIAL_PROPOSAL.md).
+
 ## TD-01. 응답 객체를 코드와 API 계약의 공통 기준으로 사용
 
 FastAPI는 요청을 endpoint로 연결하고 Pydantic 모델로 입력·출력의 타입과 제약을 다룹니다. 이 모델이 JSON Schema/OpenAPI로 표현되므로 앱 개발자는 nullable 좌표·시각, enum, 배열 구조를 확인할 수 있습니다. 그러나 타입 검증이 뉴스의 사실성이나 저작권을 보증하지는 않으며 별도 도메인 검사가 필요합니다. [FastAPI 기능](https://fastapi.tiangolo.com/features/), [응답 모델](https://fastapi.tiangolo.com/tutorial/response-model/), [Pydantic 모델](https://docs.pydantic.dev/latest/concepts/models/).

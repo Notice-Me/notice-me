@@ -1,0 +1,332 @@
+{
+  "checked_at": "2026-11-13T04:58:13.366396+00:00",
+  "branch": "feat/server-profile-content-plan",
+  "main_commit": "94de8750fa5e40658780f597af4bfa5b209d9c5a",
+  "reviewed_prs": [
+    {
+      "number": 8,
+      "state": "OPEN",
+      "merged": false,
+      "commit": "84cad04a59d93590cd49c3c36a225c2f4c5ba710"
+    },
+    {
+      "number": 9,
+      "state": "OPEN",
+      "merged": false,
+      "commit": "7c730726f22609e66abcc281474d10878c4c45c4"
+    }
+  ],
+  "change_scope": "Documentation and public verification metadata only; no server or vehicle runtime changes",
+  "profile_design": {
+    "status": "PROPOSAL_ONLY_NOT_IMPLEMENTED",
+    "recommended_endpoint": "POST /api/v1/feed/query",
+    "existing_get_interests_unchanged": true,
+    "response_schema_unchanged": true,
+    "logic": "OR across profile categories/topics/keywords; AND across nonempty search filter fields; OR within each filter field",
+    "not_sent_to_teammate": true
+  },
+  "source_counts": {
+    "official_popup_events_discovered": 2,
+    "popup_events_meeting_all_requested_conditions": 0,
+    "popup_registrations": 0,
+    "public_events_received_and_normalized": 5,
+    "new_public_event_ids_in_audit_copy": 1,
+    "public_events_in_live_feed": 0,
+    "public_events_in_voice_queue": 0,
+    "live_rows_in_audit_copy": 98
+  },
+  "popup_candidates": [
+    {
+      "name": "무민 팝업 IN 잠실",
+      "source_urls": [
+        "https://www.popcondplay.com/ip/news/view/900",
+        "https://www.popcondplay.com/ip/news/view/944"
+      ],
+      "published_by": "무민샵 코리아 on Daewon Media platform",
+      "start_date": "2026-11-11",
+      "end_date": "2026-11-24",
+      "venue": "잠실 롯데월드몰 지하1층",
+      "address": null,
+      "latitude": null,
+      "longitude": null,
+      "rights": "LICENSE_UNVERIFIED",
+      "cancellation_status_verified": false,
+      "event_operator_verified": false,
+      "registration_eligible": false,
+      "reason_codes": [
+        "ADDRESS_UNCONFIRMED",
+        "COORDINATES_UNCONFIRMED",
+        "EVENT_OPERATOR_UNCONFIRMED",
+        "REUSE_RIGHTS_UNCONFIRMED",
+        "LATEST_STATUS_UNCONFIRMED",
+        "DRIVING_TIME_UNVERIFIED"
+      ]
+    },
+    {
+      "name": "Chiikawa Clinic POP-UP STORE",
+      "source_urls": [
+        "https://www.popcondplay.com/ip/news/view/946"
+      ],
+      "published_by": "치이카와(먼작귀) on Daewon Media platform",
+      "start_date": "2026-11-27",
+      "end_date": "2027-01-10",
+      "venue": null,
+      "address": null,
+      "latitude": null,
+      "longitude": null,
+      "rights": "LICENSE_UNVERIFIED",
+      "cancellation_status_verified": false,
+      "event_operator_verified": false,
+      "registration_eligible": false,
+      "reason_codes": [
+        "VENUE_TO_BE_ANNOUNCED",
+        "ADDRESS_UNCONFIRMED",
+        "COORDINATES_UNCONFIRMED",
+        "EVENT_OPERATOR_UNCONFIRMED",
+        "REUSE_RIGHTS_UNCONFIRMED",
+        "LATEST_STATUS_UNCONFIRMED",
+        "DRIVING_TIME_UNVERIFIED"
+      ]
+    }
+  ],
+  "collection": {
+    "checked_at": "2026-11-13T04:47:52.561425+00:00",
+    "max_content_calls": 2,
+    "routing_calls": 0,
+    "news_calls": 0,
+    "tour_calls": 0,
+    "results": [
+      {
+        "provider": "seoul_events",
+        "status": "SUCCESS",
+        "http_status": 200,
+        "calls": 1,
+        "normalized_count": 5,
+        "new_ids_in_audit_copy": 1,
+        "raw_count": 5,
+        "reported_total": 19761,
+        "sample": true,
+        "source_updated_at_available": false
+      },
+      {
+        "provider": "seoul_city",
+        "status": "SUCCESS",
+        "http_status": 200,
+        "calls": 1,
+        "normalized_count": 1,
+        "new_ids_in_audit_copy": 0,
+        "raw_count": 1,
+        "weather_available": true,
+        "city_incident_count": 1,
+        "sample_area": "POI009",
+        "city_incident_adapter": "DEFERRED_ROUTE_LINKS_MISSING",
+        "weather": [
+          {
+            "observed_at": "2026-11-13T04:40:00+00:00",
+            "expires_at": "2026-11-13T05:40:00+00:00",
+            "region": "광화문·덕수궁"
+          }
+        ]
+      }
+    ],
+    "content_calls_used": 2
+  },
+  "tests": {
+    "main": {
+      "commit": "94de875",
+      "passed": 159,
+      "failures": 0,
+      "scope": "current checkout, PYTHONPATH fixed to current server"
+    },
+    "pr9": {
+      "commit": "7c73072",
+      "passed": 190,
+      "failures": 0,
+      "scope": "separate git archive source copy; no merge or checkout mutation"
+    },
+    "warning": "One existing Starlette/httpx deprecation warning in each pytest run",
+    "new_profile_behavior_tests_run": false,
+    "ruff": "PASS",
+    "format": "PASS; 37 main source files",
+    "pip_check": "PASS"
+  },
+  "http": {
+    "main_live": {
+      "checked_at": "2026-11-13T04:49:57.178708+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "NO_NAVIGATION",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "LIVE",
+      "top3_count": 3,
+      "queue_count": 1,
+      "alert_count": 0,
+      "diagnostics": [
+        {
+          "code": "DRIVING_TIME_UNVERIFIED",
+          "count": 81,
+          "message": "DRIVING_TIME_UNVERIFIED"
+        },
+        {
+          "code": "EXPIRED_OR_FUTURE",
+          "count": 11,
+          "message": "EXPIRED_OR_FUTURE"
+        },
+        {
+          "code": "FIXED_WEATHER_AREA",
+          "count": 1,
+          "message": "FIXED_WEATHER_AREA"
+        },
+        {
+          "code": "TRAFFIC_STALE",
+          "count": 3,
+          "message": "TRAFFIC_STALE"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 2
+    },
+    "main_mock": {
+      "checked_at": "2026-11-13T04:49:57.922709+00:00",
+      "status": "SUCCESS",
+      "checks": [
+        "health:200",
+        "feed:200;mode/rights/expiry/playback_checked",
+        "detail:200",
+        "explain:200;ai_mode_recorded",
+        "errors:404/422",
+        "uncleared_news:403",
+        "openapi:four_typed_responses"
+      ],
+      "route_context": "MANUAL_DEMO_LINK",
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "pleos_sdk_verified": false,
+      "vehicle_tts_verified": false,
+      "data_mode": "MOCK",
+      "top3_count": 3,
+      "queue_count": 5,
+      "alert_count": 1,
+      "diagnostics": [
+        {
+          "code": "MOCK_MODE",
+          "count": 1,
+          "message": "MOCK_MODE"
+        },
+        {
+          "code": "SIMULATED_CONTENT",
+          "count": 6,
+          "message": "SIMULATED_CONTENT"
+        },
+        {
+          "code": "TTS_RIGHTS_BLOCKED",
+          "count": 2,
+          "message": "TTS_RIGHTS_BLOCKED"
+        }
+      ],
+      "ai_mode": "MOCK",
+      "blocked_news_checked": 1
+    },
+    "event_gate_and_profile_probe": {
+      "checked_at": "2026-11-13T04:50:39.596399+00:00",
+      "scope": "Current main; proposal endpoint not implemented",
+      "event_checks": [
+        {
+          "id": "seoul-event:8604019b12457fe1abf63198",
+          "detail_http": 200,
+          "tts_eligible": false,
+          "in_feed": false
+        },
+        {
+          "id": "seoul-event:b360692fb157c43586da1150",
+          "detail_http": 200,
+          "tts_eligible": false,
+          "in_feed": false
+        },
+        {
+          "id": "seoul-event:699d4bccbe1cf895514a2691",
+          "detail_http": 200,
+          "tts_eligible": false,
+          "in_feed": false
+        },
+        {
+          "id": "seoul-event:0f64ee94b4285c99356f6586",
+          "detail_http": 200,
+          "tts_eligible": false,
+          "in_feed": false
+        },
+        {
+          "id": "seoul-event:65f3c9bda0c05406dc8d6d4a",
+          "detail_http": 200,
+          "tts_eligible": false,
+          "in_feed": false
+        }
+      ],
+      "driving_time_gate": "PASS",
+      "proposed_endpoint_http": 404,
+      "pr9_existing_matcher": {
+        "title": "2026 카즈미 타테이시 트리오 내한공연-지브리, 재즈를 만나다-(서울)",
+        "anime_only": true,
+        "combined_chiikawa_science_anime": false,
+        "note": "Existing detailed-search semantics; new OR profile is a proposal, not implemented"
+      }
+    }
+  },
+  "routing": {
+    "calls": 0,
+    "implementation": "NONE",
+    "server_env_routing_credentials_configured": false,
+    "account_free_quota_and_billing_state": "NOT_VERIFIED",
+    "new_authentication_or_billing_performed": false,
+    "proposed_budget_after_account_review": 5,
+    "eta_used_as_event_driving_time": false
+  },
+  "preservation": {
+    "protected_files_hashes_unchanged": 3,
+    "server_changed_files": 0,
+    "vehicle_app_changed_files": 0,
+    "original_db_modified": false,
+    "running_app_server_replaced": false
+  },
+  "problems_observed": [
+    {
+      "code": "CULTURE_DETAIL_TIMEOUT",
+      "handling": "Did not treat cached search results as a fresh detail-page success"
+    },
+    {
+      "code": "SCHEDULE_TIME_CONFLICT",
+      "source_url": "https://www.ticketlink.co.kr/help/notice/66259",
+      "values": [
+        "17:00",
+        "19:30"
+      ],
+      "handling": "No actual performance time selected or registered"
+    },
+    {
+      "code": "ROUTING_CREDENTIALS_NOT_CONFIGURED",
+      "handling": "No unauthenticated probes, registration, paid calls or fabricated travel times"
+    }
+  ],
+  "not_verified": [
+    "Actual Pleos or vehicle TTS playback this task",
+    "New OR profile/search endpoint behavior (not implemented)",
+    "Complete popup operator/address/coordinates/cancellation/reuse rights",
+    "Actual car route, venue car entrance, driving time <=60 minutes",
+    "School AI",
+    "Continuous freshness of weather after expiry"
+  ]
+}
