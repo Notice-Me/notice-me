@@ -44,6 +44,17 @@ private class FakeSpeech : SpeechPlayer {
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FeedControllerTest {
+    @Test fun `idle refresh failure clears old cards and playback permission`() = runTest {
+        val api = FakeApi(); val speech = FakeSpeech()
+        val c = FeedController(api, FeedQuery(0.0, 0.0, emptyList()), speech, backgroundScope, { instant }) {}
+        c.connect(); runCurrent()
+        api.failure = IOException("offline")
+        c.refreshWhenIdle(); runCurrent()
+        assertFalse(c.state.connected)
+        assertNull(c.state.feed)
+        c.play(); runCurrent()
+        assertTrue(speech.spoken.isEmpty())
+    }
     @Test fun `health precedes feed and no autoplay`() = runTest {
         val api = FakeApi(); val speech = FakeSpeech()
         val c = FeedController(api, FeedQuery(37.57, 126.98, listOf("art")), speech, backgroundScope, { instant }) {}

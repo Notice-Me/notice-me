@@ -44,7 +44,7 @@ class FeedController(
                     message = when (feed.dataMode) {
                         "MOCK" -> "시연 데이터"
                         "MIXED" -> "실제 소식과 시연 데이터"
-                        else -> "연결됨"
+                        else -> "실제 데이터 · LIVE"
                     }))
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) { update(ScreenState(message = userMessage(e))) }
@@ -59,7 +59,7 @@ class FeedController(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                update(state.copy(message = userMessage(e)))
+                update(ScreenState(message = userMessage(e)))
             }
         }
     }

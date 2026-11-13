@@ -7,6 +7,8 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.content.res.ColorStateList
 import android.text.TextUtils
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -27,6 +29,9 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 class MainActivity : Activity() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -194,7 +199,8 @@ class MainActivity : Activity() {
             val api = HttpContentApi(server)
             val manual = FeedQuery(manualLatitude, manualLongitude, selectedInterests)
             val queryProvider: suspend () -> FeedQuery = {
-                val navigation = if (withNavigation) readNavigationContext(applicationContext) else null
+                val navigation = (if (withNavigation) readNavigationContext(applicationContext) else null)
+                    ?.takeIf { it.isFresh(Instant.now()) }
                 etaLabel = navigation?.remainingSeconds?.let { seconds ->
                     if (seconds < 60) "도착까지 1분 미만" else "도착까지 약 ${(seconds + 59) / 60}분"
                 }
@@ -203,15 +209,17 @@ class MainActivity : Activity() {
                 } else {
                     buildString {
                         append(navigation.region ?: "내비 현재 위치")
+                        append(when (navigation.routeStatus) {
+                            "INACTIVE" -> " · 경로 안내 없음"
+                            "SIMULATED" -> " · 모의 주행"
+                            "GUIDING" -> " · 경로 안내 중"
+                            else -> " · 경로 정보 확인 불가"
+                        })
                         navigation.destination?.let { append(" · 목적지 ").append(navigation.destinationName ?: "반영") }
+                        if (navigation.destination != null && navigation.remainingSeconds == null) append(" · ETA 확인 불가")
                     }
                 }
-                if (navigation == null) manual else manual.copy(
-                    latitude = navigation.location.latitude,
-                    longitude = navigation.location.longitude,
-                    destination = navigation.destination,
-                    etaMinutes = navigation.remainingSeconds?.div(60.0),
-                )
+                navigation?.applyTo(manual, Instant.now()) ?: manual
             }
             getPreferences(MODE_PRIVATE).edit().putString("server", server).apply()
             controller = FeedController(api, manual, speech, scope, currentQuery = queryProvider, render = ::render)
@@ -248,24 +256,49 @@ class MainActivity : Activity() {
                 val story = column().apply { setPadding(0, dp(displaySize(11, 16)), 0, dp(displaySize(13, 21))) }
                 val source = buildList {
                     add(item.sourceName)
+                    add(item.dataMode)
                     if ((item.dataMode == "MOCK" || item.verification == "SIMULATED") &&
                         !item.sourceName.contains("모의 자료")) add("모의 자료")
                     if (!item.ttsEligible) add("읽기 전용")
                 }.filter { it.isNotBlank() }.joinToString(" · ")
                 story.addView(label(source, displaySize(13, 23), muted))
                 story.addView(label(item.title, displaySize(22, 40), ink, true))
-                if (item.brief.isNotBlank()) story.addView(label(item.brief, displaySize(17, 30), ink).apply {
+                item.weather?.let { weather ->
+                    story.addView(label("고정 관측 지역 · ${weather.region}", displaySize(14, 26), muted))
+                    story.addView(label("관측 ${displayTime(weather.observedAt)} · 유효 ${displayTime(item.expiresAt)}", displaySize(14, 24), muted))
+                } ?: story.addView(label(
+                    item.publishedAt?.let { "발행 ${displayTime(it)}" } ?: "수집 ${displayTime(item.fetchedAt)}",
+                    displaySize(14, 24), muted))
+                if (item.brief.isNotBlank() && item.contentType != "NEWS") story.addView(label(item.brief, displaySize(17, 30), ink).apply {
                     setLineSpacing(dp(displaySize(2, 5)).toFloat(), 1f)
+                })
+                story.addView(label(item.sourceUrl, displaySize(14, 24), accent).apply {
+                    Linkify.addLinks(this, Linkify.WEB_URLS)
+                    movementMethod = LinkMovementMethod.getInstance()
                 })
                 stories.addView(story)
             }
         }
         val alerts = state.feed?.alerts.orEmpty()
-        diagnostics.text = alerts.joinToString("\n") {
+        val notices = alerts.map {
             val simulation = if (it.verification == "SIMULATED" || it.dataMode == "MOCK") " (모의 자료)" else ""
             "우선 안내 · ${it.title}$simulation"
         }
-        diagnostics.visibility = if (alerts.isEmpty()) View.GONE else View.VISIBLE
+        val reasons = state.feed?.diagnostics.orEmpty().mapNotNull { diagnostic ->
+            when (diagnostic.code) {
+                "DRIVING_TIME_UNVERIFIED" -> "행사 · 자동차 이동시간 미확인으로 추천 제외"
+                "SOURCE_UNAVAILABLE" -> "일부 원천 데이터 갱신 실패"
+                "WEATHER_STALE_OR_FUTURE", "EXPIRED_OR_FUTURE" -> "유효기간을 확인할 수 없는 자료 제외"
+                "LIVE_TTS_WEATHER_ONLY" -> "실제 음성 안내는 날씨만 제공"
+                "TTS_RIGHTS_BLOCKED" -> "음성 권리 미확인 소식은 읽기 전용"
+                else -> null
+            }
+        }
+        val emptyVoice = if (state.connected && state.feed?.dataMode == "LIVE" && state.feed?.queue.isNullOrEmpty())
+            listOf("재생 가능한 최신 날씨가 없습니다. 서버 수집 상태를 확인하세요.") else emptyList()
+        val messages = (notices + reasons + emptyVoice).distinct()
+        diagnostics.text = messages.joinToString("\n")
+        diagnostics.visibility = if (messages.isEmpty()) View.GONE else View.VISIBLE
     }
 
     override fun onStart() {
@@ -290,6 +323,8 @@ class MainActivity : Activity() {
         get() = resources.configuration.screenWidthDp >= 840
 
     private fun displaySize(compact: Int, wide: Int): Int = if (wideScreen) wide else compact
+    private fun displayTime(value: Instant): String =
+        DateTimeFormatter.ofPattern("MM-dd HH:mm 'KST'").withZone(ZoneId.of("Asia/Seoul")).format(value)
 
     private fun dp(value: Int) = (value * resources.displayMetrics.density).toInt()
     private fun column() = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }

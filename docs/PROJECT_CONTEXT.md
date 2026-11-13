@@ -44,3 +44,7 @@ Python >=3.11, FastAPI, SQLite, httpx, pytest, 로컬 .env. 서버: 수집기, �
 ## 2026-11-11 차량 앱 신규 구현
 
 사용자가 앱이 없는 상태임을 확인하여 `vehicle-app`에 Kotlin/Android 프로젝트를 생성했습니다. 서버 계약을 유지하며 수동 위치·관심사 → health/feed → TOP3 → 사용자 시작/패스/다시/중단을 구현했습니다. Pleos ON_DEVICE와 일반 Android 시험용 flavor를 구분합니다. [앱 실행 안내](../vehicle-app/README.md), [측정 검증 범위](verification/2026-11-11-vehicle-app.md) 참조. SDK 컴파일 성공과 실제 차량 실행 성공은 별개이며, GPS/내비/주행 제약 검증은 미완료입니다.
+
+### 2026-11-13 실제 데이터 MVP 진행
+
+팀원 내비 위치/목적지/ETA 구현을 재사용했고, 서버 PR #6과 차량 후속 PR을 분리했다. 실제 음성은 POI009 신선한 날씨만, 뉴스는 제목·출처·링크 metadata만 표시한다. 실제 현재 위치/목적지/ETA 전달과 날씨 청취 증거는 [2026-11-13 기기 검증](verification/2026-11-13-live-weather-vehicle.md). 정차 시연 범위를 유지하며 경로 전체·실차 검증은 별개다.

@@ -1,0 +1,102 @@
+{
+  "base_commit": "5664368",
+  "server_commit": "1f86b95",
+  "app_version": "0.3.3",
+  "app_version_code": 8,
+  "verified_kst": "2026-11-13 00:44",
+  "runtime": "Pleos Connect 2.1 / Android API34 x86_64 / Windows11",
+  "navigation": {
+    "current_position_received": true,
+    "inactive_state_received": true,
+    "real_guidance_mode": "ROUTE_GUIDING",
+    "destination_received": true,
+    "eta_received": true,
+    "server_received_navigation_destination_eta": true,
+    "feed_http_status": 200,
+    "cancelled_route_removed_on_fresh_query": true,
+    "source_gps_observation_timestamp": "NOT_PROVIDED_BY_SDK",
+    "route_geometry": "NOT_READ",
+    "actual_destination_change": "NOT_RUN",
+    "actual_driving_eta_change": "NOT_RUN"
+  },
+  "live_weather": {
+    "area_code": "POI009",
+    "observed_kst": "2026-11-13 00:00",
+    "expires_kst": "2026-11-13 01:00",
+    "top3": 3,
+    "queue": 1,
+    "detail_brief_equals_pleos_text": true,
+    "pleos_on_done_observed": true,
+    "user_audio_confirmation": "날씨 안내가 들렸음",
+    "tts_mode": "Pleos ON_DEVICE",
+    "news_voice_calls": 0
+  },
+  "safety": {
+    "expired_weather_new_tts_calls": 0,
+    "server_offline_new_tts_calls": 0,
+    "live_controls": "PASS",
+    "mock_controls": "PASS",
+    "mock_labels": "PASS"
+  },
+  "tests": {
+    "pleos": 26,
+    "standard": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "jvm_real_mock_http_in_each_flavor": true
+  },
+  "lint_source_copy": {
+    "pleos_errors": 0,
+    "pleos_warnings": 12,
+    "standard_errors": 0,
+    "standard_warnings": 4,
+    "personal_local_properties": "PRESERVED_WITH_EXISTING_ESCAPE_ISSUE"
+  },
+  "content_provider_calls": {
+    "seoul_city": 2,
+    "news": 0,
+    "tourapi": 0
+  },
+  "navigation_internal_network_calls": "NOT_METERED",
+  "route_creation_probe": {
+    "outside_repository": true,
+    "result": "NAVI_ROUTE_SEARCH_PERMISSION_REQUIRED",
+    "permission_added_or_granted": false,
+    "actual_route_created_by": "USER_IN_STOCK_NAVIGATION_APP"
+  },
+  "actual_vehicle": "NOT_RUN",
+  "audio_noise_priority": "P2",
+  "initial_user_audio_version": "0.3.2",
+  "final_sdk_brief_and_done_rechecked": true,
+  "collaboration": {
+    "server_pr": 6,
+    "server_pr_state": "MERGED_BY_JUNNHA",
+    "server_merge_commit": "37d13aa",
+    "team_ui_pr": 7,
+    "team_ui_branch_modified": false,
+    "ui_overlap_conflict_blocks": {
+      "MainActivity.kt": 1,
+      "build.gradle.kts": 1
+    },
+    "integration_of_team_ui": "PRESERVED_FROM_MAIN_WITH_TWO_CONFLICTS_RESOLVED",
+    "team_ui_pr_state": "MERGED_BY_JUNNHA",
+    "team_ui_main_commit": "94de875",
+    "feature_update": "NORMAL_MERGE_IN_FEATURE_BRANCH_NO_FORCE_PUSH"
+  },
+  "final_with_team_ui_sdk_verified": true,
+  "final_with_team_ui_controls": "PASS_NEXT_REPLAY_STOP",
+  "review_weather": {
+    "observed_kst": "2026-11-13 01:00",
+    "expires_kst": "2026-11-13 02:00",
+    "temperature_celsius": 10.8,
+    "detail_brief_equals_pleos_text": true,
+    "on_done_observed": true,
+    "queue": 1
+  },
+  "natural_expiry_observed": {
+    "checked_kst": "2026-11-13 01:02",
+    "top3": 2,
+    "queue": 0
+  }
+}
