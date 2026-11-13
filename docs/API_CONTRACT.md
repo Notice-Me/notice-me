@@ -20,6 +20,8 @@ Content·FeedItem·ContentDetail에 nullable `weather`(`area_code`, `region`, `o
 
 ## Endpoints
 
+2026-11-14: 개발용 `devtools.ai_workflow`의 로컬 JSON 파일은 차량/서버 HTTP 계약이 아니다. 기존 endpoints·DTO·interests·권리/만료/음성 정책·OpenAPI는 변경하지 않았다. 개발용 요청/응답/승인 기록은 [별도 절차](AI_DEVELOPMENT_WORKFLOW.md)를 따르며 서비스의 /feed/query 제안을 구현한 것이 아니다. 실제 API 계약 회귀는 기존 서버 테스트로 재확인했다.
+
 - `GET /health`: service/database health and provider configuration status (no credentials).
 - `GET /feed?lat=37.57&lon=126.98&interests=예술&navigation_active=false`
   - required: lat [-90,90], lon [-180,180]

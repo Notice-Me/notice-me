@@ -35,6 +35,14 @@ Python 3.11+, FastAPI, SQLite, pytest, .env는 사용자 요구사항입니다. 
 
 새 기능 구현을 선행하지 않고 공식 출처를 조사한 결과, 실제 공지라도 주소·좌표·개별 운영사·재사용/변경 확인이 부족했다. 공식 티켓 공지 자체에도17시/19:30 상충이 있어 임의 선택하지 않았다. KOGL1 공공 메타데이터5건은 기존 수집기로 검증했지만 기존 라우팅 게이트를 풀지 않았다. [관측·누락·권리](CONTENT_SOURCE_FOLLOWUP.md). 무료 길찾기는 키·사용조건/과금 상태가 미확인이라 조사/소량 시험 계획만 작성했다. 이는 쿼터 우회·유료 사용·실측 이동시간 확보가 아니다. [연결 조건과 동기/비동기 대안](ROUTING_TRIAL_PROPOSAL.md).
 
+## TD-16. 외부 모델 연결보다 파일 계약·실행 한계를 먼저 검증 (2026-11-14)
+
+사용자가 기술 가능성 검증과 승인 전 외부 호출 금지를 우선했으므로 API/브라우저 자동 입력을 붙이지 않고 stdlib 파일 조정기를 구현했다. 공식 CLI/SDK는 실제로 문서화돼 있으나 로컬 PATH/키/계정 사용량이 모두 준비된 것은 아니다. 특히 Argon API는 Free tier가 아니며 앱 크레딧과 API 권한을 동일시하지 않았다. 여러 SDK를 서버 의존성에 추가하는 대안은 현재 무료 정책/미확인 권한과 MVP 일정에 비해 범위가 커 후속으로 남겼다. [공식 근거·가격/혜택의 조건](AI_INTEGRATION_SUPPORT.md).
+
+같은 목표라도 다른 실행의 리뷰가 섞이지 않게 run ID·반복·기준 커밋·packet/요청 hash를 묶었다. 재시도는 기존 선별 맥락을 다시 읽어 새로운 snapshot을 보존한다. 의견 충돌은 같은 key 기준만 탐지하고 의미상 충돌·출처 진위·계정/비용은 자동 인증하지 않는다. GPT도 승인 주체로 쓰지 않고 사용자 판단 기록을 거친다. 이 기록은 전자서명이 아니고 외부 전송/보안 권한을 부여하지 않는다.
+
+파일 요청과 응답은 gitignore, 민감 입력은 보수적으로 거절, journal은 손상 시 멈추고 lock은 중복 쓰기를 차단한다. 고정 테스트와 정적 검사만 shell=false로 실행하고 실패/timeout/코드 변경을 성공으로 승격하지 않는다. 모든 OS 자식 프로세스·공급자 요금까지 통제하는 sandbox라는 주장은 하지 않는다. 자동 코드 적용·재귀 loop·push/merge executor보다 검토 가능한 작은 경계를 선택한 tradeoff다. [동작·예산·남은 조건](AI_DEVELOPMENT_WORKFLOW.md), [검증](verification/2026-11-14-ai-workflow.json).
+
 ## TD-01. 응답 객체를 코드와 API 계약의 공통 기준으로 사용
 
 FastAPI는 요청을 endpoint로 연결하고 Pydantic 모델로 입력·출력의 타입과 제약을 다룹니다. 이 모델이 JSON Schema/OpenAPI로 표현되므로 앱 개발자는 nullable 좌표·시각, enum, 배열 구조를 확인할 수 있습니다. 그러나 타입 검증이 뉴스의 사실성이나 저작권을 보증하지는 않으며 별도 도메인 검사가 필요합니다. [FastAPI 기능](https://fastapi.tiangolo.com/features/), [응답 모델](https://fastapi.tiangolo.com/tutorial/response-model/), [Pydantic 모델](https://docs.pydantic.dev/latest/concepts/models/).

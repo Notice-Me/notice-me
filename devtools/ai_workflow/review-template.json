@@ -1,0 +1,10 @@
+{
+  "role": "gemini",
+  "iteration": 1,
+  "request_hash": "REPLACE_WITH_CURRENT_REQUEST_HASH",
+  "provenance": "NOT_RUN_TEMPLATE",
+  "model_label": null,
+  "verdict": "uncertain",
+  "findings": [],
+  "usage": {"input_tokens": null, "output_tokens": null, "cost_usd": null}
+}

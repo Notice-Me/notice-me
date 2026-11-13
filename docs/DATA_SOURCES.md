@@ -16,6 +16,8 @@
 
 ## 뉴스 비교
 
+2026-11-14 개발 AI 조사: Gemini 4 Argon·Antigravity 공식 CLI/SDK/MCP, Claude SDK/CLI, OpenAI Codex/Responses의 지원과 구독/API 크레딧 차이를 [개발용 출처 목록](AI_INTEGRATION_SUPPORT.md)에 기록했다. 서비스 콘텐츠 제공자를 추가하거나 뉴스/행사를 외부 모델로 전송하지 않았다. 추론·콘텐츠 API 호출0이며 학교 BAZE의 공식 endpoint/할당량은 여전히 미확인이다. 무료 문서 열람과 계정별 모델 entitlement/정상 호출을 구별한다.
+
 **최신 FreeNews 인증/오류 조사:** [상세](FREENEWS_INVESTIGATION.md), [실측 JSON](verification/2026-11-11-freenews-investigation.json). 현재 키 로딩/인증된 검색을 확인했고 실제 뉴스2건을 metadata로 저장했습니다. 아래의 초기 무인증401은 과거 관측입니다. 다른 두 제공자의 인증 상태는 이번에 새로 검증하지 않았습니다. 뉴스 권리 등급은 변경하지 않습니다.
 
 | 항목 | FreeNewsAPI (.io, 1순위) | The News API (.com) | GNews |

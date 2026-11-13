@@ -1,0 +1,146 @@
+{
+  "checked_at_utc": "2026-11-13T18:41:32.112385+00:00",
+  "client_date_kst": "2026-11-14",
+  "base_commit": "0fe84f9bb5b06141f8b48bb1862060c7ff201ee6",
+  "branch": "feat/dev-ai-workflow",
+  "merged_prior_prs": [
+    8,
+    9,
+    10
+  ],
+  "scope": "Development tooling and documentation only; no service/vehicle/API changes",
+  "official_support": {
+    "gemini_requested_model": "Gemini 4 Argon",
+    "gemini_api_id": "gemini-4-argon",
+    "gemini_free_api_tier": false,
+    "antigravity": "Official CLI (agy), SDK, MCP, headless and session continuation documented; local end-to-end NOT verified",
+    "claude": "Official Client/Agent SDK and CLI documented; exact model not selected",
+    "openai": "Official Codex harness/SDK/app-server and Responses conversation APIs documented",
+    "chatgpt_web_equals_api_conversation": false,
+    "school_baze": "UNVERIFIED_ENDPOINT_AND_POLICY"
+  },
+  "local_inventory": {
+    "codex_cli": "0.167.0-alpha.4.1",
+    "codex_login_status": "Logged in using ChatGPT",
+    "antigravity_app_product_version": "2.29.0.0",
+    "antigravity_ide_product_version": "2.6.0",
+    "agy_gemini_claude_commands_in_path": false,
+    "openai_anthropic_google_genai_in_checked_server_venv": false,
+    "provider_credentials_in_checked_process_or_server_settings": false,
+    "plans_balances_remaining_quotas": "NOT_VERIFIED",
+    "current_codex_chat_consumption": "NOT_METERED_BY_THIS_TOOL"
+  },
+  "gemini_report": {
+    "expected_file": "docs/reviews/GEMINI_TECHNICAL_REVIEW.md",
+    "exists": false,
+    "full_original_read": false,
+    "review_scope": "Only the seven proposals provided by the user; no new Gemini/Claude/GPT review generated"
+  },
+  "implemented": [
+    "Offline independent reviewer request files",
+    "Manual structured response import with unverified origin",
+    "Same-key disagreement, uncertainty and non-approval visibility",
+    "User decision attestation plus scope gate; not authentication",
+    "Three bounded iterations, explicit extension records and packet refresh",
+    "Private ignored artifacts, input screening, journal hash chain and write lock",
+    "Fixed workflow/server/quality subprocess profiles with failure/timeout/current-code gates",
+    "PR readiness only; no Git write or model/browser client"
+  ],
+  "not_implemented": [
+    "External AI API, SDK or headless adapters",
+    "Antigravity GUI-session bridge, remote daemon or new MCP configuration",
+    "ChatGPT browser auto-input or cookie/session extraction",
+    "Automatic service code changes, push or PR merge",
+    "Reliable account/quota billing meter or DLP/user authentication",
+    "Immediate cancellation of an already-running process tree"
+  ],
+  "defaults": {
+    "browser_input_enabled": false,
+    "external_calls_enabled": false,
+    "max_external_calls": 0,
+    "max_iterations": 3,
+    "max_packet_bytes": 48000,
+    "max_reported_cost_usd": "0.00",
+    "max_reported_tokens": 60000,
+    "max_response_bytes": 48000,
+    "max_review_imports": 9,
+    "mode": "file-only",
+    "models": {
+      "claude": {
+        "account_access": "UNVERIFIED",
+        "documented_api_id": null,
+        "requested_label": "Claude"
+      },
+      "gemini": {
+        "account_access": "UNVERIFIED",
+        "documented_api_id": "gemini-4-argon",
+        "requested_label": "Gemini 4 Argon"
+      },
+      "gpt": {
+        "account_access": "UNVERIFIED",
+        "documented_api_id": null,
+        "requested_label": "GPT"
+      }
+    },
+    "required_checks": [
+      "workflow",
+      "server",
+      "quality"
+    ],
+    "test_timeout_seconds": 120,
+    "version": 1
+  },
+  "smoke": {
+    "run_id": "notice-me-workflow-20261114-v1",
+    "status": "WAITING_REVIEWS",
+    "request_hash": "6ce7063f5a893de7db1bf4e8dd6cc41927b6c9d5c8f5215f68090cd63bac9447",
+    "request_file_hashes": {
+      "claude": "e02bb46ccd0556349ac8ba5bee8234ab0ff169d7790ca5f71359385e6c25c643",
+      "gemini": "d022a57e361eda814ad5255f4beb1805edd484ec565af2aeb152846ad27f1a3f"
+    },
+    "pause_resume": "PASS",
+    "check_without_user_decision": "REJECTED: USER_APPROVAL_REQUIRED",
+    "imported_real_reviews": 0,
+    "external_model_calls": 0,
+    "browser_submissions": 0,
+    "gitignore_applied": true
+  },
+  "verification": {
+    "workflow_unit_tests": {
+      "tests_run": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "status": "PASS",
+      "scope": "Offline fixtures only; no real external AI reviews"
+    },
+    "server_pytest": {
+      "passed": 190,
+      "failures": 0,
+      "errors": 0,
+      "existing_warning": "Starlette/httpx deprecation (1)"
+    },
+    "quality": {
+      "ruff": "PASS",
+      "format": "PASS",
+      "pip_check": "PASS"
+    },
+    "actual_model_reviews": "NOT_RUN",
+    "pleos_android_tts": "NOT_RUN",
+    "content_provider_calls": 0
+  },
+  "preservation": {
+    "protected_hashes_unchanged": 3,
+    "server_changed_files": 0,
+    "vehicle_changed_files": 0,
+    "other_worktrees_modified": false,
+    "main_pushed_or_merged": false
+  },
+  "usage_note": "Zero additional model calls by the scaffold does not mean this Codex chat or manually exported app reviews consumed zero quota or cost.",
+  "plugin_discovery": {
+    "query": "Antigravity Gemini Claude",
+    "matches": 0,
+    "catalog_is_exhaustive": false,
+    "installed_or_connected": false
+  }
+}

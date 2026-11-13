@@ -1,5 +1,11 @@
 # Project status
 
+## 2026-11-14 개발 자동화의 안전한 초기 구축
+
+fetch/prune 후 origin/main0fe84f9와 PR #8·#9·#10의 병합을 확인했다. clean인 현재 checkout에서 feat/dev-ai-workflow를 만들었고 팀원/Gemini 작업 트리는 읽기 전용으로 확인했다. 서비스/server·vehicle-app·HTTP/OpenAPI 변경0. [공식 연동·계정/요금 조건](AI_INTEGRATION_SUPPORT.md)과 [파일 기반 실행 절차](AI_DEVELOPMENT_WORKFLOW.md)를 작성하고 stdlib 도구·행동 테스트를 추가했다. 실제 외부 Gemini/Claude/GPT/Codex 하위 추론·브라우저 입력·콘텐츠 API 호출0. 사용자 승인 전 전송/유료 사용은 비활성이다.
+
+새 도구는 독립 요청/수동 응답/충돌·불확실성/사용자 결정·고정 로컬 검사·3회 제한·pause/resume·hash/lock 기록을 지원하며 실제 구현 executor나 API adapter가 아니다. 검토 출처·비용/사용량은 미검증/unknown을 보존한다. 현재 main의 서버 pytest190 재실행 통과, 도구 테스트·정적/문서 검사와 세부 관측은 [최종 증거](verification/2026-11-14-ai-workflow.json). Pleos/TTS/Android 빌드는 이번 미실행이다. Gemini 원문 파일은 아직 없으므로 [사용자가 명시한7개 제안만 재검토](GEMINI_REVIEW_REASSESSMENT.md)했고 MVP/본선2차 범위를 분리했다. 아래 과거 시각의 데이터/실행 결과와 구별한다.
+
 ## 2026-11-13 관심사 서버 P0 — 최신 회차
 
 main94de875(PR #6 서버 날씨·#7 차량 UI 병합 상태)에서 feat/server-interest-content 생성. 기존 미병합 차량 PR #8은 별도 유지하고 vehicle-app 변경0. category/topic/format 분리, 먼작귀·치이카와·Chiikawa·ちいかわ 별칭, 제목 근거와 팝업 문맥 필터, 행사 회차 중복 제거를 구현했다. endpoint/응답 모델/OpenAPI는 유지한다. [계약·앱 인계](INTEREST_CONTRACT_REVIEW.md).

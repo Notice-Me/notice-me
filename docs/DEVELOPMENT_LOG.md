@@ -1,5 +1,15 @@
 # 개발 기록
 
+## 2026-11-14 — 멀티 AI 지원 조사·파일 기반 초기 도구
+
+작업 전 clean 확인/fetch --prune. 최신 main0fe84f9, #8·#9·#10 merged를 GitHub와 Git으로 확인하고 feat/dev-ai-workflow를 생성했다. 다른 작업 트리를 갱신/reset/덮어쓰지 않았다. 사용자가 알려 준 Gemini 리뷰 원문은 향후 docs/reviews/GEMINI_TECHNICAL_REVIEW.md에 저장 예정이며 현재 부재다. 원문/기존 모델 세션을 읽거나 새 AI 리뷰를 받았다고 기록하지 않는다.
+
+공식 OpenAI Docs와 Google/Anthropic 문서로 Codex harness, Argon 모델ID/Free tier 부재, Antigravity agy headless/SDK/MCP·세션, Claude Client/Agent SDK·CLI, 앱 구독/API 혜택의 조건을 확인했다. 로컬 Codex 로그인·앱 제품 버전·PATH/서버 venv SDK·키 설정 유무만 확인했고 토큰값/쿠키는 수집하지 않았다. google 패키지 자체가 없는 venv의 find_spec probe가 처음 실패해 부모 패키지 미존재도 안전하게 false로 처리했다. 플랜·잔액/모델 권한은 성공 추론이나 사용자 계정 조회 없이 확정하지 않았다.
+
+구현: stdlib CLI, 독립 packet/리뷰/판단/로컬 검사·privacy screening·허용 경로·hash journal/lock·3회 제한·연장 기록·중단/재개. 초기20개 행동 시험 뒤 요청 파일 변조/설정 flag로 외부 호출 허용 금지, 다른 run의 동일 spec 리뷰 혼입, 재시도 맥락 갱신·이전 기록 보존, 토큰/크기 한도와 민감 로그 차단을 보강했다. 초기 Ruff의 미사용 import/스타일 경고도 수정했다. 고정 quality profile을 추가해 unittest/서버 pytest뿐 아니라 Ruff/format/pip check를 요구한다. 테스트 fixture를 실제 Gemini/Claude/GPT 결과로 표시하지 않았다.
+
+실제 로컬 smoke는 초기 요청 생성→pause→resume→승인 없는 verify 거절, Git ignore 적용을 확인했다. 새 최종 run은 WAITING_REVIEWS/외부 호출0/브라우저0/리뷰0이며 초기 실험 run은 덮어쓰지 않았다. 서버 pytest190·기존 Starlette/httpx 경고1, 도구 행동 시험/정적/문서 검사는 [증거](verification/2026-11-14-ai-workflow.json). 테스트 실패를 성공으로 기록하지 않고 실행 코드 fingerprint를 묶었다. 서비스 코드/DB/키/차량 UI 변경0, Pleos·Android 빌드·실제 TTS·외부 AI 추론·콘텐츠 수집은 이번 미실행이다.
+
 ## 2026-11-13 — 서버 관심사 P0·공식 팝업·라우팅 조사
 
 fetch --prune 후 main94de875 및 전체 원격 브랜치/PR을 확인했다. main에 서버 PR #6·차량 PR #7이 병합됐고 차량 PR #8은 열려 있었다. 새 feat/server-interest-content에서 서버/문서만 수정했다. 미공개 UI 작업을 추정하지 않고 Kotlin/vehicle-app 변경0을 확인했다. [구현 전 계약 검토](INTEREST_CONTRACT_REVIEW.md) 후 관심사 모듈·뉴스 분류·추천·행사 중복을 수정했다.

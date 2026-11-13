@@ -1,0 +1,10 @@
+{
+  "actor": "NOT_APPROVED_TEMPLATE",
+  "request_hash": "REPLACE_WITH_CURRENT_REQUEST_HASH",
+  "review_hashes": {},
+  "synthesis_by": "user",
+  "verdict": "blocked",
+  "rationale": "",
+  "resolved_findings": {},
+  "allowed_paths": []
+}

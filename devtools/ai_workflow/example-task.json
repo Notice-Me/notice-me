@@ -1,0 +1,11 @@
+{
+  "goal": "Notice Me 개발 자동화의 파일 기반 인수 절차를 검토한다. 서비스 기능은 바꾸지 않는다.",
+  "acceptance": [
+    "Gemini와 Claude의 독립 검토 파일을 같은 요청 해시에 연결한다.",
+    "GPT 의견은 사용자 승인이나 테스트 성공을 대신하지 않는다.",
+    "외부 모델 호출과 브라우저 입력은 수행하지 않는다.",
+    "실패와 미확인 사용량을 성공이나 0원으로 기록하지 않는다."
+  ],
+  "allowed_paths": ["devtools/ai_workflow", "devtools/tests", "docs", ".gitignore"],
+  "context_files": []
+}

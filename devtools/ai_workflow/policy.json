@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "mode": "file-only",
+  "external_calls_enabled": false,
+  "browser_input_enabled": false,
+  "max_external_calls": 0,
+  "max_iterations": 3,
+  "max_review_imports": 9,
+  "max_packet_bytes": 48000,
+  "max_response_bytes": 48000,
+  "max_reported_tokens": 60000,
+  "max_reported_cost_usd": "0.00",
+  "test_timeout_seconds": 120,
+  "required_checks": ["workflow", "server", "quality"],
+  "models": {
+    "gemini": {"requested_label": "Gemini 4 Argon", "documented_api_id": "gemini-4-argon", "account_access": "UNVERIFIED"},
+    "claude": {"requested_label": "Claude", "documented_api_id": null, "account_access": "UNVERIFIED"},
+    "gpt": {"requested_label": "GPT", "documented_api_id": null, "account_access": "UNVERIFIED"}
+  }
+}
