@@ -1,5 +1,13 @@
 # Project status
 
+## 2026-11-13 관심사 서버 P0 — 최신 회차
+
+main94de875(PR #6 서버 날씨·#7 차량 UI 병합 상태)에서 feat/server-interest-content 생성. 기존 미병합 차량 PR #8은 별도 유지하고 vehicle-app 변경0. category/topic/format 분리, 먼작귀·치이카와·Chiikawa·ちいかわ 별칭, 제목 근거와 팝업 문맥 필터, 행사 회차 중복 제거를 구현했다. endpoint/응답 모델/OpenAPI는 유지한다. [계약·앱 인계](INTEREST_CONTRACT_REVIEW.md).
+
+실행한 pytest190(기존159+신규31), Ruff/format/pip check 통과. 01:48 KST 실제 Uvicorn HTTP: LIVE 카드3/큐1/알림0, MOCK 모의경로3/5/1. LIVE 뉴스2건 상세 tts=false·설명403. 01:00 관측 날씨의02:00 만료 전 결과이며 상시 신선도를 뜻하지 않는다. 기존 LIVE DB 사본97행에 치이카와 제목0, 특정 취향 요청0건은 그대로 반환했다. 콘텐츠·라우팅 제공자 호출0. [측정 JSON](verification/2026-11-13-server-interest.json).
+
+공식 팝업 사업 사례는 발견했지만 현재 국내 일정·장소·취소·권리까지 검증한 행사0건, 신규 등록0. 카카오/TMAP 무료 라우팅 후보 조사만 완료했고 실제 경로 미검증 행사는 계속 제외한다. [P1 조사·수동 등록 한계·분업](POPUP_ROUTING_RESEARCH.md). 이번 Pleos 실행/TTS·Kotlin 빌드는 수행하지 않았다. 기존 LIVE 날씨 갱신과 MOCK 시연 절차를 사용하며 음성 잡음은P2 유지. 아래는 과거 시각의 기록이다.
+
 ## 2026-11-13 P0 실제 날씨 서버
 
 최신 main `eaa5741`(팀원 NaviHelper/ETA PR #4 포함)을 기준으로 서버 기능 브랜치에서 작업했다. 실제 seoul_city1회로 광화문·덕수궁00:00 관측을 별도 DB 사본에 저장했고00:10 LIVE3/1/0 HTTP를 확인했다. 뉴스2건은 음성/설명 차단, 행사는 실제 이동시간 미검증 제외 유지. LIVE 음성은 날씨만, MOCK은 기존대로 유지한다. 서버 테스트·실기기 결과와 갱신 절차는 [날씨 시연](LIVE_WEATHER_DEMO.md). 앱의15초 요청은 외부 수집이 아니다. 자동 갱신/좌표별 날씨/실제 행사 라우팅·AI는 미완료. 잡음 개선은 사용자 결정으로P2다. 아래의 이전 상태·숫자는 당시 이력이다.

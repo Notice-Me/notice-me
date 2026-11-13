@@ -1,5 +1,15 @@
 # 개발 기록
 
+## 2026-11-13 — 서버 관심사 P0·공식 팝업·라우팅 조사
+
+fetch --prune 후 main94de875 및 전체 원격 브랜치/PR을 확인했다. main에 서버 PR #6·차량 PR #7이 병합됐고 차량 PR #8은 열려 있었다. 새 feat/server-interest-content에서 서버/문서만 수정했다. 미공개 UI 작업을 추정하지 않고 Kotlin/vehicle-app 변경0을 확인했다. [구현 전 계약 검토](INTEREST_CONTRACT_REVIEW.md) 후 관심사 모듈·뉴스 분류·추천·행사 중복을 수정했다.
+
+문제/해결: 공유 venv의 editable 설치가 다른 checkout을 가리켜 처음 pytest 수집2오류가 났다. PYTHONPATH를 현재 server로 지정해 해결했다. 행사 중복 분기를 삽입할 때 기존 뉴스 제목 중복 검사가 잘못 이동하여 기존 테스트1실패/158통과를 관측했다. 기존 테스트를 바꾸지 않고 분기를 복원한 뒤159통과, 새 행동 검증31개를 더해190통과했다. 한영일16조합·팝업 오탐·검색어 오염·권리/날씨/라우팅·중복·HTTP를 검증했다. 일본어 결과 출력에서cp949 오류가 있었으나 JSON 파일은 저장/검증 완료 상태였고 최종 HTTP 검사는 UTF-8 출력을 사용했다.
+
+최종 pytest190/0실패, 기존 Starlette/httpx 경고1. Ruff check/format·pip check 통과. 원본과 별도 SQLite backup 사본으로97LIVE행/치이카와제목0 확인. 01:48 KST Uvicorn LIVE3/1/0, MOCK 모의경로3/5/1, health→feed→detail→explain200, 뉴스2건 음성false/403,404/422/타입 명세 확인. 01:00 날씨는02:00에 만료되므로 이 결과는 측정 시각에 한정한다. 현재 위치·목적지 이력을 저장하지 않았다. 원본.env/DB/개인 local.properties는 SHA256동일3개, vehicle-app diff0. 기존8000 서버와 에뮬레이터는 조작하지 않고 별도 검증 서버를 사용했다. [측정 JSON](verification/2026-11-13-server-interest.json).
+
+외부 콘텐츠/라우팅 API 호출0, 새 실제 행사0. 공식 사업 소개는 현재 개최 증거가 부족해 후보로만 남겼다. 카카오/TMAP의 무료 한도와 인터페이스 연결 조건·수동 취소 격리 미구현을 [후속 조사](POPUP_ROUTING_RESEARCH.md)에 분리했다. 실제 Pleos/TTS·Kotlin 빌드·길찾기·학교 AI는 이번에 검증하지 않았다. 사용자 직접 수행은 요구/우선순위 지정이며 코드·테스트/문서 조사는 Codex가 수행했다. 새 AI 교차검증이나 사용자 숙련도 향상을 만들어 기록하지 않는다.
+
 ## 2026-11-13 — 실제 날씨 서버 P0
 
 git fetch/prune 후 팀원 내비 PR #4가 main에 이미 병합됨을 확인했다. 최신 main에서 feat/server-live-weather-policy를 생성했다. 날씨 관측 모델, LIVE 날씨 전용 음성 정책, 현재 위치보다 목적지/제공된 경로 우선 점수, 한국어 날씨 alias, OpenAPI를 보강했다. 원본 DB backup 사본에서 seoul_city1회 HTTP200·00:00 관측11.5도/01:00만료. LIVE3/1/0, MOCK 모의경로3/5/1 실제HTTP 통과. 초기4실패/155통과 원인과 수정, 최종검증·미실행·무료 호출량은 [상세 기록](LIVE_WEATHER_DEMO.md). 원본 .env/DB/팀원 코드는 덮어쓰지 않았다. 기기 증거는 서버 HTTP 성공과 구분한다.

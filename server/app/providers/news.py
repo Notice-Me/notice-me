@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import httpx
 
-from ..llm import DeterministicLLM
+from ..interests import classify_categories
 from ..models import Content, ContentType, DataMode, RightsStatus, Verification
 from .base import ProviderError, RequestBudget, SafeHTTP, parse_datetime, stable_id
 
@@ -184,7 +184,8 @@ class NewsProvider:
                         updated_at=None,
                         fetched_at=now,
                         expires_at=published + timedelta(days=7),
-                        interest_tags=DeterministicLLM().classify(row["title"] + " " + keyword),
+                        # A search term is not evidence that the returned article is relevant.
+                        interest_tags=classify_categories(row["title"]),
                         rights_status=RightsStatus.LICENSE_UNVERIFIED,
                         verification_status=Verification.VERIFIED,
                         data_mode=DataMode.LIVE,

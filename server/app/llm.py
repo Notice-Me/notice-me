@@ -1,31 +1,9 @@
 from typing import Protocol
 
+from .interests import classify_categories
+from .interests import normalize_interest as normalize_interest
 from .models import Content, ExplainResponse
 from .rights import tts_allowed
-
-TAG_KEYWORDS = {
-    "애니메이션": ("애니메이션", "지브리", "치이카와", "캐릭터", "animation", "anime"),
-    "과학IT": ("과학", "it", "인공지능", "기술", "science", "technology", "ai"),
-    "예술": ("예술", "미술", "전시", "공연", "연극", "클래식", "콘서트", "art", "museum"),
-    "생활": ("날씨", "기온", "생활", "weather"),
-}
-
-
-def normalize_interest(tag: str) -> str:
-    value = tag.strip().casefold().replace("/", "").replace(" ", "")
-    aliases = {
-        "과학it": "과학IT",
-        "과학": "과학IT",
-        "it": "과학IT",
-        "science": "과학IT",
-        "animation": "애니메이션",
-        "anime": "애니메이션",
-        "art": "예술",
-        "weather": "생활",
-        "날씨": "생활",
-        "기온": "생활",
-    }
-    return aliases.get(value, tag.strip())
 
 
 class LLMProvider(Protocol):
@@ -40,8 +18,7 @@ class DeterministicLLM:
     mode = "MOCK"
 
     def classify(self, text: str) -> list[str]:
-        value = text.casefold()
-        return [tag for tag, words in TAG_KEYWORDS.items() if any(w in value for w in words)]
+        return classify_categories(text)
 
     async def summarize(self, content: Content) -> str:
         if not tts_allowed(content):
