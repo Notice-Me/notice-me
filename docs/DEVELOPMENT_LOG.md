@@ -16,6 +16,16 @@ git fetch/prune 후 팀원 내비 PR #4가 main에 이미 병합됨을 확인했
 
 날짜는 KST 기준입니다. 실제 수행한 작업·관측·검증 결과를 누적합니다. 기술 원리는 [TECH_DECISIONS](TECH_DECISIONS.md), 최신 완료/미완료와 일정은 [PROJECT_STATUS](PROJECT_STATUS.md), 학습 정리는 [LESSONS_LEARNED](LESSONS_LEARNED.md)로 연결합니다. 이력에 적힌 결과는 해당 시각의 결과이며 현재 제공자 상태를 보증하지 않습니다.
 
+## 2026-11-13 — 관심사 후속 설계·실제 콘텐츠 확보 시도
+
+fetch/prune와 GitHub API로 main94de875, PR #8/84cad04·#9/7c73072 OPEN/미병합 및 변경 파일을 확인했다. clean 상태에서 최신 origin/main 기반 feat/server-profile-content-plan 생성. #9를 병합/중복 구현하지 않고 프로필 OR·상세 검색 AND 계약을 먼저 제안했다. 차량 UI/Kotlin과 server 실행 코드는 수정하지 않았다. [변경안](INTEREST_PROFILE_PROPOSAL.md).
+
+실제 조사: 대원미디어가 팝콘D플레이 운영 주체임을 공식 공지로 확인하고 무민 잠실 진행·치이카와 클리닉 예정 공지를 찾았다. 주소/좌표/개별 운영사·권리/변경 확인 부족으로 수동 등록0. 서울문화포털 상세는 timeout이 반복되어 원문 확인 성공으로 기록하지 않았다. 대체 공식 예매 공지에는 시간 충돌이 있어 보류했다. 기존 수집기를 sample/재시도0/총예산2로 실행해 문화행사 HTTP200/INFO-000/5건과 날씨1건 수신. 별도 SQLite backup 사본에만 저장했고98LIVE행이 됐다. 수신 행사 중 새ID1개, 나머지는 재확인이다. [출처·누락·측정](CONTENT_SOURCE_FOLLOWUP.md).
+
+실행한 검증: current main PYTHONPATH를 고정해 pytest159 통과. PR #9를 git archive로 분리한 소스 사본에서도190 통과(각 기존 Starlette/httpx 경고1). main Ruff/check/format37개/pip check 통과. 별도18084/18085 Uvicorn에서13:49 LIVE3/1/0·MOCK모의경로3/5/1,health/feed/detail/explain200·뉴스2건403·404/422·명세 확인. 공공행사5건 상세200/tts=false,feed 제외·DRIVING_TIME_UNVERIFIED, 제안 POST404 확인. #9 matcher에서는 실제 지브리 메타데이터의 anime=true/혼합 취향=false를 재현했으며 새 OR 기능 통과로 기록하지 않았다. [증거 JSON](verification/2026-11-13-profile-content.json).
+
+관측값 기반 한계: 날씨13:40/14:40만료,고정 POI009이며 원본/실행 중 앱 서버는 갱신하지 않았다. 콘텐츠 총2회 외 뉴스/Tour/라우팅0, 새로운 계정 인증/키/결제 없음. 세 개인 파일 hash 보존과 vehicle-app/server diff0을 확인한다. 새 기능/API·실제 팝업 추천·실제 경로·학교 AI·Pleos/TTS/Kotlin 실행은 이번 미구현/미검증이다. 사용자 요구/우선순위와 Codex의 조사·테스트 수행을 구분하며 팀원 합의·개인 학습 성과·AI 교차검증을 만들어 기록하지 않는다.
+
 ## 2026-11-11 — 초기 구현 기록 확인
 
 **기록의 성격:** 기존 Git 커밋과 저장된 보고서로 확인한 초기 작업입니다. 당시의 모든 시도를 이번 회차에 다시 실행한 것은 아닙니다.
