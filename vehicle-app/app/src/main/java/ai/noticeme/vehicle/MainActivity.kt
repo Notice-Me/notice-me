@@ -45,6 +45,10 @@ class MainActivity : Activity() {
     private lateinit var speech: DeviceSpeechPlayer
     private lateinit var status: TextView
     private lateinit var stories: LinearLayout
+    private lateinit var emptyPanel: LinearLayout
+    private lateinit var emptyTitle: TextView
+    private lateinit var emptyDetail: TextView
+    private lateinit var emptyAction: Button
     private lateinit var diagnostics: TextView
     private lateinit var nowPlaying: TextView
     private lateinit var play: Button
@@ -85,7 +89,6 @@ class MainActivity : Activity() {
             settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         })
         root.addView(heading)
-        root.addView(divider())
 
         val scroll = ScrollView(this).apply {
             isFillViewport = true
@@ -132,6 +135,7 @@ class MainActivity : Activity() {
         val feedHeading = row()
         feedHeading.addView(label("추천 소식", displaySize(22, 36), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
         feedHeading.addView(button("새로고침") { connect() })
+        feedHeading.setPadding(0, dp(12), 0, dp(4))
         body.addView(feedHeading)
         status = label("", displaySize(14, 24), muted)
         status.accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
@@ -140,9 +144,25 @@ class MainActivity : Activity() {
         body.addView(diagnostics)
         stories = column()
         body.addView(stories)
+        emptyPanel = column().apply {
+            background = rounded(Color.WHITE, 16, bordered = true)
+            val inset = dp(displaySize(20, 32))
+            setPadding(inset, inset, inset, inset)
+        }
+        emptyTitle = label("", displaySize(26, 42), ink, true)
+        emptyDetail = label("", displaySize(16, 25), muted)
+        emptyAction = button("소식 불러오기", primary = true) { connect() }
+        emptyPanel.addView(emptyTitle)
+        emptyPanel.addView(emptyDetail)
+        emptyPanel.addView(emptyAction, LinearLayout.LayoutParams(-2, -2).apply {
+            topMargin = dp(16)
+        })
+        body.addView(emptyPanel, LinearLayout.LayoutParams(-1, -2).apply {
+            topMargin = dp(12)
+        })
 
         val player = column().apply {
-            background = rounded(playerSurface, 12, bordered = true)
+            background = rounded(playerSurface, 16, bordered = true)
             setPadding(dp(12), dp(8), dp(12), dp(10))
         }
         nowPlaying = label("재생 대기", displaySize(15, 25), playerMuted)
@@ -231,6 +251,22 @@ class MainActivity : Activity() {
 
     private fun render(state: ScreenState) {
         status.text = state.message
+        val empty = state.feed?.top3.isNullOrEmpty()
+        emptyPanel.visibility = if (empty) View.VISIBLE else View.GONE
+        status.visibility = if (empty) View.GONE else View.VISIBLE
+        emptyTitle.text = when {
+            state.busy -> "소식 확인 중"
+            state.connected -> "추천 소식이 없어요"
+            state.message == ScreenState().message -> "추천 소식을 불러오세요"
+            else -> "소식을 불러오지 못했어요"
+        }
+        emptyDetail.text = when {
+            state.connected && !state.busy -> "현재 위치나 관심사를 바꿔 다시 확인해 보세요."
+            state.message == ScreenState().message -> "현재 위치와 관심사에 맞는 소식을 확인할 수 있어요."
+            else -> state.message
+        }
+        emptyAction.text = if (state.connected || state.message != ScreenState().message) "다시 불러오기" else "소식 불러오기"
+        emptyAction.visibility = if (state.busy) View.GONE else View.VISIBLE
         queueStatus.text = state.feed?.let { feed ->
             etaLabel?.let { "$it · 음성 큐 ${feed.queue.size}건" }
         }.orEmpty()
@@ -249,13 +285,17 @@ class MainActivity : Activity() {
         if (state.feed !== shownFeed || stories.childCount == 0) {
             shownFeed = state.feed
             stories.removeAllViews()
-            if (state.feed?.top3.isNullOrEmpty()) {
-                if (state.connected) stories.addView(label("추천할 소식이 없습니다.", 18, muted))
-            } else state.feed!!.top3.forEach { item ->
+            val content = state.feed?.top3.orEmpty()
+            val following = column().apply {
+                background = rounded(Color.WHITE, 12, bordered = true)
+            }
+            content.forEachIndexed { index, item ->
+                val lead = index == 0
                 val story = column().apply {
-                    background = rounded(Color.WHITE, 12, bordered = true)
-                    val inset = dp(displaySize(16, 24))
-                    setPadding(inset, dp(12), inset, dp(14))
+                    if (lead) background = rounded(Color.WHITE, 16, bordered = true)
+                    val inset = dp(if (lead) displaySize(20, 30) else displaySize(16, 24))
+                    val vertical = dp(if (lead) displaySize(16, 24) else displaySize(10, 14))
+                    setPadding(inset, vertical, inset, vertical)
                 }
                 val source = buildList {
                     add(item.sourceName)
@@ -265,14 +305,15 @@ class MainActivity : Activity() {
                     if (!item.ttsEligible) add("읽기 전용")
                 }.filter { it.isNotBlank() }.joinToString(" · ")
                 story.addView(label(source, displaySize(13, 23), muted))
-                story.addView(label(item.title, displaySize(22, 40), ink, true))
+                val titleSize = if (lead) displaySize(29, 46) else displaySize(21, 34)
+                story.addView(label(item.title, titleSize, ink, true))
                 item.weather?.let { weather ->
                     story.addView(label("고정 관측 지역 · ${weather.region}", displaySize(14, 26), muted))
                     story.addView(label("관측 ${displayTime(weather.observedAt)} · 유효 ${displayTime(item.expiresAt)}", displaySize(14, 24), muted))
                 } ?: story.addView(label(
                     item.publishedAt?.let { "발행 ${displayTime(it)}" } ?: "수집 ${displayTime(item.fetchedAt)}",
                     displaySize(14, 24), muted))
-                if (item.brief.isNotBlank() && item.contentType != "NEWS") story.addView(label(item.brief, displaySize(17, 30), ink).apply {
+                if (item.brief.isNotBlank() && item.contentType != "NEWS") story.addView(label(item.brief, if (lead) displaySize(17, 28) else displaySize(16, 24), ink).apply {
                     setLineSpacing(dp(displaySize(2, 5)).toFloat(), 1f)
                 })
                 story.addView(label(item.sourceUrl, displaySize(14, 24), accent).apply {
@@ -280,7 +321,19 @@ class MainActivity : Activity() {
                     setLinkTextColor(ink)
                     movementMethod = LinkMovementMethod.getInstance()
                 })
-                stories.addView(story, LinearLayout.LayoutParams(-1, -2).apply {
+                if (lead) {
+                    stories.addView(story, LinearLayout.LayoutParams(-1, -2).apply {
+                        bottomMargin = dp(16)
+                    })
+                } else {
+                    if (index > 1) following.addView(divider())
+                    following.addView(story)
+                }
+            }
+            if (content.size > 1) {
+                stories.addView(label("이어서 볼 소식", displaySize(18, 26), ink, true))
+                stories.addView(following, LinearLayout.LayoutParams(-1, -2).apply {
+                    topMargin = dp(4)
                     bottomMargin = dp(12)
                 })
             }
