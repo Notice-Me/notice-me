@@ -85,7 +85,12 @@ class MainActivity : Activity() {
         })
         val header = findViewById<LinearLayout>(R.id.notice_header)
         header.addView(heading)
-        header.addView(divider())
+        val headerDivider = divider()
+        (headerDivider.layoutParams as LinearLayout.LayoutParams).apply {
+            topMargin = dp(10)
+            bottomMargin = dp(10)
+        }
+        header.addView(headerDivider)
         val body = findViewById<LinearLayout>(R.id.notice_body)
 
         address = field("서버 주소", getPreferences(MODE_PRIVATE).getString("server", "http://10.0.2.2:8000")!!,
