@@ -8,7 +8,10 @@ import android.graphics.drawable.RippleDrawable
 import android.content.res.ColorStateList
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import android.text.util.Linkify
+import android.net.Uri
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.URLSpan
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -253,7 +256,7 @@ class MainActivity : Activity() {
         status.text = state.message
         val empty = state.feed?.top3.isNullOrEmpty()
         emptyPanel.visibility = if (empty) View.VISIBLE else View.GONE
-        status.visibility = if (empty) View.GONE else View.VISIBLE
+        status.visibility = if (empty || state.playing) View.GONE else View.VISIBLE
         emptyTitle.text = when {
             state.busy -> "소식 확인 중"
             state.connected -> "추천 소식이 없어요"
@@ -292,35 +295,50 @@ class MainActivity : Activity() {
             content.forEachIndexed { index, item ->
                 val lead = index == 0
                 val story = column().apply {
-                    if (lead) background = rounded(Color.WHITE, 16, bordered = true)
+                    if (lead) background = rounded(ink, 16)
                     val inset = dp(if (lead) displaySize(20, 30) else displaySize(16, 24))
                     val vertical = dp(if (lead) displaySize(16, 24) else displaySize(10, 14))
                     setPadding(inset, vertical, inset, vertical)
                 }
+                val simulated = item.dataMode == "MOCK" || item.verification == "SIMULATED"
+                val foreground = if (lead) Color.WHITE else ink
+                val secondary = if (lead) Color.rgb(214, 209, 201) else muted
                 val source = buildList {
-                    add(item.sourceName)
-                    add(item.dataMode)
-                    if ((item.dataMode == "MOCK" || item.verification == "SIMULATED") &&
-                        !item.sourceName.contains("모의 자료")) add("모의 자료")
+                    add(if (simulated && item.sourceName.contains("모의 자료")) "시연 자료" else item.sourceName)
+                    if (simulated && !item.sourceName.contains("모의 자료")) add("시연 자료")
+                    if (!simulated) add(item.dataMode)
                     if (!item.ttsEligible) add("읽기 전용")
                 }.filter { it.isNotBlank() }.joinToString(" · ")
-                story.addView(label(source, displaySize(13, 23), muted))
-                val titleSize = if (lead) displaySize(29, 46) else displaySize(21, 34)
-                story.addView(label(item.title, titleSize, ink, true))
+                story.addView(label(source, displaySize(13, 23), secondary))
+                val title = if (simulated) item.title.removePrefix("[모의] ").trimStart() else item.title
+                story.addView(label(title, if (lead) displaySize(29, 46) else displaySize(21, 34), foreground, true))
                 item.weather?.let { weather ->
-                    story.addView(label("고정 관측 지역 · ${weather.region}", displaySize(14, 26), muted))
-                    story.addView(label("관측 ${displayTime(weather.observedAt)} · 유효 ${displayTime(item.expiresAt)}", displaySize(14, 24), muted))
-                } ?: story.addView(label(
-                    item.publishedAt?.let { "발행 ${displayTime(it)}" } ?: "수집 ${displayTime(item.fetchedAt)}",
-                    displaySize(14, 24), muted))
-                if (item.brief.isNotBlank() && item.contentType != "NEWS") story.addView(label(item.brief, if (lead) displaySize(17, 28) else displaySize(16, 24), ink).apply {
-                    setLineSpacing(dp(displaySize(2, 5)).toFloat(), 1f)
-                })
-                story.addView(label(item.sourceUrl, displaySize(14, 24), accent).apply {
-                    Linkify.addLinks(this, Linkify.WEB_URLS)
-                    setLinkTextColor(ink)
-                    movementMethod = LinkMovementMethod.getInstance()
-                })
+                    story.addView(label("고정 관측 지역 · ${weather.region}", displaySize(14, 26), secondary))
+                    story.addView(label("관측 ${displayTime(weather.observedAt)} · 유효 ${displayTime(item.expiresAt)}", displaySize(14, 24), secondary))
+                } ?: if (!simulated) {
+                    story.addView(label(
+                        item.publishedAt?.let { "발행 ${displayTime(it)}" } ?: "수집 ${displayTime(item.fetchedAt)}",
+                        displaySize(14, 24), secondary,
+                    ))
+                } else Unit
+                if (item.brief.isNotBlank() && item.contentType != "NEWS" && (item.weather != null || lead && !simulated)) {
+                    story.addView(label(item.brief, displaySize(17, 28), foreground).apply {
+                        setLineSpacing(dp(displaySize(2, 5)).toFloat(), 1f)
+                    })
+                }
+                val uri = Uri.parse(item.sourceUrl)
+                val sourceHost = uri.host
+                if (!simulated && uri.scheme in setOf("https", "http") && !sourceHost.isNullOrBlank()) {
+                    story.addView(label("", displaySize(14, 24), foreground).apply {
+                        val link = SpannableString("원문 보기")
+                        link.setSpan(URLSpan(item.sourceUrl), 0, link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        text = link
+                        gravity = Gravity.CENTER_VERTICAL
+                        minHeight = dp(48)
+                        setLinkTextColor(foreground)
+                        movementMethod = LinkMovementMethod.getInstance()
+                    })
+                }
                 if (lead) {
                     stories.addView(story, LinearLayout.LayoutParams(-1, -2).apply {
                         bottomMargin = dp(16)
