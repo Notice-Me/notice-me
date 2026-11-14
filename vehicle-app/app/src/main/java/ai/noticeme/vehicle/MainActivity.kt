@@ -19,7 +19,6 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,7 +69,8 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         speech = DeviceSpeechPlayer(this) { controller?.stop("다른 오디오 안내로 재생이 중단되었습니다. 다시 듣기를 누르세요.") }
-        val root = column().apply {
+        setContentView(R.layout.activity_notice_feed)
+        val root = findViewById<LinearLayout>(R.id.notice_root).apply {
             setBackgroundColor(paper)
             setPadding(dp(displaySize(20, 36)), dp(displaySize(8, 14)), dp(displaySize(20, 36)), dp(12))
         }
@@ -84,16 +84,10 @@ class MainActivity : Activity() {
         heading.addView(button("설정") {
             settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         })
-        root.addView(heading)
-        root.addView(divider())
-
-        val scroll = ScrollView(this).apply {
-            isFillViewport = true
-            isVerticalScrollBarEnabled = false
-        }
-        val body = column()
-        scroll.addView(body)
-        root.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
+        val header = findViewById<LinearLayout>(R.id.notice_header)
+        header.addView(heading)
+        header.addView(divider())
+        val body = findViewById<LinearLayout>(R.id.notice_body)
 
         address = field("서버 주소", getPreferences(MODE_PRIVATE).getString("server", "http://10.0.2.2:8000")!!,
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI, settings)
@@ -141,7 +135,7 @@ class MainActivity : Activity() {
         stories = column()
         body.addView(stories)
 
-        val player = column().apply {
+        val player = findViewById<LinearLayout>(R.id.notice_player).apply {
             background = rounded(playerSurface)
             setPadding(dp(12), dp(8), dp(12), dp(10))
         }
@@ -154,14 +148,19 @@ class MainActivity : Activity() {
         next = button("다음", onPlayer = true) { controller?.next() }
         again = button("다시 듣기", onPlayer = true) { controller?.replay() }
         stop = button("중단", onPlayer = true) { controller?.stop() }
-        listOf(play, next, again, stop).forEachIndexed { index, control ->
-            controls.addView(control, LinearLayout.LayoutParams(0, dp(displaySize(52, 78)), 1f).apply {
-                if (index > 0) marginStart = dp(6)
+        val actions = listOf(play, next, again, stop)
+        val groups = if (windowWidth < 400) actions.chunked(2) else listOf(actions)
+        groups.forEachIndexed { rowIndex, group ->
+            val actionRow = if (rowIndex == 0) controls else row()
+            group.forEachIndexed { index, control ->
+                actionRow.addView(control, LinearLayout.LayoutParams(0, -2, 1f).apply {
+                    if (index > 0) marginStart = dp(6)
+                })
+            }
+            player.addView(actionRow, LinearLayout.LayoutParams(-1, -2).apply {
+                if (rowIndex > 0) topMargin = dp(6)
             })
         }
-        player.addView(controls)
-        root.addView(player, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
-        setContentView(root)
         render(ScreenState())
         val invalidate = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -262,7 +261,10 @@ class MainActivity : Activity() {
                     if (!item.ttsEligible) add("읽기 전용")
                 }.filter { it.isNotBlank() }.joinToString(" · ")
                 story.addView(label(source, displaySize(13, 23), muted))
-                story.addView(label(item.title, displaySize(22, 40), ink, true))
+                story.addView(label(item.title, displaySize(22, 40), ink, true).apply {
+                    maxLines = 2
+                    ellipsize = TextUtils.TruncateAt.END
+                })
                 item.weather?.let { weather ->
                     story.addView(label("고정 관측 지역 · ${weather.region}", displaySize(14, 26), muted))
                     story.addView(label("관측 ${displayTime(weather.observedAt)} · 유효 ${displayTime(item.expiresAt)}", displaySize(14, 24), muted))
@@ -270,9 +272,13 @@ class MainActivity : Activity() {
                     item.publishedAt?.let { "발행 ${displayTime(it)}" } ?: "수집 ${displayTime(item.fetchedAt)}",
                     displaySize(14, 24), muted))
                 if (item.brief.isNotBlank() && item.contentType != "NEWS") story.addView(label(item.brief, displaySize(17, 30), ink).apply {
+                    maxLines = 3
+                    ellipsize = TextUtils.TruncateAt.END
                     setLineSpacing(dp(displaySize(2, 5)).toFloat(), 1f)
                 })
                 story.addView(label(item.sourceUrl, displaySize(14, 24), accent).apply {
+                    maxLines = 1
+                    ellipsize = TextUtils.TruncateAt.END
                     Linkify.addLinks(this, Linkify.WEB_URLS)
                     movementMethod = LinkMovementMethod.getInstance()
                 })
@@ -319,10 +325,14 @@ class MainActivity : Activity() {
         super.onStop()
     }
     override fun onDestroy() { scope.cancel(); super.onDestroy() }
-    private val wideScreen: Boolean
-        get() = resources.configuration.screenWidthDp >= 840
+    private val windowWidth: Int
+        get() = resources.configuration.screenWidthDp
 
-    private fun displaySize(compact: Int, wide: Int): Int = if (wideScreen) wide else compact
+    private fun displaySize(compact: Int, wide: Int): Int = when {
+        windowWidth >= 1200 -> wide
+        windowWidth >= 600 -> (compact + wide) / 2
+        else -> compact
+    }
     private fun displayTime(value: Instant): String =
         DateTimeFormatter.ofPattern("MM-dd HH:mm 'KST'").withZone(ZoneId.of("Asia/Seoul")).format(value)
 
