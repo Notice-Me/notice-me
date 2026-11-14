@@ -138,7 +138,7 @@ class MainActivity : Activity() {
             background = rounded(playerSurface)
             setPadding(dp(12), dp(8), dp(12), dp(10))
         }
-        nowPlaying = label("재생 대기", displaySize(15, 25), playerMuted)
+        nowPlaying = label("재생 대기", displaySize(18, 25), playerMuted)
         nowPlaying.maxLines = 2
         nowPlaying.ellipsize = TextUtils.TruncateAt.END
         player.addView(nowPlaying)
@@ -370,8 +370,12 @@ class MainActivity : Activity() {
     ) = Button(this).apply {
         this.text = text
         isAllCaps = false
-        textSize = displaySize(14, 27).toFloat()
-        minHeight = dp(displaySize(48, 65))
+        textSize = (if (onPlayer) displaySize(21, 30) else displaySize(14, 27)).toFloat()
+        minHeight = dp(when {
+            !onPlayer -> displaySize(48, 65)
+            windowWidth < 400 -> 72
+            else -> displaySize(88, 96)
+        })
         minWidth = 0
         setPadding(dp(displaySize(8, 16)), 0, dp(displaySize(8, 16)), 0)
         elevation = 0f
