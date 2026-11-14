@@ -57,7 +57,6 @@ class MainActivity : Activity() {
     private val ink = Color.rgb(39, 41, 35)
     private val muted = Color.rgb(91, 94, 82)
     private val accent = Color.rgb(76, 92, 52)
-    private val paper = Color.rgb(248, 247, 241)
     private val line = Color.rgb(219, 220, 209)
     private val surface = Color.rgb(239, 239, 229)
     private val playerSurface = Color.rgb(38, 41, 33)
@@ -71,7 +70,7 @@ class MainActivity : Activity() {
         speech = DeviceSpeechPlayer(this) { controller?.stop("다른 오디오 안내로 재생이 중단되었습니다. 다시 듣기를 누르세요.") }
         setContentView(R.layout.activity_notice_feed)
         val root = findViewById<LinearLayout>(R.id.notice_root).apply {
-            setBackgroundColor(paper)
+            setBackgroundColor(Color.WHITE)
             setPadding(dp(displaySize(20, 36)), dp(displaySize(8, 14)), dp(displaySize(20, 36)), dp(12))
         }
         val settings = column().apply {
