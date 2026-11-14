@@ -1,5 +1,15 @@
 # 개발 기록
 
+## 2026-11-14 — 1차 접수용 APK·문서·검증 준비
+
+fetch --prune 후 main0fe84f9와 PR #8~#13 상태 확인, feat/submission-mvp 생성. #11/#12는 닫힌 미병합, #13 팀원 UI는 OPEN이며 변경 파일을 확인하되 포함/수정하지 않았다. 사용자 지정 우선순위에 따라 제품 코드를 바꾸지 않고 root/차량 README의 오래된0.2.2·음성 미확인 설명과 최종 기획/현재 정책의 구분을 갱신했다. 원본 신청서/팀원 정보는 열어 수정하지 않았다.
+
+기존 venv editable 설치의 checkout 차이를 피하려고 PYTHONPATH를 현재 server로 고정해 pytest190 통과, Ruff/format39/pip check 통과. offline Gradle 두 APK assemble·두 flavor각26 테스트는 성공했으나 전체 실행은 기존 개인 local.properties의 PropertyEscape로 실패했다. 파일을 덮어쓰거나 lint를 약화하지 않고 추적 소스 동일 사본+ANDROID_HOME으로 재검사해 Lint0오류(Pleos12/standard4경고)를 확인했다. 두 APK apksigner v2/Android Debug 검증, 기존 AVD에 install-r 성공. release APK라고 표시하지 않는다.
+
+Windows Computer Use helper의 list_windows timeout은 reset 후 회복했지만 화면 캡처는 monitor crop 오류로 실패했다. Android SDK의 기기 설치/실행·UI dump/입력·screencap/screenrecord·앱 PID 로그로 검증했다. MOCK 연속5개 문장과 서버 brief, 다음/다시/중단, 서버 종료 후 연결 오류/카드 제거를 확인했다. 사용자는 첫 청취 요청 때 부재였다고 알려 다시 재생했으며 이후 '한국어 음성이 들렸음'을 확인했다. LIVE 청취 확인으로 확대하지 않았다.
+
+원본 DB의 read-only backup 사본에 seoul_city만1회(재시도0) 호출해 HTTP200/1건, 18:20관측/19:20만료10.7도 저장. 실제 Uvicorn LIVE3/1/0·뉴스2건403, 최신 weather detail.brief=Pleos doSpeak/onDone 확인. 다른 콘텐츠/라우팅/외부 AI 호출0. 무음 MOCK 영상40초와 고정 지역 LIVE 화면을 로컬 추가 자료로 준비했다. 원본 환경/DB·개인 설정·팀원 소스는 보존하고 장시간 서비스나 새 자동화 도구를 추가하지 않았다. [측정·경로·한계](SUBMISSION_MVP_2026-11-15.md).
+
 ## 2026-11-13 — 서버 관심사 P0·공식 팝업·라우팅 조사
 
 fetch --prune 후 main94de875 및 전체 원격 브랜치/PR을 확인했다. main에 서버 PR #6·차량 PR #7이 병합됐고 차량 PR #8은 열려 있었다. 새 feat/server-interest-content에서 서버/문서만 수정했다. 미공개 UI 작업을 추정하지 않고 Kotlin/vehicle-app 변경0을 확인했다. [구현 전 계약 검토](INTEREST_CONTRACT_REVIEW.md) 후 관심사 모듈·뉴스 분류·추천·행사 중복을 수정했다.
