@@ -80,7 +80,7 @@ class MainActivity : Activity() {
         }
         val heading = row()
         heading.addView(label("Notice Me", displaySize(27, 42), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
-        heading.addView(button("설정") {
+        heading.addView(headerButton("설정") {
             settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         })
         val header = findViewById<LinearLayout>(R.id.notice_header)
@@ -124,7 +124,7 @@ class MainActivity : Activity() {
 
         val feedHeading = row()
         feedHeading.addView(label("추천 소식", displaySize(22, 36), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
-        feedHeading.addView(button("새로고침") { connect() })
+        feedHeading.addView(headerButton("새로고침") { connect() })
         body.addView(feedHeading)
         status = label("", displaySize(14, 24), muted)
         status.accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
@@ -354,6 +354,12 @@ class MainActivity : Activity() {
     private fun rounded(color: Int) = GradientDrawable().apply {
         setColor(color)
         cornerRadius = dp(10).toFloat()
+    }
+
+    private fun headerButton(text: String, action: () -> Unit) = button(text, action = action).apply {
+        // Both header actions reserve enough room for the longer label at the current font scale.
+        minWidth = kotlin.math.ceil(paint.measureText("새로고침").toDouble()).toInt() +
+            paddingLeft + paddingRight
     }
 
     private fun button(
