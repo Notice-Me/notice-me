@@ -55,16 +55,16 @@ class MainActivity : Activity() {
     private lateinit var latitude: EditText
     private lateinit var longitude: EditText
     private lateinit var interests: EditText
-    private val ink = Color.rgb(39, 41, 35)
-    private val muted = Color.rgb(91, 94, 82)
-    private val accent = Color.rgb(76, 92, 52)
-    private val paper = Color.rgb(248, 247, 241)
-    private val line = Color.rgb(219, 220, 209)
-    private val surface = Color.rgb(239, 239, 229)
-    private val playerSurface = Color.rgb(38, 41, 33)
-    private val playerControl = Color.rgb(63, 67, 54)
-    private val playerInk = Color.rgb(245, 245, 235)
-    private val playerMuted = Color.rgb(203, 208, 188)
+    private val ink = Color.rgb(17, 17, 17)
+    private val muted = Color.rgb(98, 98, 96)
+    private val accent = Color.rgb(17, 17, 17)
+    private val paper = Color.rgb(245, 241, 236)
+    private val line = Color.rgb(211, 206, 198)
+    private val surface = Color.rgb(235, 231, 225)
+    private val playerSurface = Color.rgb(255, 255, 255)
+    private val playerControl = Color.rgb(245, 241, 236)
+    private val playerInk = Color.rgb(17, 17, 17)
+    private val playerMuted = Color.rgb(98, 98, 96)
     private var shownFeed: Feed? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +76,7 @@ class MainActivity : Activity() {
         }
         val settings = column().apply {
             visibility = View.GONE
-            background = rounded(surface)
+            background = rounded(Color.WHITE, 12, bordered = true)
             setPadding(dp(16), dp(10), dp(16), dp(14))
         }
         val heading = row()
@@ -117,7 +117,7 @@ class MainActivity : Activity() {
         settings.addView(label(speech.label, displaySize(14, 26), muted))
         body.addView(settings)
         tripSummary = column().apply {
-            background = rounded(surface)
+            background = rounded(Color.WHITE, 12, bordered = true)
             setPadding(dp(16), dp(9), dp(16), dp(9))
         }
         locationStatus = label("", displaySize(16, 28), ink, true)
@@ -142,7 +142,7 @@ class MainActivity : Activity() {
         body.addView(stories)
 
         val player = column().apply {
-            background = rounded(playerSurface)
+            background = rounded(playerSurface, 12, bordered = true)
             setPadding(dp(12), dp(8), dp(12), dp(10))
         }
         nowPlaying = label("재생 대기", displaySize(15, 25), playerMuted)
@@ -252,8 +252,11 @@ class MainActivity : Activity() {
             if (state.feed?.top3.isNullOrEmpty()) {
                 if (state.connected) stories.addView(label("추천할 소식이 없습니다.", 18, muted))
             } else state.feed!!.top3.forEach { item ->
-                stories.addView(divider())
-                val story = column().apply { setPadding(0, dp(displaySize(11, 16)), 0, dp(displaySize(13, 21))) }
+                val story = column().apply {
+                    background = rounded(Color.WHITE, 12, bordered = true)
+                    val inset = dp(displaySize(16, 24))
+                    setPadding(inset, dp(12), inset, dp(14))
+                }
                 val source = buildList {
                     add(item.sourceName)
                     add(item.dataMode)
@@ -274,9 +277,12 @@ class MainActivity : Activity() {
                 })
                 story.addView(label(item.sourceUrl, displaySize(14, 24), accent).apply {
                     Linkify.addLinks(this, Linkify.WEB_URLS)
+                    setLinkTextColor(ink)
                     movementMethod = LinkMovementMethod.getInstance()
                 })
-                stories.addView(story)
+                stories.addView(story, LinearLayout.LayoutParams(-1, -2).apply {
+                    bottomMargin = dp(12)
+                })
             }
         }
         val alerts = state.feed?.alerts.orEmpty()
@@ -333,7 +339,7 @@ class MainActivity : Activity() {
         this.text = text; textSize = size.toFloat(); setTextColor(color)
         setPadding(0, dp(5), 0, dp(5))
         if (bold) {
-            setTypeface(typeface, Typeface.BOLD)
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             letterSpacing = -0.015f
         }
     }
@@ -342,9 +348,10 @@ class MainActivity : Activity() {
         layoutParams = LinearLayout.LayoutParams(-1, dp(1))
         importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
     }
-    private fun rounded(color: Int) = GradientDrawable().apply {
+    private fun rounded(color: Int, radius: Int = 8, bordered: Boolean = false) = GradientDrawable().apply {
         setColor(color)
-        cornerRadius = dp(10).toFloat()
+        cornerRadius = dp(radius).toFloat()
+        if (bordered) setStroke(dp(1), line)
     }
 
     private fun button(
@@ -364,17 +371,17 @@ class MainActivity : Activity() {
         val fill = when {
             primary -> accent
             onPlayer -> playerControl
-            else -> surface
+            else -> Color.WHITE
         }
         val disabledFill = if (onPlayer) playerSurface else surface
-        val enabledText = if (onPlayer) playerInk else ink
+        val enabledText = if (primary) Color.WHITE else ink
         val disabledText = if (onPlayer) playerMuted else muted
         val states = arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf())
         val backgrounds = android.graphics.drawable.StateListDrawable().apply {
             addState(states[0], rounded(disabledFill))
-            addState(states[1], rounded(fill))
+            addState(states[1], rounded(fill, bordered = !primary))
         }
-        background = RippleDrawable(ColorStateList.valueOf(0x247F8A73), backgrounds, null)
+        background = RippleDrawable(ColorStateList.valueOf(0x24626260), backgrounds, null)
         backgroundTintList = null
         setTextColor(ColorStateList(states, intArrayOf(disabledText, enabledText)))
         setOnClickListener { action() }
@@ -383,7 +390,12 @@ class MainActivity : Activity() {
         parent.addView(label(title, displaySize(14, 26), muted))
         return EditText(this).apply {
             inputType = type; setSingleLine(true); setText(value); textSize = displaySize(17, 32).toFloat()
-            minHeight = dp(displaySize(52, 76)); setTextColor(ink); contentDescription = title
+            minHeight = dp(displaySize(52, 76))
+            background = rounded(Color.WHITE, bordered = true)
+            backgroundTintList = null
+            setPadding(dp(14), 0, dp(14), 0)
+            setTextColor(ink)
+            contentDescription = title
             importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
             parent.addView(this, LinearLayout.LayoutParams(-1, -2))
         }
