@@ -1,5 +1,13 @@
 # 기술 선택 근거
 
+## TD-17. Release는 별도 서명·로컬 통신·배포 증거로 검증 (2026-11-15)
+
+사용자와 공식 제출 안내가 실행 가능한 release 및 저장소 apk/를 요구하므로 기존 debug 파일의 rename으로 대체하지 않는다. 기본 release HTTP 차단 때문에 localhost FastAPI 시연이 실패할 구조를 확인했다. 클라우드/TLS 신규 배포나 전체 HTTP 허용 대신 release source-set의 network resource로3개 로컬 주소만 허용했다. UI/Kotlin/권한을 바꾸지 않고 compiled resource와 실제 release HTTP 성공을 확인했다.
+
+검색한 개발 위치에는 debug 키만 있어 저장소 밖의 신규 PKCS12/RSA3072 release 키와 무작위 암호를 만들었다. 암호는 Windows CurrentUser DPAPI/새 디렉터리의 사용자 ACL로 보관하고 서명 때만 임시 환경변수로 전달했다. 심사자 설치에는 암호가 필요하지 않지만 미래 업데이트를 위해 키/암호의 개인 보안 백업이 필요하다. 기존 debug의 서명과 달라 새 전용 AVD를 사용하여 데이터 삭제를 피했다. [공식 Android 서명](https://developer.android.com/studio/publish/app-signing).
+
+측정: non-debuggable/v3 verify/실제 install·ON_DEVICE 문장=서버 detail·onDone·사용자 청취·조작·offline 오류. 서버190, 두 debug test26씩, release 두 assemble/Lint0오류. 첫 task 이름/DPAPI 개행/Windows aapt 한글 경로 실패를 별도로 남겼다. SDK licence metadata 부재와 Git 작성자 이메일은 숨기거나 자동 삭제하지 않고 공개 전 확인으로 분리했다. [근거·남은 한계](RELEASE_SUBMISSION_2026-11-15.md).
+
 ## TD-16. 제출용 증거와 실행 의존성을 제품 기능과 분리 (2026-11-14)
 
 사용자 지시로 11/15의 성공 기준을 현장 전체 시연이 아닌 기획서 접수+추가 APK/소스로 확정했다. 기존 서버/차량 API와 팀원 UI를 보존하고 같은 main 소스의 debug APK를 빌드·서명/버전/설치·SHA256으로 식별한다. 새 내장 MOCK 모드는 서버 detail/권리/모드 계약을 새로 검증해야 하므로 이번에는 구현하지 않고 키 없는 기존 MOCK 서버와 무음 화면 영상을 제공한다.

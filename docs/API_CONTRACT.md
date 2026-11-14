@@ -1,5 +1,9 @@
 # API contract v1
 
+## 2026-11-15 Release 배포 조건
+
+endpoint/JSON/OpenAPI/권리·만료 정책은 변경하지 않았다. release 전용 resource가 에뮬레이터/loopback3호스트의 HTTP를 허용하고 다른 호스트는 HTTPS를 요구한다. 이 배포 조건을 API 필드 확장이나 공개 서버 배포로 해석하지 않는다. [release 인수 결과](RELEASE_SUBMISSION_2026-11-15.md).
+
 ## 2026-11-14 제출본 호환성
 
 HTTP/OpenAPI 및 Kotlin 소비 모델 변경 없음. main0fe84f9의 GET interests·weather·top3/queue/alerts/playback_order 계약을 그대로 빌드/검증했다. 독립 프로필 OR·화제 큐 보충·실제 길안내는 미구현이며 이번 문서 정리로 계약이 추가되지 않는다. [제출 검증](SUBMISSION_MVP_2026-11-15.md).

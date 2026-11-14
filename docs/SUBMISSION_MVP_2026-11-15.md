@@ -1,5 +1,7 @@
 # 2026-11-15 1차 접수용 MVP 준비 결과
 
+> 11/15 추가: 이 문서는11/14 debug 산출물의 이력입니다. 공식 release APK와 확정 GitHub A안은 [새 release 보고서](RELEASE_SUBMISSION_2026-11-15.md)를 기준으로 합니다. 기존 debug 파일은 보존했습니다.
+
 확인일: 2026-11-14 KST. 이번 접수는 **참가신청서·기획서 제출**이며 현장 시연이 아니다. APK·GitHub·영상은 추가 검토 자료다. 신청서 원본 DOCX와 팀원 정보는 수정하지 않았다. [기계 판독 검증 결과](verification/2026-11-14-submission.json), [현재 실행 방법](../README.md).
 
 ## 제출 기준과 변경 범위

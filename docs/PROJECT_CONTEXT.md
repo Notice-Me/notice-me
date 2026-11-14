@@ -1,5 +1,11 @@
 # Notice Me — Project context
 
+## 2026-11-15 — GitHub A안·stable release 제출
+
+기존 Notice-Me/notice-me에 소스와 apk/의 서명된 release APK를 준비한다. 사용자는11/15 23:59 KST까지 URL/최종 commit/APK 경로를 접수 메일에 기재하고, 별도 보안 확인·승인 후11/16까지 public 전환/11/23까지 유지할 계획이다. 공개/메일 발송/신청서 수정/main 병합은 이번 작업 범위에서 실행하지 않는다.
+
+UI 미확정 시 main0fe84f9의0.3.3/code8을 제출 기준으로 고정한다. PR #14 문서만 기능 브랜치에 포함했고 PR #13 UI는 정적 검토만 한다. 실제 release 빌드·독립 키 서명·전용 새 AVD 검증과 로컬 HTTP whitelist를 준비하며 새로운 서비스 기능은 추가하지 않는다. [release 결과](RELEASE_SUBMISSION_2026-11-15.md), [공개 전 확인](PUBLICATION_SECURITY_REVIEW_2026-11-15.md).
+
 ## 2026-11-14 — 1차 접수 기준 확정
 
 11/15는 현장 시연이 아닌 참가신청서·기획서 제출이다. APK·소스·영상은 추가 자료이며 기존 MVP 안정성·근거 정리가 우선이다. ChatGPT와 사용자가 기획/기술 판단을 하고 Codex가 구체 구현/검증을 수행한다. 멀티 AI 자동화 PR #11은 미병합 제외하며 새 자동화/개발 도구를 만들지 않는다. 팀원의 미병합 UI PR #12·#13과 신청서 DOCX/개인정보를 보존한다.

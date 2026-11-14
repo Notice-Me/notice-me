@@ -1,0 +1,169 @@
+{
+  "checked_date_kst": "2026-11-15",
+  "submission_strategy": "GitHub A; repository remains private until separate approval",
+  "apk": {
+    "filename": "울산동천고듀오_NoticeMe_release.apk",
+    "relative_path": "apk/울산동천고듀오_NoticeMe_release.apk",
+    "package": "ai.noticeme.vehicle",
+    "version_name": "0.3.3",
+    "version_code": 8,
+    "variant": "pleosRelease",
+    "debuggable": false,
+    "bytes": 24951703,
+    "sha256": "7aa31e6b81220bac2ae76c6e86db670ac3d5b9ab06bbe2a622a1ba3aa54cb78d",
+    "build_input_commit": "b2f66f5c6de3a2ad1d54d59c7249ca7c22a656dd",
+    "ui_baseline_commit": "0fe84f9bb5b06141f8b48bb1862060c7ff201ee6",
+    "signing_certificate_sha256": "e0bbf1e148be28c9047c1ee1a9360218fae113d7f0fba824766ccb263ec8752e",
+    "signature_verification": "apksigner verify PASS; v3 verification true",
+    "min_sdk": 28,
+    "target_sdk": 34,
+    "compile_sdk": 37,
+    "runtime": "Pleos Connect2.1/API34/x86_64",
+    "display": "2560x1440 pixels,160dpi; app area depends on system panels and split screen",
+    "private_key_in_repository": false,
+    "http_scope": [
+      "10.0.2.2",
+      "127.0.0.1",
+      "localhost"
+    ],
+    "other_http_hosts": "DENIED; use HTTPS",
+    "backend_required": true,
+    "mock_is_embedded_offline_data": false
+  },
+  "server": {
+    "pytest_passed": 190,
+    "existing_warning": 1,
+    "ruff": "PASS",
+    "format": "PASS (39 files)",
+    "pip_check": "PASS"
+  },
+  "android": {
+    "pleos": {
+      "release_assemble": "PASS",
+      "unit_test_variant": "debug (actual available task)",
+      "unit_tests": {
+        "tests": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "release_lint_errors": 0,
+      "release_lint_warnings": 10
+    },
+    "standard": {
+      "release_assemble": "PASS",
+      "unit_test_variant": "debug (actual available task)",
+      "unit_tests": {
+        "tests": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "release_lint_errors": 0,
+      "release_lint_warnings": 4
+    }
+  },
+  "release_unit_test_tasks": "NOT_PRESENT in this AGP project; initial guessed task failed; actual task list checked, shared-code debug unit tests rerun; signed release runtime tested separately",
+  "device": {
+    "controls": {
+      "play": {
+        "playing": true,
+        "stopped": false,
+        "selected": [
+          "듣는 중 · [모의] 예술 전시 · 모의 자료"
+        ]
+      },
+      "next": {
+        "playing": true,
+        "stopped": false,
+        "selected": [
+          "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+        ]
+      },
+      "replay": {
+        "playing": true,
+        "stopped": false,
+        "selected": [
+          "듣는 중 · [모의] 캐릭터 팝업 · 모의 자료"
+        ]
+      },
+      "stop": {
+        "playing": false,
+        "stopped": true,
+        "selected": [
+          "선택한 소식 · [모의] 캐릭터 팝업 · 모의 자료"
+        ]
+      }
+    },
+    "sdk_mode": "Pleos ON_DEVICE",
+    "sdk_speak_calls": 10,
+    "all_sdk_texts_match_http_detail_briefs": true,
+    "sdk_done_observed": true,
+    "sdk_error_lines": 0,
+    "human_audio": "CONFIRMED_BY_USER: 한국어 음성이 들렸음",
+    "release_non_debuggable": true,
+    "screen_pixels": "2560x1440",
+    "density_dpi": 160,
+    "emulator": "Pleos Connect2.1 API34 x86_64 / isolated release AVD",
+    "live_weather_this_run": "NOT_RUN_NO_CONTENT_API_CALLS"
+  },
+  "offline": {
+    "release_offline_error_visible": true,
+    "previous_mock_titles_removed": true
+  },
+  "server_mock_http": {
+    "checked_at": "2026-11-14T15:36:22.110756+00:00",
+    "status": "SUCCESS",
+    "checks": [
+      "health:200",
+      "feed:200;mode/rights/expiry/playback_checked",
+      "detail:200",
+      "explain:200;ai_mode_recorded",
+      "errors:404/422",
+      "uncleared_news:403",
+      "openapi:four_typed_responses"
+    ],
+    "route_context": "MANUAL_DEMO_LINK",
+    "verification_scope": "SERVER_HTTP_ONLY",
+    "pleos_sdk_verified": false,
+    "vehicle_tts_verified": false,
+    "data_mode": "MOCK",
+    "top3_count": 3,
+    "queue_count": 5,
+    "alert_count": 1,
+    "diagnostics": [
+      {
+        "code": "MOCK_MODE",
+        "count": 1,
+        "message": "MOCK_MODE"
+      },
+      {
+        "code": "SIMULATED_CONTENT",
+        "count": 6,
+        "message": "SIMULATED_CONTENT"
+      },
+      {
+        "code": "TTS_RIGHTS_BLOCKED",
+        "count": 2,
+        "message": "TTS_RIGHTS_BLOCKED"
+      }
+    ],
+    "ai_mode": "MOCK",
+    "blocked_news_checked": 1
+  },
+  "content_provider_calls": 0,
+  "external_ai_calls": 0,
+  "routing_provider_calls": 0,
+  "sdk_internal_network_calls": "NOT_METERED",
+  "live_weather_in_release_this_run": "NOT_RUN",
+  "ui_pr13_included": false,
+  "ui_pr13_review_commit": "a8745c1cb462ff6ec55b0781dcfc0d5be7007d4d",
+  "application_docx_modified": false,
+  "key_storage": "Outside Git; password CurrentUser DPAPI; new private directory restricted to current user",
+  "private_password_logged": false,
+  "first_signing_attempt": "Failed on DPAPI file trailing newline; Trim fixed; failed attempt not delivered",
+  "native_aapt_unicode_path": "Failed; byte-identical ASCII copy used for inspection; Korean-name APK adb install succeeded",
+  "runtime_cleanup": "Own mock server and new release emulator stopped; AVD files retained; original debug AVD not opened",
+  "history_audit_snapshot": "48 commits /362 blobs at initial all-ref audit; additions scanned separately before publication",
+  "main_merged_or_visibility_changed": false
+}

@@ -1,5 +1,15 @@
 # Notice Me
 
+## 11/15 GitHub A안 제출 후보
+
+공식 파일: **[울산동천고듀오_NoticeMe_release.apk](apk/울산동천고듀오_NoticeMe_release.apk)** · [버전/서명/SHA256](apk/manifest.json) · [release 실행 결과](docs/RELEASE_SUBMISSION_2026-11-15.md).
+
+실제 **pleosRelease / 0.3.3(code8)**를 빌드하고 독립 release 키로 서명했습니다. non-debuggable·apksigner 검증·Pleos Connect2.1 설치/실행·MOCK 한국어 청취·다음/다시/중단을 확인했습니다. 팀원 UI가 확정되지 않아 main0fe84f9의 안정 UI를 유지하며 PR #13은 포함하지 않았습니다. APK 빌드 입력 commit은 `b2f66f5c6de3a2ad1d54d59c7249ca7c22a656dd`이고, 접수에는 APK와 문서가 함께 있는 **최종 제출 commit**을 적습니다.
+
+[공식 제출 안내](https://appdevchallenge.auto-hmg.io/guide/submission)에 따라 GitHub `apk/`에 release APK를 포함했습니다. 저장소는 현재 private입니다. 사용자 계획은11/15 23:59 KST까지 URL·최종 hash·APK 경로를 메일에 기재하고, **별도 승인 후11/16까지 public 전환·11/23까지 유지**하는 것입니다. 심사용 계정 초대는 공식 안내상 불필요합니다. 공개 전 [작성자 정보·전체 Git 이력·SDK 조건 검토](docs/PUBLICATION_SECURITY_REVIEW_2026-11-15.md)를 확인하세요. 이번 작업자가 공개 전환/접수 메일 발송/신청서 수정/main 병합을 수행한 것은 아닙니다.
+
+**검토 환경:** Windows11 / Pleos Connect Emulator2.1 / Android API34 x86_64 / 차량 전체 화면2560×1440px,160dpi. 앱 영역은 시스템 패널·분할 상태에 따라 달라집니다. APK 설치에 서명키 비밀번호는 필요하지 않지만, 실행에는 아래의 로컬 FastAPI 서버가 필요합니다. 일반 Android와 실차/App Market 출시는 별도 검증 대상입니다.
+
 위치·목적지·관심사 문맥을 활용해 소식을 추천하고 음성으로 안내하는 **Pleos 차량 앱 MVP**입니다. 2026년 11월 15일 1차 참가신청서 제출을 위한 개발본이며, APK·소스는 추가 검토 자료입니다. 현재 앱은 **정차 시연용**입니다.
 
 기준 소스는 PR #8·#9·#10이 병합된 main `0fe84f9`입니다. 차량 앱 **0.3.3 / versionCode 8**, Pleos TTS **3.3.1 ON_DEVICE**, NaviHelper **3.0.5**를 사용합니다. 미병합 자동화 PR #11·UI PR #12·#13은 이 제출본에 포함하지 않습니다. 실제 검증 결과와 APK 경로·해시는 [제출 준비 보고서](docs/SUBMISSION_MVP_2026-11-15.md)를 확인하세요.
@@ -42,7 +52,7 @@ $env:NOTICE_DB_PATH=Join-Path $env:TEMP ('notice-me-mock-' + [guid]::NewGuid().T
 
 기존 venv가 있으면 재생성하지 않고 사용하세요. 이 예시는 매 실행 별도 MOCK DB를 사용하며 기존 `.env`·DB를 덮어쓰지 않습니다. `.env` 복사는 필수가 아닙니다. API 문서는 `http://127.0.0.1:8000/docs`입니다. MOCK도 **FastAPI 서버가 필요**하며 앱 내부 오프라인 데이터가 아닙니다.
 
-같은 PC의 Pleos Android 에뮬레이터에서 앱 서버 주소는 **`http://10.0.2.2:8000`**입니다. `0.0.0.0`은 접속 주소가 아닙니다. 다른 PC/차량에서 연결하려면 네트워크 접근과 debug HTTP 허용 호스트가 맞아야 합니다. 기본 허용은 `10.0.2.2`, `127.0.0.1`, `localhost`이며 임의 LAN 주소는 그대로 접속되지 않을 수 있습니다. [상세 연결 안내](docs/VEHICLE_INTEGRATION.md).
+같은 PC의 Pleos Android 에뮬레이터에서 앱 서버 주소는 **`http://10.0.2.2:8000`**입니다. `0.0.0.0`은 접속 주소가 아닙니다. 다른 PC/차량에서 연결하려면 네트워크 접근과 debug HTTP 허용 호스트가 맞아야 합니다. debug 및 이번 공모전 release의 HTTP 허용은 `10.0.2.2`, `127.0.0.1`, `localhost`이며 임의 LAN 주소는 그대로 접속되지 않을 수 있습니다. [상세 연결 안내](docs/VEHICLE_INTEGRATION.md).
 
 ## LIVE 날씨
 
@@ -71,9 +81,12 @@ $env:NOTICE_TEST_BASE_URL='http://127.0.0.1:8000'
 
 - Pleos APK: `vehicle-app/app/build/outputs/apk/pleos/debug/app-pleos-debug.apk` — Pleos TTS/내비 서비스·공식 권한이 있는 환경 필요.
 - 일반 Android APK: `vehicle-app/app/build/outputs/apk/standard/debug/app-standard-debug.apk` — 별도 패키지, 일반 Android TTS 사용. Pleos 기기 검증의 대체물이 아님.
-- 제출 복사본·서명/버전·SHA256·기준 commit은 [제출 보고서](docs/SUBMISSION_MVP_2026-11-15.md)와 [검증 JSON](docs/verification/2026-11-14-submission.json)에 기록합니다. APK는 Git에 커밋하지 않습니다.
-- 제출본은 **debug 서명 테스트 APK**입니다. 스토어 출시용 release 서명/배포 인증 완료를 뜻하지 않습니다.
+- 공식 제출용 서명 release APK 하나만 `apk/`에서 Git으로 추적합니다. [APK 안내](apk/README.md)와 [이번 release 검증 JSON](docs/verification/2026-11-15-release.json)을 확인하세요. 이전 debug 산출물은 별도 로컬 폴더에 보존하며 [11/14 기록](docs/SUBMISSION_MVP_2026-11-15.md)은 당시 이력입니다.
+- 공식 제출본은 **독립 release 키로 서명한 pleosRelease APK**입니다. 기존 debug APK와 서명이 달라 덮어설치하지 말고 별도 AVD를 사용하세요. App Market 배포 승인·실차 적합성 완료와는 구분합니다.
 - APK 안에 서버·API 키·실제 DB가 없습니다. 서버 미연결 시 연결 오류를 표시하며 카드·음성을 제공하지 않습니다. APK 단독 설치만으로 모든 기능이 실행되는 형태가 아닙니다.
+
+
+release를 직접 빌드하려면 `./gradlew.bat :app:assemblePleosRelease`를 실행한 뒤 저장소 밖의 본인 키로 [공식 apksigner](https://developer.android.com/tools/apksigner) 서명을 해야 합니다. 제공된 제출 APK는 이미 서명돼 있습니다. Git에는 비밀키/비밀번호를 넣지 않습니다. 이번 프로젝트에는 release 단위 테스트 task가 없어 공통 코드는 기존 두 debug flavor의 단위 테스트로, release는 실제 설치/HTTP/TTS로 구분 검증했습니다. release 전용 network resource가 loopback/에뮬레이터 호스트만 HTTP로 허용하고 다른 호스트는 HTTPS가 필요합니다.
 
 추가 실행 절차와 재생 계약은 [차량 앱 README](vehicle-app/README.md)를 확인하세요.
 
@@ -91,7 +104,7 @@ cd server
 
 ## 제출·보안·협업
 
-저장소는 비공개입니다. **GitHub 링크만 제출하면 심사자가 열 수 있다는 보장이 없습니다.** 공개 전환·외부 접근 허용·실제 제출은 사용자가 결정합니다. 소스 ZIP은 기록한 commit의 추적 파일만 포함하고 `.env`·키·DB·개인 설정·신청서 원본·팀원 개인정보를 넣지 않습니다. 위치/목적지/질문 이력은 저장하지 않으며 검증 로그·기기 화면은 자동 공개하지 않습니다.
+저장소는 비공개이며 공식 A안의 공개 전환 일정은 위와 같습니다. **현재 URL이 외부에서 바로 열리는 상태는 아닙니다.** 공개 전환·실제 제출·팀원 정보 노출 판단은 사용자가 결정합니다. 소스 ZIP은 기록한 commit의 추적 파일만 포함하고 `.env`·키·DB·개인 설정·신청서 원본·팀원 개인정보를 넣지 않습니다. 위치/목적지/질문 이력은 저장하지 않으며 검증 로그·기기 화면은 자동 공개하지 않습니다.
 
 기능 브랜치에서 테스트 후 PR을 만들고 사용자 승인 전 main 병합·자동 병합·force push를 하지 않습니다. ChatGPT와 사용자가 기획·기술 판단을 하고 Codex가 구체 구현·검증을 수행합니다. 별도 멀티 AI 자동화 시스템은 확장하지 않습니다.
 

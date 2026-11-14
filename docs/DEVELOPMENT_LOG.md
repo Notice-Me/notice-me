@@ -1,5 +1,17 @@
 # 개발 기록
 
+## 2026-11-15 — GitHub A안 서명 release 준비
+
+공식 제출 페이지를 열어 release/apk경로/최종hash/비공개 접수 후 공개 일정/README 환경 요구를 확인했다. fetch 후 main0fe84f9·PR13/14 OPEN·11/12 CLOSED 미병합 확인. feat/vehicle-release-submission을 main에서 만들고 PR14 문서만 ff로 포함했다. main/팀원 브랜치는 수정하지 않는다. PR13 a8745c1(0.3.7/code13)의2×2/스크롤/말줄임은 분석 문서만 작성했다.
+
+서버190·품질 검사 통과. release network resource와 키 확장자 ignore/정확한 공식 APK 예외를 추가해 b2f66f5로 빌드 입력을 고정했다. 개인 local.properties를 보존한 git archive 소스 사본에서 offline 빌드. 첫 testPleosReleaseUnitTest는 task가 없어 실패했고 tasks --all로 실제 목록을 확인해 두 release assemble·두 debug unit(26씩/skip0)·release Lint0오류(10/4경고)를 실행했다.
+
+사용자는 release 키 역할을 물어 설명과 검색을 요청했다. 개발 폴더/기본 Android 위치에서 release 키는 찾지 못하고 debug.keystore만 확인했다. 외부 새 키 폴더에 PKCS12/RSA3072/10000일 인증서·DPAPI 암호 보관. 첫 복호화는 파일 끝 개행 때문에 실패, Trim 후 서명/verify(v3) 성공. 비밀번호는 명령행/로그/Git에 넣지 않았다. native aapt의 한글 경로 오류는 동일 hash ASCII 사본으로 검사했으며 한글 공식 APK adb 설치 자체는 성공했다.
+
+기존 AVD 삭제/앱 데이터 초기화 없이 새 release 전용 Pleos2.1/API34/2560×1440/160dpi AVD에서 설치·non-debuggable·NAVI_ROUTE/TTS_SERVICE grant·로컬HTTP·MOCK3카드·SDK발화와detail 일치·onDone·다음/다시/중단을 확인했다. 사용자는 새 release 한국어 청취를 확인했다. 서버 종료 후 연결오류/카드 제거도 확인하고 VM 실행을 종료했다. 실제 LIVE/실차 재검증은 없고 콘텐츠/라우팅/외부 AI0, SDK 내부 네트워크는 미계측이다.
+
+초기 전체참조 audit48commit/362blob/PR1~14 head를 조사했다. 실제 설정키/일반token/민감파일 이력 발견0. 위치regex7blob은timestamp·공개행사·합성fixture로 분류, source메일은example.invalid 합성값. 비-noreply 작성자메일2개와 SDK5종/Guava1개 metadata 부족은 공개 전 확인으로 보고했다. 현재 파일 삭제로 해결됐다고 하지 않고 history rewrite/force push/visibility변경을 하지 않았다. 신청서 DOCX를 수정하지 않았다. [결과와 파일](RELEASE_SUBMISSION_2026-11-15.md), [보안 범위](PUBLICATION_SECURITY_REVIEW_2026-11-15.md).
+
 ## 2026-11-14 — 1차 접수용 APK·문서·검증 준비
 
 fetch --prune 후 main0fe84f9와 PR #8~#13 상태 확인, feat/submission-mvp 생성. #11/#12는 닫힌 미병합, #13 팀원 UI는 OPEN이며 변경 파일을 확인하되 포함/수정하지 않았다. 사용자 지정 우선순위에 따라 제품 코드를 바꾸지 않고 root/차량 README의 오래된0.2.2·음성 미확인 설명과 최종 기획/현재 정책의 구분을 갱신했다. 원본 신청서/팀원 정보는 열어 수정하지 않았다.
