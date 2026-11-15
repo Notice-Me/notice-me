@@ -1,5 +1,9 @@
 # API contract v1
 
+## 2026-11-14 제출본 호환성
+
+HTTP/OpenAPI 및 Kotlin 소비 모델 변경 없음. main0fe84f9의 GET interests·weather·top3/queue/alerts/playback_order 계약을 그대로 빌드/검증했다. 독립 프로필 OR·화제 큐 보충·실제 길안내는 미구현이며 이번 문서 정리로 계약이 추가되지 않는다. [제출 검증](SUBMISSION_MVP_2026-11-15.md).
+
 ## 2026-11-13 interests 의미 보강 — 필드/명세 변경 없음
 
 반복/쉼표 interests 및 기존 art/science/anime/weather 입력은 유지한다. 구체 별칭(먼작귀/치이카와/Chiikawa/ちいかわ)과 팝업·캐릭터굿즈·전시 형식은 서버 내부 profile로 해석한다. 구체 키워드는 제목 근거가 필요하고 형식도 지정하면 함께 충족해야 한다. EXHIBITION 타입도 전시 근거다. weather/생활을 명시하면 날씨는 별도로 유지한다. broad-only의 기존 위치 fallback과 MOCK 기본 흐름은 유지한다.

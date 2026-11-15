@@ -1,79 +1,98 @@
 # Notice Me
 
-현재 위치·경로·목적지·관심사를 바탕으로 뉴스, 행사, 전시, 생활정보를 추천하는 Pleos 차량 앱 프로토타입입니다. 2인 팀의 서버/차량 앱 공동 저장소이며 2026-11-15 핵심 흐름 시연을 목표로 합니다.
+위치·목적지·관심사 문맥을 활용해 소식을 추천하고 음성으로 안내하는 **Pleos 차량 앱 MVP**입니다. 2026년 11월 15일 1차 참가신청서 제출을 위한 개발본이며, APK·소스는 추가 검토 자료입니다. 현재 앱은 **정차 시연용**입니다.
 
-## 디렉터리
+기준 소스는 PR #8·#9·#10이 병합된 main `0fe84f9`입니다. 차량 앱 **0.3.3 / versionCode 8**, Pleos TTS **3.3.1 ON_DEVICE**, NaviHelper **3.0.5**를 사용합니다. 미병합 자동화 PR #11·UI PR #12·#13은 이 제출본에 포함하지 않습니다. 실제 검증 결과와 APK 경로·해시는 [제출 준비 보고서](docs/SUBMISSION_MVP_2026-11-15.md)를 확인하세요.
 
-- `server/`: Python 3.11+, FastAPI, SQLite, httpx, pytest 백엔드
-- `vehicle-app/`: 차량 앱 담당자 작업 공간 및 연동 안내
-- `docs/PROJECT_CONTEXT.md`: 전체 기획과 운영 규칙
-- `docs/API_CONTRACT.md`: 차량 앱과 공유하는 v1 API 계약
-- `docs/PROJECT_STATUS.md`: 실제 완료/미완료 상태와 검증 결과
-- `docs/DATA_SOURCES.md`: 공식 출처, 인증, 권리, 실제 호출 결과
-- `docs/TECH_DECISIONS.md`: 사용 기술의 선택 이유·원리·대안·검증·한계
-- `docs/DEVELOPMENT_LOG.md`: 날짜별 작업·문제·실제 시도·테스트·미해결 이력
-- `docs/LESSONS_LEARNED.md`: 검증된 경험에서 정리한 학습·회고·발표 근거
+## 구현·검증 상태
 
-초기화 이후 개발은 `feat/server-content-feed` 등 기능 브랜치에서 진행합니다. main에는 기능 코드를 직접 커밋하지 않으며, 테스트 확인 후 PR을 만들고 사용자 승인 전에는 병합하지 않습니다.
+| 항목 | 현재 구현 | 검증 범위·한계 |
+|---|---|---|
+| FastAPI·SQLite | health/feed/detail/explain, 모드 분리, 만료·권리 검사 | 서버 회귀 검사 및 기존 HTTP 검증. explain은 deterministic MOCK |
+| 추천·관심사 | 규칙 점수, 한영일 치이카와 별칭, 구체 관심사/형식 결합, 중복 제거 | 점수 근거 제공. 독립 관심사 OR 프로필은 [제안](docs/INTEREST_PROFILE_PROPOSAL.md) 단계 |
+| 화면·음성 큐 | 최대 TOP3 화면과 별도 queue/alerts/playback_order | TOP3만으로 재생하지 않음. 목적지 ETA는 재생 예산에 사용 |
+| Pleos HTTP·TTS | health → feed → detail → 최신 brief의 Pleos ON_DEVICE 재생 | 11/13 에뮬레이터에서 서버 brief 일치·청취·패스/다시/중단 검증. 이번 재검증은 제출 보고서에 별도 표시 |
+| 내비 문맥 | 현재 위치·목적지·ETA 조회/서버 전달, 미수신 시 설정 좌표 표시 | 기존 Pleos 에뮬레이터 검증. 경로 전체·실차·주행 중 ETA 변화는 미검증 |
+| 실제 날씨 | 서울시 POI009 광화문·덕수궁 고정 지역 | LIVE 음성의 유일한 실제 콘텐츠. 관측 후 1시간 만료, 별도 수집 필요 |
+| 뉴스·행사 수집 | FreeNews metadata, 서울시 공공자료, TourAPI 수집기 | 수집 성공과 추천·음성 허용은 별개. 뉴스 본문/요약/TTS는 제공하지 않음 |
+| 행사·팝업 | 공식 확인 입력 경로와 추천 게이트 | 실제 자동차 이동시간 미검증이면 LIVE 추천 제외. 검증된 실제 팝업 추천은 미완료 |
+| 안전 처리 | 만료/권리 재검사, 연결 실패 시 큐 제거, 오디오 포커스 손실/화면 이탈 시 중단 | 주행용 UX 인증·실차 적합성 완료를 뜻하지 않음 |
 
-## 실행 (Windows PowerShell)
+**미구현:** 실제 자동차 길찾기, STT 음성 명령, Gleo 연동, 학교 AI/BAZE 연결, 실제 생성형 요약, 앱에서 목적지 생성, 자동 콘텐츠 수집, 위치별 날씨. 음성 잡음의 원인과 개선도 미해결입니다. 일반 Android TTS flavor의 성공을 Pleos 검증으로 표시하지 않습니다.
+
+## 현재 정책과 최종 기획의 구분
+
+현재는 유효성·권리·실제 행사 이동시간 게이트를 적용하고, 관심사/지역/신선도/검증 근거의 규칙 점수로 추천합니다. 동일 체계의 경로 링크가 확인된 교통 alerts는 일반 음성보다 앞에 배치합니다. 현재 앱은 도로 링크/전체 경로를 전송하지 않아 **실제 경로 기반 긴급 안내가 완성된 것은 아닙니다**. LIVE 음성은 허용된 날씨만, MOCK은 명확히 표시한 합성 콘텐츠입니다.
+
+최종 목표인 **긴급·안전 > 지역·개인 관심사 > 화제 > 일반 소식**의 단계별 정책, 장거리에서 개인 관심사·화제 소식으로 큐 확장, 공식 웹/SNS/허용된 제공자에서 팝업 후보 발견·검증은 후속 개발입니다. 현재 기능으로 주장하지 않습니다.
+
+## 서버 실행 — 키 없이 MOCK 확인
+
+Python 3.11+가 필요합니다. PowerShell에서 저장소 루트 기준:
+
+```powershell
+if (!(Test-Path -LiteralPath 'server/.venv/Scripts/python.exe')) { py -3.11 -m venv server/.venv }
+& ./server/.venv/Scripts/python.exe -m pip install -r server/requirements.lock
+& ./server/.venv/Scripts/python.exe -m pip install -e ./server --no-deps
+cd server
+$env:NOTICE_DATA_MODE='mock'
+$env:NOTICE_DB_PATH=Join-Path $env:TEMP ('notice-me-mock-' + [guid]::NewGuid().ToString() + '.sqlite3')
+& ./.venv/Scripts/python.exe -m uvicorn app.main:create_app --factory --host 127.0.0.1 --port 8000 --no-access-log
+```
+
+기존 venv가 있으면 재생성하지 않고 사용하세요. 이 예시는 매 실행 별도 MOCK DB를 사용하며 기존 `.env`·DB를 덮어쓰지 않습니다. `.env` 복사는 필수가 아닙니다. API 문서는 `http://127.0.0.1:8000/docs`입니다. MOCK도 **FastAPI 서버가 필요**하며 앱 내부 오프라인 데이터가 아닙니다.
+
+같은 PC의 Pleos Android 에뮬레이터에서 앱 서버 주소는 **`http://10.0.2.2:8000`**입니다. `0.0.0.0`은 접속 주소가 아닙니다. 다른 PC/차량에서 연결하려면 네트워크 접근과 debug HTTP 허용 호스트가 맞아야 합니다. 기본 허용은 `10.0.2.2`, `127.0.0.1`, `localhost`이며 임의 LAN 주소는 그대로 접속되지 않을 수 있습니다. [상세 연결 안내](docs/VEHICLE_INTEGRATION.md).
+
+## LIVE 날씨
+
+LIVE는 이미 수집한 데이터만 읽습니다. 앱의 약 15초 갱신은 SQLite 조회이며 외부 API 수집이 아닙니다. 시연 직전 별도 DB 사본을 지정하고 **날씨 제공자 하나만** 갱신합니다.
+
+```powershell
+# server/에서 실행. NOTICE_DB_PATH는 원본이 아닌 사용할 시연 DB 사본으로 먼저 지정
+& ./.venv/Scripts/python.exe -m app.cli ingest --public-provider seoul_city --report reports/weather-new.json
+$env:NOTICE_DATA_MODE='live'
+& ./.venv/Scripts/python.exe -m uvicorn app.main:create_app --factory --host 127.0.0.1 --port 8000 --no-access-log
+```
+
+날씨의 관측·만료·고정 지역을 확인하세요. 만료되면 큐 0건이 정상이며 데이터를 만들거나 수집시각으로 만료를 연장하지 않습니다. 현재 위치/목적지의 날씨라고 안내하지 않습니다. 실제 뉴스 metadata는 화면 전용이며, Type3 행사 음성 및 이동시간 미검증 행사 추천은 차단합니다. [날씨 정책·DB 사본 안내](docs/LIVE_WEATHER_DEMO.md), [출처·권리](docs/DATA_SOURCES.md).
+
+## APK 빌드·설치·외부 실행 한계
+
+JDK 17+, Android SDK Platform 37 / Build Tools 36.0.0, 프로젝트의 Gradle wrapper를 사용합니다. 개인 SDK 경로는 `vehicle-app/local.properties` 또는 `ANDROID_HOME`으로 지정하고 커밋하지 않습니다.
+
+```powershell
+cd vehicle-app
+./gradlew.bat :app:assemblePleosDebug :app:assembleStandardDebug
+# 로컬 MOCK 서버가 실행된 상태: JVM HTTP 통합 테스트도 포함
+$env:NOTICE_TEST_BASE_URL='http://127.0.0.1:8000'
+./gradlew.bat :app:testPleosDebugUnitTest :app:testStandardDebugUnitTest :app:lintPleosDebug :app:lintStandardDebug
+```
+
+- Pleos APK: `vehicle-app/app/build/outputs/apk/pleos/debug/app-pleos-debug.apk` — Pleos TTS/내비 서비스·공식 권한이 있는 환경 필요.
+- 일반 Android APK: `vehicle-app/app/build/outputs/apk/standard/debug/app-standard-debug.apk` — 별도 패키지, 일반 Android TTS 사용. Pleos 기기 검증의 대체물이 아님.
+- 제출 복사본·서명/버전·SHA256·기준 commit은 [제출 보고서](docs/SUBMISSION_MVP_2026-11-15.md)와 [검증 JSON](docs/verification/2026-11-14-submission.json)에 기록합니다. APK는 Git에 커밋하지 않습니다.
+- 제출본은 **debug 서명 테스트 APK**입니다. 스토어 출시용 release 서명/배포 인증 완료를 뜻하지 않습니다.
+- APK 안에 서버·API 키·실제 DB가 없습니다. 서버 미연결 시 연결 오류를 표시하며 카드·음성을 제공하지 않습니다. APK 단독 설치만으로 모든 기능이 실행되는 형태가 아닙니다.
+
+추가 실행 절차와 재생 계약은 [차량 앱 README](vehicle-app/README.md)를 확인하세요.
+
+## 서버 검사
 
 ```powershell
 cd server
-py -3.11 -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.lock
-.venv\Scripts\python.exe -m pip install -e . --no-deps
-Copy-Item .env.example .env  # 최초 1회만; 기존 .env가 있으면 덮어쓰지 마세요
-.venv\Scripts\python.exe -m uvicorn app.main:create_app --factory --host 127.0.0.1 --port 8000 --no-access-log
+& ./.venv/Scripts/python.exe -m pytest -q
+& ./.venv/Scripts/python.exe -m ruff check app tests scripts
+& ./.venv/Scripts/python.exe -m ruff format --check app tests scripts
+& ./.venv/Scripts/python.exe -m pip check
 ```
 
-기본은 **MOCK**입니다. 키 없이 가상 콘텐츠·규칙·전체 음성 큐·API 연동을 확인할 수 있습니다. API 문서: http://127.0.0.1:8000/docs . 새 PowerShell에서:
+외부 API의 실제 호출은 별도로 기록하며 MockTransport/fixture 통과를 실호출 성공으로 표시하지 않습니다. APK 빌드·JVM 시험·에뮬레이터 실행·사람의 청취·실차 검증도 각각 구분합니다.
 
-```powershell
-Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/feed?lat=37.57&lon=126.98&interests=art,science,anime&navigation_active=true&route_link_ids=demo-link-1&route_link_namespace=DEMO'
-```
+## 제출·보안·협업
 
-## 실제 공공 데이터 사용
+저장소는 비공개입니다. **GitHub 링크만 제출하면 심사자가 열 수 있다는 보장이 없습니다.** 공개 전환·외부 접근 허용·실제 제출은 사용자가 결정합니다. 소스 ZIP은 기록한 commit의 추적 파일만 포함하고 `.env`·키·DB·개인 설정·신청서 원본·팀원 개인정보를 넣지 않습니다. 위치/목적지/질문 이력은 저장하지 않으며 검증 로그·기기 화면은 자동 공개하지 않습니다.
 
-`server/`에서 수집 명령을 실행합니다. 서울시 공식 `sample` 키는 개인 가입 없이 실제 공개 데이터 최초 5건과 광화문·덕수궁 도시데이터를 조회합니다. 데이터 수집과 feed 조회는 분리되어 있어 차량 조회마다 외부 API를 소비하지 않습니다.
+기능 브랜치에서 테스트 후 PR을 만들고 사용자 승인 전 main 병합·자동 병합·force push를 하지 않습니다. ChatGPT와 사용자가 기획·기술 판단을 하고 Codex가 구체 구현·검증을 수행합니다. 별도 멀티 AI 자동화 시스템은 확장하지 않습니다.
 
-```powershell
-.venv\Scripts\python.exe -m app.cli ingest --report reports/latest-ingest.json
-$env:NOTICE_DATA_MODE='live'   # 실제 수집 자료만 사용; 혼합 시 'mixed'
-.venv\Scripts\python.exe -m uvicorn app.main:create_app --factory --port 8001 --no-access-log
-```
-
-`interests=weather` 또는 `interests=생활`을 주면 실제 날씨 생활정보를 볼 수 있습니다. 날씨는 원천 갱신시각 후 1시간에 만료되므로 오래된 경우 먼저 재수집하세요. **LIVE 행사 5건은 자동차 이동시간 검증이 없어 추천에서 제외**됩니다. 교통정보는 같은 링크 체계의 실제 경로 입력과 수집 후 10분 이내 조건이 필요합니다. 이동시간을 직선거리로 대체하지 않습니다.
-
-실측 예시/한계: [PROJECT_STATUS](docs/PROJECT_STATUS.md), [실제 호출 결과](docs/API_VALIDATION_RESULTS.json), [HTTP 검증](docs/HTTP_SMOKE_RESULTS.json).
-
-TourAPI 인증 후 현재/예정 행사만 상한을 두고 수집하려면 `app.cli ingest --public-provider tourapi --report reports/tourapi-next.json`을 사용합니다. 기본 KST 오늘~90일,50건/페이지·최대3페이지/3시도입니다. [실제76건 수집과 제외 사유](docs/TOURAPI_INVESTIGATION.md)를 확인하세요. 날짜 유효와 권리/이동시간 자격은 별개이며 LIVE 행사는 실제 이동시간 검증 전까지 추천에서 제외합니다.
-
-## 테스트와 뉴스 키 설정
-
-```powershell
-.venv\Scripts\python.exe -m pytest -q
-.venv\Scripts\ruff.exe check app tests scripts
-.venv\Scripts\ruff.exe format --check app tests scripts
-# 뉴스만, 지정 질의만 검사. 재시도 포함 최대2회. 기존 결과는 다른 report 경로로 보존.
-.venv\Scripts\python.exe -m app.cli validate-news --provider freenews --keyword '예술' --window-hours 24 --max-requests 2 --report reports/freenews-targeted.json
-# FreeNewsAPI metadata/URL 수집. 목록/상세/재시도 전체 최대4회.
-.venv\Scripts\python.exe -m app.cli ingest-news --keyword '예술' --max-requests 4 --report reports/freenews-ingest.json
-```
-
-API 키는 각 데이터 제공자가 발급하는 접속 비밀값으로 GitHub 인증과 별개입니다. 키가 없어도 Mock과 서울시 sample은 실행됩니다. [발급/설정 안내](docs/SETUP_API_KEYS.md)를 참고하세요. 키·.env·SQLite·원본 기사 본문은 Git에 올리지 않습니다. `validate`는 소량의 실제 요청을 수행하며 인증이 안 된 뉴스는 기사 수/중복률을 미측정으로 남깁니다.
-
-기존 `ingest`/`validate` 전체 수집·비교 명령도 유지합니다. [FreeNews 오류 조사](docs/FREENEWS_INVESTIGATION.md)에 실제0/5/10건의 의미, 재현된500, timeout·재시도·무료 예산·결과 보존을 정리했습니다. 뉴스 키가 있어도 TTS 권리가 생기지 않으며, 현재 FreeNews 뉴스는 화면 metadata만 가능하고 음성/설명은 차단됩니다. feed에서 실자료를 보려면 서버 모드를 live/mixed로 설정해야 합니다.
-
-## 차량 앱 연동
-
-Pleos 앱 0.2.2가 `main`에 있습니다. 같은 Mac에서 로컬 MOCK 서버에 연결해 Pleos 에뮬레이터 화면에 추천 3건이 표시되는 것을 확인했습니다. 재생 확인 중 에뮬레이터 연결이 끊겨 음성 출력과 재생 완료는 아직 확인하지 못했습니다. 앱은 설정에 입력한 위치와 관심사를 사용하며 GPS와 내비 경로 연동은 남아 있습니다. [앱 빌드·실행](vehicle-app/README.md) · [연동 확인표](docs/VEHICLE_ACCEPTANCE.md)
-
-- **서버와 에뮬레이터가 같은 Mac**이라면 서버를 `--host 127.0.0.1 --port 8000`으로 실행하고 앱에서 `http://10.0.2.2:8000`을 사용하세요.
-- **서버가 다른 PC**라면 서버를 `--host 0.0.0.0`으로 실행하고 앱에는 서버 PC의 접근 가능한 LAN 주소를 입력하세요. HTTP를 쓰려면 앱의 debug 허용 목록에 해당 호스트를 추가하고 APK를 다시 빌드하세요. 공개 배포에는 별도로 인증과 TLS가 필요합니다. [서버 주소 설정](docs/VEHICLE_INTEGRATION.md)
-
-앱은 `top3`를 목록에 표시하고, `queue`와 `alerts`의 항목을 `playback_order` 순서로 확인합니다. 재생 직전 최신 피드와 상세 응답에서 `tts_eligible`, 권리 근거, 검증 상태, 데이터 모드, 유효기간을 다시 검사합니다. 앱이 현재 내비 경로를 보내지 않아 실제 경로 기반 긴급 안내는 미연동입니다. [API 계약](docs/API_CONTRACT.md) · [OpenAPI JSON](docs/openapi.json)
-
-기사와 날씨의 출처 모드는 항목의 `data_mode`에서 확인하세요. `ai_mode=MOCK`은 설명 API의 AI 모드입니다. 날씨만 새로 수집하려면 `python -m app.cli ingest --public-provider seoul_city`를 실행하세요. 앱에서 실제 자료를 보려면 수집된 데이터가 있는 LIVE 또는 MIXED 서버에 연결해야 합니다. [LIVE 응답 예시](docs/examples/live-feed.json) · [MIXED 응답 예시](docs/examples/mixed-feed.json)
-
-앱은 입력한 위치와 관심사를 피드 요청에 사용합니다. 서버 애플리케이션은 위치·경로·질문 이력을 저장하지 않으며, 로컬 시연 명령은 요청 URL이 기록되지 않도록 `--no-access-log`를 사용합니다.
+관련 문서: [API 계약](docs/API_CONTRACT.md) · [OpenAPI](docs/openapi.json) · [개발 현황](docs/PROJECT_STATUS.md) · [기술 결정](docs/TECH_DECISIONS.md) · [개발 로그](docs/DEVELOPMENT_LOG.md) · [학습 기록](docs/LESSONS_LEARNED.md).

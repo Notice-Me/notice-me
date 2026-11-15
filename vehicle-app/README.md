@@ -1,6 +1,8 @@
 # Notice Me 차량 앱
 
-2026-11-11 신규 Android/Kotlin 프로젝트. `health → feed → TOP3`, 사용자 재생, `playback_order` 기반 연속 TTS, 패스·다시 듣기·중단을 구현했습니다. **Pleos 0.2.2에서 같은 Mac의 MOCK 서버에 연결해 추천 3건 표시를 확인했습니다.** 재생 확인 중 에뮬레이터 연결이 끊겨 음성 출력과 재생 완료는 미확인입니다.
+현재 main 기준 **0.3.3 / versionCode8**입니다.`health → feed → TOP3`, 최신 detail.brief의 `playback_order` 기반 TTS, 패스·다시 듣기·중단을 구현했습니다.**11/13 Windows Pleos Connect2.1에서 실제 서울시 고정 지역 날씨의 서버 brief와 Pleos ON_DEVICE 발화 일치, 사용자 청취, 내비 목적지·ETA 전달을 확인했습니다.** 과거0.2.2의 음성 미확인 기록과 구분합니다.이번 제출 준비의 재검증·APK 서명/해시는 [제출 보고서](../docs/SUBMISSION_MVP_2026-11-15.md)에 기록합니다.
+
+APK는 외부 FastAPI 서버가 필요하며 오프라인 단독 데모가 아닙니다. LIVE 음성은 신선하고 허가된 고정 지역 날씨만, MOCK은 서버가 제공하는 합성 자료입니다. 일반 Android TTS 성공을 Pleos 검증으로 간주하지 않습니다. 미병합 팀원 UI PR #12·#13은 현재 제출 기준 main에 포함되지 않았으며 별도 검토 대상입니다.
 
 ## 0.2.2 화면
 
