@@ -47,3 +47,5 @@ keystore.properties
 !/apk/
 !/apk/preview/
 !/apk/preview/NoticeMe-0.3.7-pleos-release.apk
+
+!/apk/preview/NoticeMe-0.3.7-pr16-pleos-release.apk
