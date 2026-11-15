@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-11-15T12:47:44.421867+00:00",
+  "server_port": 8002,
+  "data_mode": "MOCK",
+  "speech_sdk": "Pleos TextToSpeech 3.3.1",
+  "mode": "ON_DEVICE",
+  "doSpeak_log_entries": 13,
+  "all_speech_matches_server_detail_brief": true,
+  "onDone_log_entries": 18,
+  "control_results": [
+    {
+      "control": "재생",
+      "selected": [
+        "듣는 중 · [모의] 예술 전시 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "다음",
+      "selected": [
+        "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "다시 듣기",
+      "selected": [
+        "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "중단",
+      "selected": [
+        "선택한 소식 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": false,
+      "stopped": true
+    }
+  ],
+  "human_hearing_this_run": "USER_CONFIRMED_KOREAN_AUDIO",
+  "raw_log_committed": false
+}

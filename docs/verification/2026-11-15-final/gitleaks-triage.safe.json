@@ -1,0 +1,34 @@
+[
+  {
+    "rule": "generic-api-key",
+    "file": "docs/verification/2026-11-11-vehicle-handoff.json",
+    "commit": "b22c1e2f509d87def5f10362a834d0906ef6b892",
+    "line": 330,
+    "fingerprint": "b22c1e2f509d87def5f10362a834d0906ef6b892:docs/verification/2026-11-11-vehicle-handoff.json:generic-api-key:330",
+    "field_name": "server/scripts/check_vehicle_api.py",
+    "value_length": 64,
+    "is_sha256_shape": true,
+    "equals_known_credential": false,
+    "matches_known_key_sha256": false,
+    "classification": "FALSE_POSITIVE_PUBLIC_ARTIFACT_SHA256",
+    "artifact_hash_recomputed_matches": true,
+    "matched_artifacts": [
+      "server/scripts/check_vehicle_api.py:raw-file"
+    ]
+  },
+  {
+    "rule": "generic-api-key",
+    "file": "docs/verification/2026-11-11-revalidation.json",
+    "commit": "00104b01a37721b5748d51ebaf5e7592e3e20067",
+    "line": 323,
+    "fingerprint": "00104b01a37721b5748d51ebaf5e7592e3e20067:docs/verification/2026-11-11-revalidation.json:generic-api-key:323",
+    "field_name": "openapi_sha256",
+    "value_length": 64,
+    "is_sha256_shape": true,
+    "equals_known_credential": false,
+    "matches_known_key_sha256": false,
+    "classification": "FALSE_POSITIVE_PUBLIC_ARTIFACT_SHA256",
+    "artifact_hash_recomputed_matches": false,
+    "matched_artifacts": []
+  }
+]

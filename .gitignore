@@ -35,3 +35,14 @@ node_modules/
 local.properties
 *.apk
 *.aab
+
+# Never publish release signing material.
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.idsig
+keystore.properties
+
+# The only competition APK tracked in this submission tree.
+!/apk/울산동천고듀오_NoticeMe_release.apk

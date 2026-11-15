@@ -1,5 +1,7 @@
 # API contract v1
 
+2026-11-15 제출 통합: 서버 코드·API·OpenAPI·top3/queue/alerts/playback_order·권리 정책은 변경하지 않았다. 이번 HTTP 및 Android 두 flavor의 opt-in 실제 MOCK 서버 health/feed/detail 검증은 [최종 제출 기록](FINAL_SUBMISSION_2026-11-15.md)이다. 기존 LIVE 날씨와 이번 MOCK 기기 발화를 구분한다.
+
 ## 2026-11-13 interests 의미 보강 — 필드/명세 변경 없음
 
 반복/쉼표 interests 및 기존 art/science/anime/weather 입력은 유지한다. 구체 별칭(먼작귀/치이카와/Chiikawa/ちいかわ)과 팝업·캐릭터굿즈·전시 형식은 서버 내부 profile로 해석한다. 구체 키워드는 제목 근거가 필요하고 형식도 지정하면 함께 충족해야 한다. EXHIBITION 타입도 전시 근거다. weather/생활을 명시하면 날씨는 별도로 유지한다. broad-only의 기존 위치 fallback과 MOCK 기본 흐름은 유지한다.

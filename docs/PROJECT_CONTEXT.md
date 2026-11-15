@@ -1,5 +1,7 @@
 # Notice Me — Project context
 
+2026-11-15 최종 접수 범위: 새 서비스 개발 없이 PR #16 UI와 검증 release를 별도 최종 브랜치로 통합한다. 11/15는1차 기획서 접수다. 실제 최신 결과는 [최종 제출 검증](FINAL_SUBMISSION_2026-11-15.md), 공개 전 결정은 [보안 감사](PUBLICATION_AUDIT_2026-11-15.md)를 기준으로 한다. main 병합·Public·메일은 사용자 승인 전 실행하지 않는다.
+
 2026-11-13 관심사 P0: 서버 내부에서 넓은 category와 구체 topic/format을 구별하되 기존 interests 문자열 배열 계약을 유지한다. 특정 캐릭터+팝업은 같은 항목의 명시적 근거를 요구하고 빈 결과를 허용한다. 팀원 UI/Kotlin은 이번 수정 대상이 아니다. [호환성·길안내 제안](INTEREST_CONTRACT_REVIEW.md), [공식 팝업/무료 라우팅 P1 조사](POPUP_ROUTING_RESEARCH.md), [최신 측정](verification/2026-11-13-server-interest.json).
 
 2026-11-13 범위: 실제 데이터 기반 MVP P0는 기존 NaviHelper 위치·목적지·ETA를 재사용하고, 실음성은 광화문·덕수궁의 신선한 서울시 날씨만 허용한다. 뉴스 metadata 화면과 음성 권한을 분리하고, 행사 검증 이동시간 조건을 유지한다. MOCK 테스트와 음성 잡음P2를 유지한다. [설계·갱신·한계](LIVE_WEATHER_DEMO.md).

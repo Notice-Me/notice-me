@@ -1,5 +1,7 @@
 # Project status
 
+2026-11-15 최종0.3.7/code13: PR #16 UI 채택, canonical APK1개/기존2a072c6… 해시 유지. 이번 pytest190·Ruff/format38·pip check, release2flavor·각26단위/HTTP·Lint오류0 통과. 실제 Pleos 설치·MOCK detail.brief/ON_DEVICE·사용자 한국어 청취·4제어·내비 가운데 분할·서버 미연결/복구 확인. 최신 LIVE 재수집/재생·실차는 이번 미검증. 아래 과거 날짜별 수치는 이력이며 [최종 검증](FINAL_SUBMISSION_2026-11-15.md)/[공개 감사](PUBLICATION_AUDIT_2026-11-15.md)를 먼저 참조한다.
+
 ## 2026-11-13 관심사 서버 P0 — 최신 회차
 
 main94de875(PR #6 서버 날씨·#7 차량 UI 병합 상태)에서 feat/server-interest-content 생성. 기존 미병합 차량 PR #8은 별도 유지하고 vehicle-app 변경0. category/topic/format 분리, 먼작귀·치이카와·Chiikawa·ちいかわ 별칭, 제목 근거와 팝업 문맥 필터, 행사 회차 중복 제거를 구현했다. endpoint/응답 모델/OpenAPI는 유지한다. [계약·앱 인계](INTEREST_CONTRACT_REVIEW.md).

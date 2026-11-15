@@ -1,0 +1,73 @@
+{
+  "checked_at": "2026-11-15T12:51:27.929624+00:00",
+  "source_commit": "f5f194a73036c4540f2b756ac6fa439998f4659d",
+  "server_pytest": {
+    "tests": 190,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "ruff_check": "PASS",
+  "ruff_format_files": 38,
+  "pip_check": "PASS",
+  "android_release_builds": {
+    "pleos": "PASS_UNSIGNED_BUILD_CHECK",
+    "standard": "PASS_UNSIGNED_BUILD_CHECK"
+  },
+  "android_unit_tests": {
+    "pleos": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "standard": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "release_lint": {
+    "lint-results-pleosRelease": {
+      "errors": 0,
+      "warnings": 8,
+      "warning_ids": [
+        "OldTargetApi",
+        "GradleDependency",
+        "Aligned16KB",
+        "DataExtractionRules",
+        "MissingApplicationIcon",
+        "UseKtx",
+        "UseKtx",
+        "UseKtx"
+      ]
+    },
+    "lint-results-standardRelease": {
+      "errors": 0,
+      "warnings": 4,
+      "warning_ids": [
+        "OldTargetApi",
+        "GradleDependency",
+        "DataExtractionRules",
+        "MissingApplicationIcon"
+      ]
+    }
+  },
+  "offline": {
+    "error_shown": true,
+    "cards_cleared": true,
+    "all_playback_buttons_disabled": true,
+    "restored_health_status": 200
+  },
+  "external_content_provider_calls": 0,
+  "routing_calls": 0,
+  "external_ai_calls": 0,
+  "readme_fresh_venv_setup": "REPRODUCED",
+  "readme_new_separate_mock_db": "REPRODUCED",
+  "signing": "V3_RSA3072_VERIFIED",
+  "apk_install": "SUCCESS_SAME_SIGNATURE_IN_PLACE_NO_DATA_DELETION",
+  "human_hearing": "USER_CONFIRMED_KOREAN_AUDIO_THIS_RUN",
+  "physical_vehicle": "NOT_TESTED",
+  "final_apk_live_weather_this_run": "NOT_TESTED"
+}
