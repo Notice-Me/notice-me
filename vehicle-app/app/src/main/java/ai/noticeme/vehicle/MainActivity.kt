@@ -112,6 +112,13 @@ class MainActivity : Activity() {
         settings.addView(label("내비 위치를 받지 못하면 입력한 좌표를 사용합니다.", displaySize(14, 26), muted))
         settings.addView(label(speech.label, displaySize(14, 26), muted))
         body.addView(settings)
+        val feedHeading = row().apply {
+            background = outlined(Color.BLACK, Color.BLACK)
+            setPadding(dp(16), dp(8), dp(10), dp(8))
+        }
+        feedHeading.addView(label("추천 소식", displaySize(22, 32), Color.WHITE, true), LinearLayout.LayoutParams(0, -2, 1f))
+        feedHeading.addView(headerButton("새로고침") { connect() })
+        body.addView(feedHeading)
         tripSummary = column().apply {
             background = outlined(Color.WHITE)
             setPadding(dp(16), dp(9), dp(16), dp(9))
@@ -120,18 +127,8 @@ class MainActivity : Activity() {
         queueStatus = label("", displaySize(14, 24), muted)
         tripSummary.addView(locationStatus)
         tripSummary.addView(queueStatus)
-        body.addView(tripSummary, LinearLayout.LayoutParams(-1, -2).apply {
-            topMargin = dp(12)
-            bottomMargin = dp(6)
-        })
+        body.addView(tripSummary)
 
-        val feedHeading = row().apply {
-            background = outlined(Color.BLACK, Color.BLACK)
-            setPadding(dp(16), dp(8), dp(10), dp(8))
-        }
-        feedHeading.addView(label("추천 소식", displaySize(22, 32), Color.WHITE, true), LinearLayout.LayoutParams(0, -2, 1f))
-        feedHeading.addView(headerButton("새로고침") { connect() })
-        body.addView(feedHeading)
         status = label("", displaySize(17, 24), muted).apply {
             background = outlined(Color.WHITE)
             setPadding(dp(16), dp(14), dp(16), dp(14))
