@@ -1,0 +1,193 @@
+{
+  "checked_date_kst": "2026-11-14",
+  "purpose": "2026-11-15 initial application submission; APK/source/video are supporting materials",
+  "source_base_commit": "0fe84f9bb5b06141f8b48bb1862060c7ff201ee6",
+  "branch": "feat/submission-mvp",
+  "app_version": "0.3.3",
+  "version_code": 8,
+  "excluded_unmerged_prs": [
+    11,
+    12,
+    13
+  ],
+  "service_and_kotlin_changes": 0,
+  "server_tests": {
+    "passed": 190,
+    "failures": 0,
+    "existing_deprecation_warnings": 1
+  },
+  "server_quality": {
+    "ruff": "PASS",
+    "format": "PASS (39 files)",
+    "pip_check": "PASS"
+  },
+  "android_tests": {
+    "pleos": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "standard": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "android_build": {
+    "pleos_debug": "PASS",
+    "standard_debug": "PASS",
+    "dependency_mode": "OFFLINE cached dependencies",
+    "jdk": "Android Studio JBR 25.0.4",
+    "sdk_platform": 37,
+    "build_tools": "36.0.0",
+    "min_sdk": 28,
+    "target_sdk": 34
+  },
+  "android_lint": {
+    "initial_combined_run": "FAILED: existing unescaped drive separator in personal local.properties",
+    "original_personal_setting_modified": false,
+    "recheck": "PASS on byte-identical tracked source copy without personal local.properties; SDK supplied via ANDROID_HOME",
+    "pleos_errors": 0,
+    "pleos_warnings": 12,
+    "standard_errors": 0,
+    "standard_warnings": 4,
+    "warnings_remaining": [
+      "Aligned16KB",
+      "DataExtractionRules",
+      "GradleDependency",
+      "MissingApplicationIcon",
+      "OldTargetApi",
+      "UseKtx"
+    ]
+  },
+  "apk_signature": {
+    "verified": "PASS both APKs",
+    "scheme_v2": true,
+    "certificate": "C=US, O=Android, CN=Android Debug",
+    "certificate_sha256": "0e722f28c16b258c38450149259eee0550a9c8c82c7a639786d1fe88f7ea4a8d",
+    "release_distribution": "NOT_RELEASE_SIGNED_STORE_BUILD"
+  },
+  "apk_install": {
+    "pleos": "SUCCESS on existing Pleos Connect2.1 API34 x86_64 emulator using install -r",
+    "standard": "SUCCESS on same emulator; standard TTS not run"
+  },
+  "apks": [
+    {
+      "name": "Notice-Me-0.3.3-pleos-debug.apk",
+      "sha256": "3f3832a7231ea6945cdda41e6b8fbd051f17dc257f8760720b4ffa80943a830f",
+      "bytes": 27632705
+    },
+    {
+      "name": "Notice-Me-0.3.3-standard-debug.apk",
+      "sha256": "935cf2fd40dd6e5b492087654313d524fa414fbe8b094eacf2bed865a21c5524",
+      "bytes": 5386439
+    }
+  ],
+  "http": {
+    "mock": {
+      "status": "SUCCESS",
+      "top3_count": 3,
+      "queue_count": 5,
+      "alert_count": 0,
+      "verification_scope": "SERVER_HTTP_ONLY",
+      "note": "Initial manual DEMO test after traffic fixture TTL elapsed; zero alerts was valid. Fresh-seed DEMO result recorded separately."
+    },
+    "live": {
+      "status": "SUCCESS",
+      "top3_count": 3,
+      "queue_count": 1,
+      "alert_count": 0,
+      "verification_scope": "SERVER_HTTP_ONLY"
+    },
+    "fresh_mock_manual_demo_route": {
+      "status": "SUCCESS",
+      "top3_count": 3,
+      "queue_count": 5,
+      "alert_count": 1,
+      "verification_scope": "SERVER_HTTP_ONLY"
+    }
+  },
+  "pleos": {
+    "sdk_mode": "Pleos ON_DEVICE",
+    "live_utterances": 1,
+    "all_live_utterances_match_weather_detail": true,
+    "weather_on_done_observed": true,
+    "weather_on_error_observed": false,
+    "weather_detail_tts_eligible": true,
+    "weather": {
+      "region": "광화문·덕수궁",
+      "observed_at": "2026-11-14T09:20:00Z",
+      "expires_at": "2026-11-14T10:20:00Z",
+      "brief": "서울시 실시간 도시데이터 기준 광화문·덕수궁 기온은 10.7도입니다. 관측 기준시각 2026-11-14 18:20. 출처: 서울특별시."
+    },
+    "human_listening_this_run": {
+      "mock": "CONFIRMED_BY_USER: 한국어 음성이 들렸음",
+      "live_weather": "SDK_BRIEF_MATCH_AND_DONE_ONLY_THIS_RUN; user listening confirmed in prior 2026-11-13 record"
+    },
+    "mock_utterance_count": 11,
+    "offline_error_visible": true,
+    "offline_cards_cleared": true,
+    "actual_vehicle": "NOT_RUN",
+    "all_mock_sdk_texts_match_http_detail_brief": true
+  },
+  "controls": {
+    "mock_play_next_replay_stop": "PASS via Android SDK UI test; SDK utterance transitions and UI states",
+    "mock_continuous_queue": "5 sequential server briefs matched; SDK done observed",
+    "live_controls_this_run": "PLAY verified; next/replay/stop covered this run in MOCK and existing unit tests; live controls prior 2026-11-13 evidence"
+  },
+  "weather_call": {
+    "provider": "seoul_city",
+    "attempts": 1,
+    "retry": 0,
+    "http_status": 200,
+    "normalized_count": 1,
+    "other_content_calls": 0,
+    "routing_calls": 0,
+    "external_ai_calls": 0,
+    "observed_kst": "2026-11-14 18:20",
+    "expires_kst": "2026-11-14 19:20",
+    "stored_only_in_separate_backup_copy": true
+  },
+  "video": {
+    "name": "Notice-Me-MOCK-screen-only.mp4",
+    "opened": true,
+    "fps": 25.290909323148846,
+    "frames": 1012,
+    "duration_seconds": 40.01437777777778,
+    "width": 2560,
+    "height": 1440,
+    "audio": "NOT_RECORDED_SCREEN_ONLY",
+    "reviewed_frames_seconds": [
+      1,
+      35
+    ],
+    "navigation_location_disabled_during_capture": true,
+    "scope": "MOCK screen and playback controls only; no recorded audio or LIVE/navi verification"
+  },
+  "external_execution_limits": [
+    "FastAPI server required even in MOCK",
+    "Pleos SDK services and permissions required for Pleos flavor",
+    "debug HTTP host allowlist limited to emulator/loopback defaults",
+    "weather expires 1 hour after source observation; no automatic collection",
+    "private GitHub URL may be inaccessible to judges",
+    "actual vehicle / STT / Gleo / school AI / real driving-time routing not verified or implemented"
+  ],
+  "security": {
+    "prepublication_scan": "PASS: tracked files, configured credential values/encodings, common token patterns, known values in Git history/APKs; not an exhaustive certification",
+    "repository_visibility": "PRIVATE unchanged",
+    "raw_db_env_keys_personal_documents_in_commit": false,
+    "device_logs_or_user_location_history_uploaded": false,
+    "protected_original_hashes_unchanged": true,
+    "protected_original_file_count": 3
+  },
+  "application_original_modified": false,
+  "team_ui_branch_modified": false,
+  "runtime_cleanup": {
+    "task_owned_servers_stopped": true,
+    "emulator_stopped_after_checks": true,
+    "original_navigation_preference_restored": true,
+    "avd_deleted_or_security_settings_changed": false
+  }
+}

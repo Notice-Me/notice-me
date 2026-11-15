@@ -4,6 +4,12 @@
 !.env.example
 *.pem
 *.key
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.idsig
+keystore.properties
 credentials*.json
 secrets/
 
@@ -35,3 +41,7 @@ node_modules/
 local.properties
 *.apk
 *.aab
+
+# Competition submission: only this explicitly reviewed release APK is tracked.
+!/apk/
+!/apk/울산동천고듀오_NoticeMe_release.apk

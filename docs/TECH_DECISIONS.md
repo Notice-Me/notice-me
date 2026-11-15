@@ -1,5 +1,21 @@
 # 기술 선택 근거
 
+## TD-17. Release는 별도 서명·로컬 통신·배포 증거로 검증 (2026-11-15)
+
+사용자와 공식 제출 안내가 실행 가능한 release 및 저장소 apk/를 요구하므로 기존 debug 파일의 rename으로 대체하지 않는다. 기본 release HTTP 차단 때문에 localhost FastAPI 시연이 실패할 구조를 확인했다. 클라우드/TLS 신규 배포나 전체 HTTP 허용 대신 release source-set의 network resource로3개 로컬 주소만 허용했다. UI/Kotlin/권한을 바꾸지 않고 compiled resource와 실제 release HTTP 성공을 확인했다.
+
+검색한 개발 위치에는 debug 키만 있어 저장소 밖의 신규 PKCS12/RSA3072 release 키와 무작위 암호를 만들었다. 암호는 Windows CurrentUser DPAPI/새 디렉터리의 사용자 ACL로 보관하고 서명 때만 임시 환경변수로 전달했다. 심사자 설치에는 암호가 필요하지 않지만 미래 업데이트를 위해 키/암호의 개인 보안 백업이 필요하다. 기존 debug의 서명과 달라 새 전용 AVD를 사용하여 데이터 삭제를 피했다. [공식 Android 서명](https://developer.android.com/studio/publish/app-signing).
+
+측정: non-debuggable/v3 verify/실제 install·ON_DEVICE 문장=서버 detail·onDone·사용자 청취·조작·offline 오류. 서버190, 두 debug test26씩, release 두 assemble/Lint0오류. 첫 task 이름/DPAPI 개행/Windows aapt 한글 경로 실패를 별도로 남겼다. SDK licence metadata 부재와 Git 작성자 이메일은 숨기거나 자동 삭제하지 않고 공개 전 확인으로 분리했다. [근거·남은 한계](RELEASE_SUBMISSION_2026-11-15.md).
+
+## TD-16. 제출용 증거와 실행 의존성을 제품 기능과 분리 (2026-11-14)
+
+사용자 지시로 11/15의 성공 기준을 현장 전체 시연이 아닌 기획서 접수+추가 APK/소스로 확정했다. 기존 서버/차량 API와 팀원 UI를 보존하고 같은 main 소스의 debug APK를 빌드·서명/버전/설치·SHA256으로 식별한다. 새 내장 MOCK 모드는 서버 detail/권리/모드 계약을 새로 검증해야 하므로 이번에는 구현하지 않고 키 없는 기존 MOCK 서버와 무음 화면 영상을 제공한다.
+
+문제: 원본 개인 local.properties의 drive separator 때문에 assemble/test 후 Lint 단계가 실패했다. 개인 설정 수정이나 Lint 규칙 비활성화 대신 추적 소스만 동일 사본으로 옮기고 ANDROID_HOME을 지정해 두 Lint 오류0을 확인했다. 원본 APK/테스트 결과와 사본 Lint 결과를 구분한다. debug 서명은 설치/무결성 증거이며 release/스토어 인증과 다르다. 외부 심사자는 서버/Pleos 서비스·권한·HTTP 접근이 필요하고 private GitHub 링크는 열리지 않을 수 있다.
+
+실행 근거: 서버190, 두 flavor각26, MOCK 실제 청취/SDK, LIVE 날씨 SDK brief 일치·onDone, 날씨1회만 실제 호출. 출시 경고·음질·실차·내일의 날씨 신선도는 해결되지 않았다. [제출 보고서](SUBMISSION_MVP_2026-11-15.md), [검증 JSON](verification/2026-11-14-submission.json). 새로운 AI 자문/자동화나 성능 벤치마크는 수행하지 않았다.
+
 ## TD-14. 구체 취향은 제목 증거와 형식 문맥을 함께 검사 (2026-11-13)
 
 사용자가 요구한 구체 취향을 기존 넓은 태그 교집합만으로 처리하면 일반 애니메이션·근처 뉴스가 치이카와를 대체한다. 서버 내부 불변 InterestProfile(category/topic/format/keyword)을 선택하고 기존 interests 배열·응답 모델을 유지했다. 실제 학교 AI·임베딩/본문 검색 대안은 권리·설정·일정에 비해 요구가 커 구현 실험 없이 제외했다. 동의어 사전과 NFKC/단어 경계는 무료·결정적·회귀 재현이 쉽지만 제목에 없는 행사/별칭을 놓친다.

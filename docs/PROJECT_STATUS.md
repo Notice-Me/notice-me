@@ -1,5 +1,21 @@
 # Project status
 
+## 2026-11-15 — 실제 signed release APK 준비
+
+feat/vehicle-release-submission은 main0fe84f9에서 시작해 검토한 PR #14 문서 commit을 fast-forward로 포함했다. UI0.3.3/code8을 유지하며 PR #13·#11·#12는 미포함이다. release 전용 network resource만 추가해 loopback/에뮬레이터3개 HTTP 주소를 허용하고 다른 호스트는 HTTPS를 유지했다. 팀원 MainActivity/레이아웃/스타일·서비스/API 변경0이다.
+
+서버190·Ruff/format39/pip check 통과. 두 release assemble 성공, 실제 존재하는 두 debug UnitTest 각각26/실패·skip0, release Lint Pleos0오류10경고/standard0오류4경고. release UnitTest task가 없어 첫 task 추정은 실패했으며 실제 task 목록을 확인해 검증 종류를 구분했다. 독립 release 인증서로 서명한 non-debuggable Pleos APK가 새 전용 Pleos2.1/API34 AVD에서 설치/HTTP/파싱/SDK TTS·다음/다시/중단에 성공했고 사용자도 한국어 청취를 확인했다. 서버 종료 후 오류·카드 제거도 확인했다. 기존 debug 앱·AVD·산출물은 유지했다.
+
+현재 release의 LIVE 재수집·실차 검증은 수행하지 않았다. 콘텐츠/라우팅/외부 AI 호출0, SDK 내부 네트워크는 미계측이다. 전체 참조 이력의 키/민감 파일 검사는 알려진 값 기준 통과했으나 작성자 비-noreply 이메일2개·미병합 브랜치 공개 범위·SDK 약관은 공개 전 사용자/팀 확인 대상이다. 저장소는 private, 병합/공개/접수메일/신청서 수정0이다. [APK·hash·소스 commit·제출 계획](RELEASE_SUBMISSION_2026-11-15.md).
+
+## 2026-11-14 — 11/15 참가신청서 제출 준비
+
+기준 main0fe84f9(PR #8·#9·#10 병합), 새 feat/submission-mvp. 미병합 자동화 #11·UI #12·#13 제외. 서비스·Kotlin·Gradle·권한 변경0, README/제출 보고서/누적 기록 갱신. 신청서 원본은 수정하지 않았다.
+
+이번 실제 실행: 서버 pytest190, Ruff/format39파일/pip check 통과. Pleos/standard APK 생성 및 각각26테스트(각 로컬 MOCK HTTP 포함), v2 debug 서명 검증·두 APK install-r 성공. 첫 전체 Gradle은 개인 local.properties의 PropertyEscape로 Lint 실패했으며 해당 파일을 보존하고 같은 추적 소스 사본/ANDROID_HOME에서 Lint 재검사: 오류0, 경고Pleos12/standard4. 경고는 남아 있다.
+
+Pleos Connect2.1에서 MOCK3카드/별도5큐의 SDK brief 일치·완료, 다음/다시/중단과 서버 단절 시 카드 제거를 확인했고 사용자도 새 APK의 한국어 MOCK 음성을 들었다. 원본 DB backup 사본에 seoul_city1회만 갱신, 11/14 18:20관측/19:20만료/10.7도 고정 지역 날씨의 LIVE HTTP3/1/0과 detail.brief=SDK doSpeak/onDone을 확인했다. 이번 LIVE 사람 청취·실차는 미확인. 다른 콘텐츠/라우팅/AI 호출0. 40초 무음 MOCK 영상과 LIVE 화면을 준비했다. 비공개 GitHub는 외부 접근을 보장하지 않으며 공개/제출/병합은 사용자 결정이다. [제출 한계·산출물·신청서 문구](SUBMISSION_MVP_2026-11-15.md), [검증 JSON](verification/2026-11-14-submission.json). 아래는 각 시점의 과거 이력이다.
+
 ## 2026-11-13 관심사 서버 P0 — 최신 회차
 
 main94de875(PR #6 서버 날씨·#7 차량 UI 병합 상태)에서 feat/server-interest-content 생성. 기존 미병합 차량 PR #8은 별도 유지하고 vehicle-app 변경0. category/topic/format 분리, 먼작귀·치이카와·Chiikawa·ちいかわ 별칭, 제목 근거와 팝업 문맥 필터, 행사 회차 중복 제거를 구현했다. endpoint/응답 모델/OpenAPI는 유지한다. [계약·앱 인계](INTEREST_CONTRACT_REVIEW.md).

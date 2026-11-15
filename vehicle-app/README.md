@@ -1,6 +1,10 @@
 # Notice Me 차량 앱
 
-2026-11-11 신규 Android/Kotlin 프로젝트. `health → feed → TOP3`, 사용자 재생, `playback_order` 기반 연속 TTS, 패스·다시 듣기·중단을 구현했습니다. **Pleos 0.2.2에서 같은 Mac의 MOCK 서버에 연결해 추천 3건 표시를 확인했습니다.** 재생 확인 중 에뮬레이터 연결이 끊겨 음성 출력과 재생 완료는 미확인입니다.
+2026-11-15 공식 제출 후보는 [apk/의 서명된 pleosRelease](../apk/README.md)입니다. main 안정 UI0.3.3/code8을 유지하고 release 로컬 HTTP 설정만 분리했습니다. 실제 설치·MOCK 청취/조작을 검증했으며 기존 debug APK는 보존했습니다. PR #13 UI는 미포함입니다. [이번 release 결과](../docs/RELEASE_SUBMISSION_2026-11-15.md).
+
+현재 main 기준 **0.3.3 / versionCode8**입니다.`health → feed → TOP3`, 최신 detail.brief의 `playback_order` 기반 TTS, 패스·다시 듣기·중단을 구현했습니다.**11/13 Windows Pleos Connect2.1에서 실제 서울시 고정 지역 날씨의 서버 brief와 Pleos ON_DEVICE 발화 일치, 사용자 청취, 내비 목적지·ETA 전달을 확인했습니다.** 과거0.2.2의 음성 미확인 기록과 구분합니다.이번 제출 준비의 재검증·APK 서명/해시는 [제출 보고서](../docs/SUBMISSION_MVP_2026-11-15.md)에 기록합니다.
+
+APK는 외부 FastAPI 서버가 필요하며 오프라인 단독 데모가 아닙니다. LIVE 음성은 신선하고 허가된 고정 지역 날씨만, MOCK은 서버가 제공하는 합성 자료입니다. 일반 Android TTS 성공을 Pleos 검증으로 간주하지 않습니다. 미병합 팀원 UI PR #12·#13은 현재 제출 기준 main에 포함되지 않았으며 별도 검토 대상입니다.
 
 ## 0.2.2 화면
 
@@ -50,7 +54,7 @@ Windows에서는 `gradlew.bat`을 사용합니다. 결과는 `app/build/outputs/
 
 2. Pleos 기기에는 `pleosDebug`를 설치합니다. 일반 Android AVD에서는 `standardDebug`를 사용합니다.
 3. 앱의 서버 주소는 같은 PC의 표준 AVD라면 `http://10.0.2.2:8000`. 다른 PC라면 실제 서버 LAN IPv4를 사용합니다. `0.0.0.0`은 접속 주소로 사용할 수 없습니다.
-4. **다른 PC의 HTTP 주소**는 `app/src/debug/res/xml/network_security_config.xml`의 `<domain-config>`에 해당 호스트/IP를 `<domain includeSubdomains="false">서버 IP</domain>`로 추가한 뒤 debug APK를 다시 빌드합니다. 출시 빌드는 HTTPS만 허용합니다. 기본 debug 허용 호스트는 `10.0.2.2`, `127.0.0.1`, `localhost`입니다.
+4. **다른 PC의 HTTP 주소**는 `app/src/debug/res/xml/network_security_config.xml`의 `<domain-config>`에 해당 호스트/IP를 `<domain includeSubdomains="false">서버 IP</domain>`로 추가한 뒤 debug APK를 다시 빌드합니다. 이번 공모전 release는 loopback/에뮬레이터 호스트3개만 HTTP로 허용하고 다른 호스트는 HTTPS만 허용합니다. 공용 서버 배포는 하지 않았습니다. 기본 debug 허용 호스트는 `10.0.2.2`, `127.0.0.1`, `localhost`입니다.
 5. 기본 위치 37.57 / 126.98은 광화문 시연 좌표입니다. 관심사 `art,science,weather`를 확인하고 **새로고침**을 누릅니다. 좌표·관심사는 메모리에서만 사용합니다. 서버 주소만 로컬 설정에 저장합니다.
 6. **추천 소식**의 제목·출처와 모의 자료 표시를 확인하고 **재생**을 누릅니다. 카드 수 0~2개도 정상입니다. 서버 주소와 시연 좌표는 상단 **설정**에서 바꿀 수 있습니다.
 7. **패스**는 현재 항목을 중단하고 최신 순서의 다음 미재생 후보를 읽습니다. **다시 듣기**는 현재 선택 항목을 처음부터 재검사/재생합니다. 해당 항목이 사라졌으면 읽지 않습니다. **중단** 후 재생은 새 세션을 처음부터 시작하며 다시 듣기는 선택 항목을 재생합니다.
