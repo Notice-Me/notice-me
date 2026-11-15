@@ -8,7 +8,7 @@ android {
         minSdk = 28
         targetSdk = 34
         versionCode = 13
-        versionName = "0.3.7"
+        versionName = "0.3.7-compact-preview"
     }
     flavorDimensions += "speech"
     productFlavors {
