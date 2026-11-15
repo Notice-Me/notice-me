@@ -7,8 +7,8 @@ android {
         applicationId = "ai.noticeme.vehicle"
         minSdk = 28
         targetSdk = 34
-        versionCode = 8
-        versionName = "0.3.3"
+        versionCode = 13
+        versionName = "0.3.7"
     }
     flavorDimensions += "speech"
     productFlavors {
