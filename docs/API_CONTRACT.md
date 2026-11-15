@@ -123,3 +123,6 @@ explain: 선택 body `{"question":"자세히 알려줘"}`, 질문 최대 500자.
 ## 2026-11-13 차량 소비 측 호환
 
 차량0.3.3는 서버 PR #6의 nullable weather(area_code/region/observed_at/scope)를 읽는다. 없으면 기존 JSON은 파싱하되 LIVE 음성은 허용하지 않는다. MOCK은 그대로 유지한다. LIVE 음성은 LIFE/POI009/고정 관측 지역/원천1시간/권리 근거/provenance를 재검사하고 최신 detail.brief만 전달한다. 내비 GET 파라미터는 기존 destination_lat/lon·eta_minutes를 유지하고 route_points/link는 새로 만들지 않는다. 구현·실제 서버 수신은 [2026-11-13 기기 검증](verification/2026-11-13-live-weather-vehicle.md).
+
+
+2026-11-15 별도 compact 시안: 서버/API/권리/수집 계약 변경 없음. [실제 구현·재생 중 토글 검증과 미검증 범위](COMPACT_UI_PREVIEW_2026-11-15.md). 최신 PR #16 UI와 별개이며 제출 후보가 아니다.

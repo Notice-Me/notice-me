@@ -159,3 +159,11 @@ SDK CurrentLocationInfo에 원천 GPS 시각이 없어 receivedAt/30초는 콜�
 
 
 2026-11-13 최종 보완: 원격 main에 외부 병합된 UI PR #7(94de875)을 기능 브랜치에 반영하고 두 충돌을 해결했다. 팀원 레이아웃과 날씨·권리 방어를 보존했으며 두 APK/각26테스트·Lint0오류·실제 기기 재생 제어와 brief 일치를 재검증했다. MOCK 테스트 URL 오지정 실패와 수정도 [최종 인수 기록](verification/2026-11-13-live-weather-vehicle.md)에 남겼다. main/타인 브랜치 push·force push·PR 병합은 수행하지 않았다.
+
+
+## 별도 컴팩트 UI 시안의 상태 유지
+
+사용자 요청으로 별도 worktree/feat/vehicle-compact-preview에서만 보기 토글을 추가했다. 같은 Activity의 scroll/settings/source 표시만 전환하고 FeedController와 speech 객체를 재생성하거나 connect/stop을 호출하지 않는다. 별도 Activity·화면 전환·오버레이는 onStop 또는 권한 문제를 만들어 채택하지 않았다. 기존 onStop 중단 정책과 서버/API/권리 코드는 보존한다. 시안 versionName은0.3.7-compact-preview/code13으로 구분한다.
+
+
+2026-11-15 시안 검증 후속: 두 release/각26테스트/Lint0오류를 실제 실행했고841dp 내비 동시 창에서 같은 항목·controller를 유지한 채 compact/detail 토글을 확인했다. 초기 버튼 검색 실패는 내비가 접근성 활성 root여서 발생했으며 Notice Me focus 후 재검증했다. [상세 근거와 한계](COMPACT_UI_PREVIEW_2026-11-15.md).

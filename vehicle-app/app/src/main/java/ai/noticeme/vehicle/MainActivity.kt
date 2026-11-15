@@ -64,6 +64,13 @@ class MainActivity : Activity() {
     private val playerInk = Color.rgb(245, 245, 235)
     private val playerMuted = Color.rgb(203, 208, 188)
     private var shownFeed: Feed? = null
+    // Review-only UI experiment: switching views keeps the same controller and speech session.
+    private var compactMode = false
+    private lateinit var displayToggle: Button
+    private lateinit var settingsButton: Button
+    private lateinit var detailScroll: View
+    private lateinit var headerDivider: View
+    private lateinit var compactMeta: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,18 +86,29 @@ class MainActivity : Activity() {
             setPadding(dp(16), dp(10), dp(16), dp(14))
         }
         val heading = row()
-        heading.addView(label("Notice Me", displaySize(27, 42), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
-        heading.addView(headerButton("설정") {
+        heading.addView(label("Notice Me", displaySize(27, 42), ink, true).apply {
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
+        }, LinearLayout.LayoutParams(0, -2, 1f))
+        settingsButton = headerButton("설정") {
             settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        })
+        }
+        heading.addView(settingsButton)
+        displayToggle = headerButton("컴팩트로 접기") {
+            compactMode = !compactMode
+            applyDisplayMode()
+            android.util.Log.i("NoticeMeCompact", "compact=$compactMode controller=${System.identityHashCode(controller)}")
+        }
+        heading.addView(displayToggle, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         val header = findViewById<LinearLayout>(R.id.notice_header)
         header.addView(heading)
-        val headerDivider = divider()
+        headerDivider = divider()
         (headerDivider.layoutParams as LinearLayout.LayoutParams).apply {
             topMargin = dp(10)
             bottomMargin = dp(10)
         }
         header.addView(headerDivider)
+        detailScroll = findViewById(R.id.notice_scroll)
         val body = findViewById<LinearLayout>(R.id.notice_body)
 
         address = field("서버 주소", getPreferences(MODE_PRIVATE).getString("server", "http://10.0.2.2:8000")!!,
@@ -147,6 +165,11 @@ class MainActivity : Activity() {
         nowPlaying.maxLines = 2
         nowPlaying.ellipsize = TextUtils.TruncateAt.END
         player.addView(nowPlaying)
+        compactMeta = label("서버 연결 필요 · 컴팩트 시안", displaySize(14, 20), playerMuted).apply {
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
+        }
+        player.addView(compactMeta)
         val controls = row()
         play = button("재생", primary = true, onPlayer = true) { controller?.play() }
         next = button("다음", onPlayer = true) { controller?.next() }
@@ -165,6 +188,7 @@ class MainActivity : Activity() {
                 if (rowIndex > 0) topMargin = dp(6)
             })
         }
+        applyDisplayMode()
         render(ScreenState())
         val invalidate = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -178,6 +202,16 @@ class MainActivity : Activity() {
             getPreferences(MODE_PRIVATE).edit().putBoolean("useNavigation", checked).apply()
             invalidateFeed()
         }
+    }
+
+    private fun applyDisplayMode() {
+        detailScroll.visibility = if (compactMode) View.GONE else View.VISIBLE
+        settingsButton.visibility = if (compactMode) View.GONE else View.VISIBLE
+        headerDivider.visibility = if (compactMode) View.GONE else View.VISIBLE
+        compactMeta.visibility = if (compactMode) View.VISIBLE else View.GONE
+        nowPlaying.maxLines = if (compactMode) 1 else 2
+        displayToggle.text = if (compactMode) "전체 목록 펼치기" else "컴팩트로 접기"
+        // Do not reconnect, recreate FeedController, stop TTS, or resize the system window here.
     }
 
     private fun invalidateFeed() {
@@ -235,8 +269,13 @@ class MainActivity : Activity() {
     private fun render(state: ScreenState) {
         status.text = state.message
         queueStatus.text = state.feed?.let { feed ->
-            etaLabel?.let { "$it · 음성 큐 ${feed.queue.size}건" }
+            listOfNotNull(etaLabel, "음성 큐 ${feed.queue.size}건").joinToString(" · ")
         }.orEmpty()
+        compactMeta.text = listOfNotNull(
+            state.current?.sourceName,
+            state.feed?.dataMode ?: "미연결",
+            if (state.playing) "재생 중" else state.message,
+        ).joinToString(" · ")
         queueStatus.visibility = if (queueStatus.text.isBlank()) View.GONE else View.VISIBLE
         locationStatus.visibility = if (locationStatus.text.isBlank()) View.GONE else View.VISIBLE
         tripSummary.visibility = if (state.feed == null || locationStatus.text.isBlank()) View.GONE else View.VISIBLE
