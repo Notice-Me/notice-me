@@ -1,5 +1,7 @@
 # Notice Me
 
+2026-11-15 UI release 검토 후보: **0.3.7 / code13**, main09b106b의 팀원 UI에 release 로컬 HTTP 설정만 반영했습니다. [서명 APK](apk/preview/NoticeMe-0.3.7-pleos-release.apk) · [실제 검증과 한계](docs/RELEASE_UI_PREVIEW_2026-11-15.md). 외부 FastAPI 서버가 필요하며 MOCK도 내장 오프라인 데모가 아닙니다. 기존0.3.3 제출본은 PR #15에 보존하며 이번 후보로 자동 교체하지 않습니다.
+
 현재 위치·경로·목적지·관심사를 바탕으로 뉴스, 행사, 전시, 생활정보를 추천하는 Pleos 차량 앱 프로토타입입니다. 2인 팀의 서버/차량 앱 공동 저장소이며 2026-11-15 핵심 흐름 시연을 목표로 합니다.
 
 ## 디렉터리

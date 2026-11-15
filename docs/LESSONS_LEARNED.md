@@ -130,3 +130,8 @@ AI 보조 구현을 사용한 사실과 사람이 확인한 범위를 구분해 
 
 
 2026-11-13 최종 보완: 원격 main에 외부 병합된 UI PR #7(94de875)을 기능 브랜치에 반영하고 두 충돌을 해결했다. 팀원 레이아웃과 날씨·권리 방어를 보존했으며 두 APK/각26테스트·Lint0오류·실제 기기 재생 제어와 brief 일치를 재검증했다. MOCK 테스트 URL 오지정 실패와 수정도 [최종 인수 기록](verification/2026-11-13-live-weather-vehicle.md)에 남겼다. main/타인 브랜치 push·force push·PR 병합은 수행하지 않았다.
+
+
+## 2026-11-15 — UI 검토와 release 검증의 경계
+
+앱 versionName만 같다고 소스/APK가 같은 것이 아니므로 build input commit·SHA256·공개 서명 지문을 함께 기록했다. 화면 TOP3와 음성 큐가 달라 발화 비교를 화면3개에 제한하면 검증을 누락한다. Pleos 전체화면 IME 중 원래 화면 accessibility tree가 남아 있으므로 focus와 실제 캡처를 함께 확인해야 한다. [실제 결과](RELEASE_UI_PREVIEW_2026-11-15.md).

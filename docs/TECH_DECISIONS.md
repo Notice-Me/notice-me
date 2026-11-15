@@ -159,3 +159,8 @@ SDK CurrentLocationInfo에 원천 GPS 시각이 없어 receivedAt/30초는 콜�
 
 
 2026-11-13 최종 보완: 원격 main에 외부 병합된 UI PR #7(94de875)을 기능 브랜치에 반영하고 두 충돌을 해결했다. 팀원 레이아웃과 날씨·권리 방어를 보존했으며 두 APK/각26테스트·Lint0오류·실제 기기 재생 제어와 brief 일치를 재검증했다. MOCK 테스트 URL 오지정 실패와 수정도 [최종 인수 기록](verification/2026-11-13-live-weather-vehicle.md)에 남겼다. main/타인 브랜치 push·force push·PR 병합은 수행하지 않았다.
+
+
+## TD-18. 최신 UI 소스와 release 산출물의 대응
+
+PR #13 병합 main09b106b에서 별도 worktree를 만들고 PR #15 전체 병합 대신 네트워크 resource와 키 제외만 선별했다. 기존 UI/서버를 보존하면서 APK 버전과 소스가 다른 문제를 해소한다. 기존 키를 재사용해 업데이트 식별을 유지하되 원본 키/암호는 저장소 밖에 둔다. 시스템 창 정책과 내부 compact UI는 별개이며 임의 resize/overlay를 채택하지 않았다. [실제 결과](RELEASE_UI_PREVIEW_2026-11-15.md).

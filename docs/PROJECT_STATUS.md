@@ -150,3 +150,6 @@ HTTP smoke: live/mixed의 feed/detail/explain, rights/mode/queue 검증. 실제 
 2026-11-13 최종 보완: 원격 main에 외부 병합된 UI PR #7(94de875)을 기능 브랜치에 반영하고 두 충돌을 해결했다. 팀원 레이아웃과 날씨·권리 방어를 보존했으며 두 APK/각26테스트·Lint0오류·실제 기기 재생 제어와 brief 일치를 재검증했다. MOCK 테스트 URL 오지정 실패와 수정도 [최종 인수 기록](verification/2026-11-13-live-weather-vehicle.md)에 남겼다. main/타인 브랜치 push·force push·PR 병합은 수행하지 않았다.
 
 2026-11-13 01:03 최종 수동 갱신: 검증 중 첫00:00 관측이 실제01:00에 만료돼01:02 LIVE2/0을 확인했다. 검토 가능한 상태를 남기려고 seoul_city만1회 더 호출해01:00 관측10.8도/02:00만료를 시연 DB 사본에 저장했다. 총 콘텐츠 호출은 서울시2회, 뉴스/Tour0회다. 최신 brief/Pleos doSpeak 일치와 onDone·큐1을 재확인했다. 초기1회라는 앞의 기록은 해당 검증 시점의 이력이다. 15초 feed에서 수집하지 않았고 자동 수집은 추가하지 않았다. 원본 DB/.env는 그대로다.
+
+
+2026-11-15 UI release 검토 후보0.3.7: 서버/API/권리/수집 계약은 변경하지 않았다. [빌드·기기 검증과 미검증 범위](RELEASE_UI_PREVIEW_2026-11-15.md)를 참조한다. 신규 외부 콘텐츠/API 호출은 없으며 새 compact UI는 별도 실험이다.
