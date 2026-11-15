@@ -54,43 +54,41 @@ class MainActivity : Activity() {
     private lateinit var latitude: EditText
     private lateinit var longitude: EditText
     private lateinit var interests: EditText
-    private val ink = Color.rgb(39, 41, 35)
-    private val muted = Color.rgb(91, 94, 82)
-    private val accent = Color.rgb(76, 92, 52)
-    private val line = Color.rgb(219, 220, 209)
-    private val surface = Color.rgb(239, 239, 229)
-    private val playerSurface = Color.rgb(38, 41, 33)
-    private val playerControl = Color.rgb(63, 67, 54)
-    private val playerInk = Color.rgb(245, 245, 235)
-    private val playerMuted = Color.rgb(203, 208, 188)
+    private val ink = Color.rgb(20, 21, 23)
+    private val muted = Color.rgb(79, 85, 93)
+    private val line = Color.rgb(207, 211, 218)
+    private val surface = Color.rgb(243, 246, 250)
+    private val playerMuted = Color.rgb(100, 106, 114)
     private var shownFeed: Feed? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         speech = DeviceSpeechPlayer(this) { controller?.stop("다른 오디오 안내로 재생이 중단되었습니다. 다시 듣기를 누르세요.") }
         setContentView(R.layout.activity_notice_feed)
-        val root = findViewById<LinearLayout>(R.id.notice_root).apply {
-            setBackgroundColor(Color.WHITE)
-            setPadding(dp(displaySize(20, 36)), dp(displaySize(8, 14)), dp(displaySize(20, 36)), dp(12))
+        findViewById<LinearLayout>(R.id.notice_root).apply {
+            setBackgroundColor(surface)
+            setPadding(dp(displaySize(16, 28)), dp(displaySize(12, 20)), dp(displaySize(16, 28)), dp(12))
         }
         val settings = column().apply {
             visibility = View.GONE
-            background = rounded(surface)
+            background = outlined(Color.WHITE)
             setPadding(dp(16), dp(10), dp(16), dp(14))
         }
-        val heading = row()
-        heading.addView(label("Notice Me", displaySize(27, 42), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
+        val scroll = findViewById<android.widget.ScrollView>(R.id.notice_scroll)
+        val heading = row().apply {
+            setPadding(dp(16), dp(8), dp(12), dp(8))
+            background = outlined(Color.WHITE)
+        }
+        heading.addView(label("Notice Me", displaySize(26, 36), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
         heading.addView(headerButton("설정") {
-            settings.visibility = if (settings.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            val opening = settings.visibility != View.VISIBLE
+            settings.visibility = if (opening) View.VISIBLE else View.GONE
+            if (opening) scroll.scrollTo(0, 0)
         })
         val header = findViewById<LinearLayout>(R.id.notice_header)
         header.addView(heading)
-        val headerDivider = divider()
-        (headerDivider.layoutParams as LinearLayout.LayoutParams).apply {
-            topMargin = dp(10)
-            bottomMargin = dp(10)
-        }
-        header.addView(headerDivider)
+        scroll.setPadding(0, dp(12), 0, 0)
+        scroll.clipToPadding = false
         val body = findViewById<LinearLayout>(R.id.notice_body)
 
         address = field("서버 주소", getPreferences(MODE_PRIVATE).getString("server", "http://10.0.2.2:8000")!!,
@@ -115,7 +113,7 @@ class MainActivity : Activity() {
         settings.addView(label(speech.label, displaySize(14, 26), muted))
         body.addView(settings)
         tripSummary = column().apply {
-            background = rounded(surface)
+            background = outlined(Color.WHITE)
             setPadding(dp(16), dp(9), dp(16), dp(9))
         }
         locationStatus = label("", displaySize(16, 28), ink, true)
@@ -127,26 +125,36 @@ class MainActivity : Activity() {
             bottomMargin = dp(6)
         })
 
-        val feedHeading = row()
-        feedHeading.addView(label("추천 소식", displaySize(22, 36), ink, true), LinearLayout.LayoutParams(0, -2, 1f))
+        val feedHeading = row().apply {
+            background = outlined(Color.BLACK, Color.BLACK)
+            setPadding(dp(16), dp(8), dp(10), dp(8))
+        }
+        feedHeading.addView(label("추천 소식", displaySize(22, 32), Color.WHITE, true), LinearLayout.LayoutParams(0, -2, 1f))
         feedHeading.addView(headerButton("새로고침") { connect() })
         body.addView(feedHeading)
-        status = label("", displaySize(14, 24), muted)
+        status = label("", displaySize(17, 24), muted).apply {
+            background = outlined(Color.WHITE)
+            setPadding(dp(16), dp(14), dp(16), dp(14))
+        }
         status.accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
         body.addView(status)
-        diagnostics = label("", displaySize(14, 26), accent)
+        diagnostics = label("", displaySize(14, 22), muted).apply {
+            setPadding(dp(16), dp(10), dp(16), dp(10))
+        }
         body.addView(diagnostics)
         stories = column()
         body.addView(stories)
 
         val player = findViewById<LinearLayout>(R.id.notice_player).apply {
-            background = rounded(playerSurface)
-            setPadding(dp(12), dp(8), dp(12), dp(10))
+            background = outlined(Color.WHITE)
+            setPadding(dp(10), dp(6), dp(10), dp(10))
         }
         nowPlaying = label("재생 대기", displaySize(18, 25), playerMuted)
+        nowPlaying.setPadding(dp(8), dp(8), dp(8), dp(10))
         nowPlaying.maxLines = 2
         nowPlaying.ellipsize = TextUtils.TruncateAt.END
         player.addView(nowPlaying)
+        player.addView(divider())
         val controls = row()
         play = button("재생", primary = true, onPlayer = true) { controller?.play() }
         next = button("다음", onPlayer = true) { controller?.next() }
@@ -162,7 +170,7 @@ class MainActivity : Activity() {
                 })
             }
             player.addView(actionRow, LinearLayout.LayoutParams(-1, -2).apply {
-                if (rowIndex > 0) topMargin = dp(6)
+                topMargin = dp(6)
             })
         }
         render(ScreenState())
@@ -244,7 +252,7 @@ class MainActivity : Activity() {
         next.isEnabled = state.connected && state.current != null
         again.isEnabled = next.isEnabled
         stop.isEnabled = state.busy || state.playing
-        nowPlaying.setTextColor(if (state.playing) playerInk else playerMuted)
+        nowPlaying.setTextColor(if (state.playing) ink else playerMuted)
         nowPlaying.text = state.current?.let {
             "${if (state.playing) "듣는 중" else "선택한 소식"} · ${it.title}" +
                 if (it.verification == "SIMULATED") " · 모의 자료" else ""
@@ -253,10 +261,14 @@ class MainActivity : Activity() {
             shownFeed = state.feed
             stories.removeAllViews()
             if (state.feed?.top3.isNullOrEmpty()) {
-                if (state.connected) stories.addView(label("추천할 소식이 없습니다.", 18, muted))
+                if (state.connected) stories.addView(label("추천할 소식이 없습니다.", 18, muted).apply {
+                    setPadding(dp(16), dp(12), dp(16), dp(12))
+                })
             } else state.feed!!.top3.forEach { item ->
-                stories.addView(divider())
-                val story = column().apply { setPadding(0, dp(displaySize(11, 16)), 0, dp(displaySize(13, 21))) }
+                val story = column().apply {
+                    background = outlined(Color.WHITE)
+                    setPadding(dp(16), dp(12), dp(16), dp(14))
+                }
                 val source = buildList {
                     add(item.sourceName)
                     add(item.dataMode)
@@ -265,7 +277,7 @@ class MainActivity : Activity() {
                     if (!item.ttsEligible) add("읽기 전용")
                 }.filter { it.isNotBlank() }.joinToString(" · ")
                 story.addView(label(source, displaySize(13, 23), muted))
-                story.addView(label(item.title, displaySize(22, 40), ink, true).apply {
+                story.addView(label(item.title, displaySize(23, 34), ink, true).apply {
                     maxLines = 2
                     ellipsize = TextUtils.TruncateAt.END
                 })
@@ -280,13 +292,16 @@ class MainActivity : Activity() {
                     ellipsize = TextUtils.TruncateAt.END
                     setLineSpacing(dp(displaySize(2, 5)).toFloat(), 1f)
                 })
-                story.addView(label(item.sourceUrl, displaySize(14, 24), accent).apply {
+                story.addView(label(item.sourceUrl, displaySize(14, 24), ink).apply {
                     maxLines = 1
                     ellipsize = TextUtils.TruncateAt.END
+                    setLinkTextColor(ink)
                     Linkify.addLinks(this, Linkify.WEB_URLS)
                     movementMethod = LinkMovementMethod.getInstance()
                 })
-                stories.addView(story)
+                stories.addView(story, LinearLayout.LayoutParams(-1, -2).apply {
+                    topMargin = dp(6)
+                })
             }
         }
         val alerts = state.feed?.alerts.orEmpty()
@@ -356,9 +371,9 @@ class MainActivity : Activity() {
         layoutParams = LinearLayout.LayoutParams(-1, dp(1))
         importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
     }
-    private fun rounded(color: Int) = GradientDrawable().apply {
+    private fun outlined(color: Int, border: Int = line) = GradientDrawable().apply {
         setColor(color)
-        cornerRadius = dp(10).toFloat()
+        setStroke(dp(1), border)
     }
 
     private fun headerButton(text: String, action: () -> Unit) = button(text, action = action).apply {
@@ -385,22 +400,17 @@ class MainActivity : Activity() {
         setPadding(dp(displaySize(8, 16)), 0, dp(displaySize(8, 16)), 0)
         elevation = 0f
         stateListAnimator = null
-        val fill = when {
-            primary -> accent
-            onPlayer -> playerControl
-            else -> surface
-        }
-        val disabledFill = if (onPlayer) playerSurface else surface
-        val enabledText = if (onPlayer) playerInk else ink
-        val disabledText = if (onPlayer) playerMuted else muted
+        val fill = if (primary) Color.BLACK else Color.WHITE
+        val enabledText = if (primary) Color.WHITE else ink
         val states = arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf())
         val backgrounds = android.graphics.drawable.StateListDrawable().apply {
-            addState(states[0], rounded(disabledFill))
-            addState(states[1], rounded(fill))
+            addState(states[0], outlined(surface))
+            addState(states[1], outlined(fill, if (primary) Color.BLACK else line))
         }
-        background = RippleDrawable(ColorStateList.valueOf(0x247F8A73), backgrounds, null)
+        val ripple = if (primary) 0x33FFFFFF else 0x22000000
+        background = RippleDrawable(ColorStateList.valueOf(ripple), backgrounds, null)
         backgroundTintList = null
-        setTextColor(ColorStateList(states, intArrayOf(disabledText, enabledText)))
+        setTextColor(ColorStateList(states, intArrayOf(playerMuted, enabledText)))
         setOnClickListener { action() }
     }
     private fun field(title: String, value: String, type: Int, parent: LinearLayout): EditText {
