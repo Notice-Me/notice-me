@@ -85,3 +85,6 @@ Android 근거: [AGP 9.5 호환표](https://developer.android.com/build/releases
 ## 2026-11-13 표시와 실제 음성 범위 재확인
 
 [FreeNews 약관](https://www.freenewsapi.io/terms.php)을 재조회했으며 갱신 표시는11/12였다. 연구/개발·대시보드 용도와 원저작권자 소유/원문 대체 재배포 금지를 구분한다. 앱은 기존 제목·출처·발행시각·원문링크 metadata만 표시하며 NEWS brief/본문/임의 요약/TTS를 제공하지 않는다. 실제 음성은 서울시 공공누리1유형 POI009 날씨로 제한한다. 실제 기기 증거는 [2026-11-13 기기 검증](verification/2026-11-13-live-weather-vehicle.md). 이는 개별 기사 가공·재배포 라이선스 확보를 뜻하지 않는다.
+
+
+2026-11-15 별도 compact 시안: 서버/API/권리/수집 계약 변경 없음. [실제 구현·재생 중 토글 검증과 미검증 범위](COMPACT_UI_PREVIEW_2026-11-15.md). 최신 PR #16 UI와 별개이며 제출 후보가 아니다.

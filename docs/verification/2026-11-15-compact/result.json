@@ -1,0 +1,87 @@
+{
+  "source_commit": "9a1cb9de82ebcae24efb1ef6b8dc90644d58dfb8",
+  "version_name": "0.3.7-compact-preview",
+  "version_code": 13,
+  "bytes": 24951759,
+  "sha256": "484539c42f621cbc00623a6ade8f5ced1024533ef39df0cfbc5a529aea40710b",
+  "mode_logs": [
+    [
+      "true",
+      "122266304"
+    ],
+    [
+      "false",
+      "122266304"
+    ]
+  ],
+  "controller_identity_unchanged": true,
+  "current_title_unchanged": true,
+  "speak_calls_before_last_toggle": 1,
+  "onDone_count": 10,
+  "onError_count": 0,
+  "sdk_texts_match_http_details": true,
+  "speech_fixture": "task-owned explicit MOCK long brief; source/server/original DB untouched",
+  "team_latest_ui_included": false,
+  "main_changed": false,
+  "test_results": {
+    "testPleosDebugUnitTest": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "testStandardDebugUnitTest": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "release_builds": [
+    "pleos:PASS",
+    "standard:PASS"
+  ],
+  "lint": "errors0; warnings Pleos10/standard4",
+  "runtime_window": "841dp portrait app slot with native navigation visible",
+  "submission_replacement": false,
+  "compact_controls": [
+    {
+      "control": "재생",
+      "selected": [
+        "듣는 중 · [모의] 예술 전시 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "다음",
+      "selected": [
+        "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "다시 듣기",
+      "selected": [
+        "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "중단",
+      "selected": [
+        "선택한 소식 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": false,
+      "stopped": true
+    }
+  ],
+  "conflicts_with_pr16": [
+    "MainActivity.kt",
+    "DEVELOPMENT_LOG.md",
+    "LESSONS_LEARNED.md",
+    "TECH_DECISIONS.md"
+  ]
+}
