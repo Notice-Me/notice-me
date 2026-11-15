@@ -1,0 +1,133 @@
+{
+  "version_name": "0.3.7",
+  "version_code": 13,
+  "source_commit": "fa375618db99e78980c36091ba7432b362328c67",
+  "base_main": "09b106b65e8bf71f033be273d25ac655f40b5b33",
+  "sha256": "e45a930c37534bd09c6a22975e0b9f356e44626b9b06ea5ea235c5f07bda7ead",
+  "bytes": 24951759,
+  "signer_sha256": "e0bbf1e148be28c9047c1ee1a9360218fae113d7f0fba824766ccb263ec8752e",
+  "debuggable": false,
+  "unit_tests": {
+    "testPleosDebugUnitTest": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "testStandardDebugUnitTest": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "server_pytest": 190,
+  "server_modified": false,
+  "original_ui_modified": false,
+  "controls": [
+    {
+      "control": "재생",
+      "selected": [
+        "듣는 중 · [모의] 예술 전시 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "다음",
+      "selected": [
+        "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "다시 듣기",
+      "selected": [
+        "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "중단",
+      "selected": [
+        "선택한 소식 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": false,
+      "stopped": true
+    }
+  ],
+  "tts": {
+    "sdk_mode": "ON_DEVICE",
+    "speak_count": 8,
+    "all_texts_match_http_detail": true,
+    "onDone_count": 10,
+    "onError_count": 0,
+    "human_audio": "CONFIRMED_BY_USER: 한국어 음성이 들림",
+    "comparison_scope": "all five allowed MOCK queue details; initial three-card-only comparison was incomplete"
+  },
+  "submission_replacement_approved": false,
+  "navi_split": "PASS after user operated official system UI; both native app tasks visible",
+  "lint": {
+    "pleos": {
+      "errors": 0,
+      "warnings": 10
+    },
+    "standard": {
+      "errors": 0,
+      "warnings": 4
+    }
+  },
+  "long_title": "PASS at1682dp and841dp; two-line END ellipsis",
+  "last_card_scroll": "PASS: last card source bottom1104 < player top1133",
+  "screen": "Pleos Connect2.1/API34/x86_64;2560x1440;160dpi",
+  "split_app_bounds": [
+    1718,
+    90,
+    2559,
+    1300
+  ],
+  "split_nav_bounds": [
+    853,
+    90,
+    1694,
+    1300
+  ],
+  "split_width_dp": 841,
+  "split_controls": [
+    {
+      "control": "재생",
+      "selected": [
+        "듣는 중 · [모의] 예술 전시 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "다음",
+      "selected": [
+        "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "다시 듣기",
+      "selected": [
+        "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": true,
+      "stopped": false
+    },
+    {
+      "control": "중단",
+      "selected": [
+        "선택한 소식 · [모의] 미술관 교육 안내 · 모의 자료"
+      ],
+      "playing": false,
+      "stopped": true
+    }
+  ],
+  "window_change_state": "Activity UI returned to refresh prompt after system split; feed refreshed; background playback not promised"
+}

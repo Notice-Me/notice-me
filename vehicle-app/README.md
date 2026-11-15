@@ -1,3 +1,7 @@
+# 2026-11-15 release UI 검토 후보
+
+최신 팀원 PR #16(6cdd8e3)을 반영한 **0.3.7/code13** 서명 release를 [apk/preview](../apk/preview/README.md)에 준비했습니다. [실제 검증/환경/미검증](../docs/RELEASE_UI_PR16_2026-11-15.md)을 먼저 확인하세요. 아래 과거 버전/기기 기록은 해당 시점의 이력입니다.
+
 # Notice Me 차량 앱
 
 2026-11-11 신규 Android/Kotlin 프로젝트. `health → feed → TOP3`, 사용자 재생, `playback_order` 기반 연속 TTS, 패스·다시 듣기·중단을 구현했습니다. **Pleos 0.2.2에서 같은 Mac의 MOCK 서버에 연결해 추천 3건 표시를 확인했습니다.** 재생 확인 중 에뮬레이터 연결이 끊겨 음성 출력과 재생 완료는 미확인입니다.
