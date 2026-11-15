@@ -10,6 +10,9 @@
   "selected_ui_commit": "6cdd8e3164f6d62929811a758a5686665913e07e",
   "signer_sha256": "e0bbf1e148be28c9047c1ee1a9360218fae113d7f0fba824766ccb263ec8752e",
   "debuggable": false,
-  "final_configuration_verification": "PENDING_CURRENT_RUN",
-  "private_signing_material_in_git": false
+  "final_configuration_verification": "PASS_FINAL_SOURCE_F5F194A_PLEOS_MOCK_AND_OFFLINE",
+  "private_signing_material_in_git": false,
+  "final_validation_source_commit": "f5f194a73036c4540f2b756ac6fa439998f4659d",
+  "rebuilt_unsigned_payload_all_entries_identical": true,
+  "verification_report": "docs/FINAL_SUBMISSION_2026-11-15.md"
 }

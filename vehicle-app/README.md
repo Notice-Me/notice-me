@@ -2,7 +2,7 @@
 
 최종 디자인은 팀원 PR #16(6cdd8e3)입니다. [최종 release APK](../apk/울산동천고듀오_NoticeMe_release.apk) · [소스/APK manifest](../apk/manifest.json).
 
-[루트 README](../README.md)의 실행·설치·검사 절차가 현재 기준입니다. 0.2.2 및 TTS 미검증 설명은 현재 버전에 적용되지 않습니다. Pleos Connect2.1/API34/x86_64/2560×1440px/160dpi, 내비와 앱 각841×1210px 분할 환경에서 검증합니다.
+[루트 README](../README.md)의 실행·설치·검사 절차가 현재 기준입니다. 이번 최종 APK에서 서버의 MOCK brief와 Pleos 한국어 청취를 다시 확인했습니다. Pleos Connect2.1/API34/x86_64/2560×1440px/160dpi, 내비와 앱 각841×1210px 분할 환경에서 검증합니다.
 
 앱은 HTTP health→feed→detail로 실제 서버 응답을 파싱하고 TOP3 및 독립된 alerts/queue/playback_order를 사용합니다. 재생 직전 권리·만료를 다시 검사합니다. Pleos flavor는 SDK ON_DEVICE TTS이며 Standard는 일반 Android TTS입니다. NaviHelper 위치·목적지·ETA 조회를 사용하지만 목적지 생성/미검증 행사 이동시간을 보장하지 않습니다.
 

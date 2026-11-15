@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-11-15T12:42:20.396929+00:00",
+  "status": "SUCCESS",
+  "checks": [
+    "health:200",
+    "feed:200;mode/rights/expiry/playback_checked",
+    "detail:200",
+    "explain:200;ai_mode_recorded",
+    "errors:404/422",
+    "uncleared_news:403",
+    "openapi:four_typed_responses"
+  ],
+  "route_context": "NO_NAVIGATION",
+  "verification_scope": "SERVER_HTTP_ONLY",
+  "pleos_sdk_verified": false,
+  "vehicle_tts_verified": false,
+  "data_mode": "MOCK",
+  "top3_count": 3,
+  "queue_count": 5,
+  "alert_count": 0,
+  "diagnostics": [
+    {
+      "code": "MOCK_MODE",
+      "count": 1,
+      "message": "MOCK_MODE"
+    },
+    {
+      "code": "SIMULATED_CONTENT",
+      "count": 5,
+      "message": "SIMULATED_CONTENT"
+    },
+    {
+      "code": "TRAFFIC_ROUTE_UNVERIFIED",
+      "count": 1,
+      "message": "TRAFFIC_ROUTE_UNVERIFIED"
+    },
+    {
+      "code": "TTS_RIGHTS_BLOCKED",
+      "count": 2,
+      "message": "TTS_RIGHTS_BLOCKED"
+    }
+  ],
+  "ai_mode": "MOCK",
+  "blocked_news_checked": 1
+}

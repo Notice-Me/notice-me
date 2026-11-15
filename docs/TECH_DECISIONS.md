@@ -163,3 +163,9 @@ SDK CurrentLocationInfo에 원천 GPS 시각이 없어 receivedAt/30초는 콜�
 ## 2026-11-15 · Pleos 화면과 차량 앱 스타일 통일
 
 첨부된 Pleos 내비 화면을 기준으로 연회색 바탕, 흰 사각 패널, 얇은 테두리, 검은 추천 제목 줄과 재생 버튼을 선택했다. 기존 Android View의 스크롤 구조를 사용하면 피드와 플레이어를 분리한 채 모양을 바꿀 수 있어 UI 프레임워크 교체는 검토에서 제외했다. 화면 높이가 낮을 때는 고정 플레이어 위에서 소식만 스크롤한다.
+
+## 2026-11-15 최종 제출 소스와 APK의 동일성
+
+팀원 UI를 반영하면서 과거 release/compact PR을 모두 merge하는 대안은 이전 APK와 중복 문서를 가져오므로 제외했다. 최신main에서 별도 worktree/feat/vehicle-final-submission을 만들고 PR16 ancestry + release 네트워크 설정 + 검증된 단일 APK만 포함했다. 빌드 입력 commit과 최종 제출 commit은 역할이 다르므로 manifest와 보고서에서 분리한다. 같은 소스로 실제 두 release를 재빌드하고 signed/unsigned 공통ZIP entry 전체가 일치함을 확인해, 기존키/검증해시를 보존하면서 소스 불일치 위험을 줄였다. private 서명 설정을 Git에 넣지 않고 APK v3서명을 직접 확인한다.
+
+README는 과거0.2.2/미검증 설명을 바꾸고 기기/테스트/실차/과거LIVE/이번MOCK를 분리했다. Gitleaks와 전blob/압축APK 직접검사를 병행한 이유는 최종tree만 깨끗해도 Public의 과거PR/commit이 공개되기 때문이다. 저작권 판단은 공개 보안 검사와 다르므로 SDK POM 공란·공모전 공개 안내·SDK 일반약관을 함께 기록했다. [실측·남은 경고](FINAL_SUBMISSION_2026-11-15.md), [공개 한계](PUBLICATION_AUDIT_2026-11-15.md).

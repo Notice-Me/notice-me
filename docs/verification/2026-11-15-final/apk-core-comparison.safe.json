@@ -1,0 +1,20 @@
+{
+  "canonical_sha256": "2a072c6b6f56e1025e7e7f40dc16aea85c98b351df32ce786a50c4ce29b73211",
+  "source_commit": "f5f194a73036c4540f2b756ac6fa439998f4659d",
+  "canonical_original_build_commit": "024d1b28f8b6649d20339266349e256933636d46",
+  "core_entry_identical": {
+    "AndroidManifest.xml": true,
+    "classes.dex": true,
+    "classes2.dex": true,
+    "resources.arsc": true
+  },
+  "all_entries_comparison": {
+    "only_in_signed_apk": [
+      "META-INF/MANIFEST.MF",
+      "META-INF/NOTICE-M.RSA",
+      "META-INF/NOTICE-M.SF"
+    ],
+    "only_in_current_unsigned_build": [],
+    "different_common_entries": []
+  }
+}
