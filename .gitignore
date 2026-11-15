@@ -35,3 +35,15 @@ node_modules/
 local.properties
 *.apk
 *.aab
+
+# Release signing material stays outside Git.
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.idsig
+keystore.properties
+# Only the reviewed UI preview binary is tracked; stable 0.3.3 remains in PR #15.
+!/apk/
+!/apk/preview/
+!/apk/preview/NoticeMe-0.3.7-pleos-release.apk
