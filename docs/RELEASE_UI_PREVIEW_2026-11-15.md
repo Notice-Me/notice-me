@@ -1,5 +1,7 @@
 # 0.3.7 팀원 UI release 통합 검증 — 2026-11-15
 
+이 문서는 먼저 검증한 PR #13 UI의 이력입니다. 작업 중 추가 지시로 반영한 [최신 PR #16 release 결과](RELEASE_UI_PR16_2026-11-15.md)를 현재 후보로 확인하세요.
+
 ## 기준과 범위
 
 origin/main **09b106b65e8bf71f033be273d25ac655f40b5b33**(PR #13 병합)의 Kotlin·UI XML·스타일·서버는 수정하지 않았다. 별도 worktree의 feat/vehicle-release-ui-preview에서 PR #15의 release 전용 HTTP allowlist(10.0.2.2/localhost/127.0.0.1)와 키 제외 규칙만 선별했다. PR #15를 통째로 병합하거나 0.3.3 APK를 재사용하지 않았다. 새 APK 빌드 소스는 **fa375618db99e78980c36091ba7432b362328c67**이다. 이후 문서/APK 추가 commit과 구별한다.

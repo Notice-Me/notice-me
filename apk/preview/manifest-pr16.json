@@ -1,0 +1,103 @@
+{
+  "version_name": "0.3.7",
+  "version_code": 13,
+  "source_commit": "024d1b28f8b6649d20339266349e256933636d46",
+  "team_ui_commit": "6cdd8e3164f6d62929811a758a5686665913e07e",
+  "team_ui_pr": 16,
+  "bytes": 24951759,
+  "sha256": "2a072c6b6f56e1025e7e7f40dc16aea85c98b351df32ce786a50c4ce29b73211",
+  "signer_sha256": "e0bbf1e148be28c9047c1ee1a9360218fae113d7f0fba824766ccb263ec8752e",
+  "debuggable": false,
+  "runtime": {
+    "install": "PASS; same signer, no uninstall/data clear",
+    "installed_apk_sha256_matches": true,
+    "sdk_mode": "ON_DEVICE",
+    "sdk_speak_calls": 8,
+    "all_texts_match_http_details": true,
+    "onDone_count": 10,
+    "onError_count": 0,
+    "human_audio": "CONFIRMED_BY_USER twice for latest PR16 UI: 한국어 음성이 들림 / 잘들려",
+    "controls": [
+      {
+        "control": "재생",
+        "selected": [
+          "듣는 중 · [모의] 예술 전시 · 모의 자료"
+        ],
+        "playing": true,
+        "stopped": false
+      },
+      {
+        "control": "다음",
+        "selected": [
+          "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+        ],
+        "playing": true,
+        "stopped": false
+      },
+      {
+        "control": "다시 듣기",
+        "selected": [
+          "듣는 중 · [모의] 미술관 교육 안내 · 모의 자료"
+        ],
+        "playing": true,
+        "stopped": false
+      },
+      {
+        "control": "중단",
+        "selected": [
+          "선택한 소식 · [모의] 미술관 교육 안내 · 모의 자료"
+        ],
+        "playing": false,
+        "stopped": true
+      }
+    ],
+    "long_title": "PASS at841dp,2line END ellipsis",
+    "last_source_bottom_px": 1106,
+    "player_top_px": 1128,
+    "navigation_position": "center",
+    "notice_position": "right",
+    "notice_bounds": [
+      1718,
+      90,
+      2559,
+      1300
+    ],
+    "navigation_bounds": [
+      853,
+      90,
+      1694,
+      1300
+    ],
+    "system_window_actions": "official window bar drag to split; tap to swap; no wm size/task resize/overlay"
+  },
+  "testPleosDebugUnitTest": {
+    "tests": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testStandardDebugUnitTest": {
+    "tests": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "server_pytest": 190,
+  "server_static_checks": "Ruff/format39/pip check PASS",
+  "lint": {
+    "pleos_errors": 0,
+    "pleos_warnings": 10,
+    "standard_errors": 0,
+    "standard_warnings": 4
+  },
+  "submission_replacement_approved": false,
+  "private_key_in_git": false,
+  "external_content_ai_routing_calls": 0,
+  "sdk_internal_network": "NOT_METERED",
+  "not_verified": [
+    "LIVE weather in this APK",
+    "actual vehicle/driving",
+    "below400dp/font scale matrix",
+    "background playback"
+  ]
+}
